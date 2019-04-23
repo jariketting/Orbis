@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">orbis</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="app_name">Orbis</string>
+    <string name="action_settings">Settings</string>
 </resources>
