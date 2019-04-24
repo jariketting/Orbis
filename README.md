@@ -1,2 +1,11 @@
 # Orbis
-Project B
+Project B android app repository.
+
+**Group: 3**
+
+### Team:
+- Jari
+- Naomi
+- Nils
+- Dion
+- Daphne
