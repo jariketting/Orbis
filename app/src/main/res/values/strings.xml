@@ -5,4 +5,8 @@
     <string name="new_fragment">New memory</string>
     <string name="new_fragment_title">Title</string>
     <string name="new_fragment_title_placeholder">Describe your memory</string>
+    <string name="new_fragment_datetime">Date and time</string>
+    <string name="new_fragment_date_placeholder">Date</string>
+    <string name="new_fragment_time">Time</string>
+    <string name="new_fragment_time_placeholder">Time</string>
 </resources>
