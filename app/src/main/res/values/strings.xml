@@ -1,4 +1,13 @@
 <resources>
-    <string name="app_name">orbis</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="app_name">Orbis</string>
+    <string name="action_settings">Settings</string>
+    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="new_fragment">New memory</string>
+    <string name="new_fragment_title">Title</string>
+    <string name="new_fragment_title_placeholder">Describe your memory</string>
+    <string name="new_fragment_datetime">Date and time</string>
+    <string name="new_fragment_date_placeholder">Date</string>
+    <string name="new_fragment_time">Time</string>
+    <string name="new_fragment_time_placeholder">Time</string>
+    <string name="new_fragment_add_button">Add photo\'s and video\'s</string>
 </resources>

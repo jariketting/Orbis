@@ -1,3 +1,11 @@
+# Setting up your google maps API key.
+
+Create a file in this directory with the following name:
+`google_maps_api.xml`
+
+Add the following code to that file:
+
+```xml
 <resources>
     <!--
     TODO: Before you run your application, you need a Google Maps API key.
@@ -20,5 +28,10 @@
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.
     -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCR-opUpuki6MjTUA-MXoJAHuB0VGcicSw</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">google_maps_key</string>
 </resources>
+```
+
+Follow the instructions withing the comments of the new file. Go to Build > Clean project, build your project and launch to verify that your key is working correctly.
+
+- Jari Keting
