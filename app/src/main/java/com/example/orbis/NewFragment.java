@@ -1,8 +1,10 @@
 package com.example.orbis;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,8 @@ public class NewFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new, container, false);
+
+        ((MainActivity)getActivity()).hideNav();
 
         this.cancelOnClickListener(view);
 
@@ -39,6 +43,12 @@ public class NewFragment extends Fragment {
                 //prevent errors
                 if (getFragmentManager() != null)
                     getFragmentManager().beginTransaction().add(R.id.container, mapFragment).commit(); //go back to map fragment
+
+                MainActivity main = ((MainActivity)getActivity());
+                main.showNav();
+                BottomNavigationView bottomNav = main.findViewById(R.id.bottom_navigation);
+                bottomNav.getMenu().getItem(0).setChecked(true);
+
             }
         });
     }

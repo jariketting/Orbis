@@ -23,6 +23,21 @@ public class MainActivity extends AppCompatActivity {
                 new MapFragment()).commit();
     }
 
+    /**
+     * Hides navigation
+     */
+    public void hideNav() {
+        //find nav view
+        View nav = findViewById(R.id.bottom_navigation);
+        nav.setVisibility(View.GONE); //set visibility to gone (invisible still shows background)
+    }
+
+    public void showNav() {
+        //find nav view
+        View nav = findViewById(R.id.bottom_navigation);
+        nav.setVisibility(View.VISIBLE); //set visibility to visible
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =         // Hier wordt geselecteerd op welk fragment er is gedrukt
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -44,22 +59,12 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case R.id.add:
                             selectedFragment = new NewFragment();
-                            hideNav();
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.container,    // Nadat er op eentje is gedrukt wordt deze ge-commit, dus vertoond en hierna begint de loop weer opnieuw
                             selectedFragment).commit();
 
                     return true;
-                }
-
-                /**
-                 * Hides navigation
-                 */
-                void hideNav() {
-                    //find nav view
-                    View nav = findViewById(R.id.bottom_navigation);
-                    nav.setVisibility(View.GONE); //set visibility to gone (invisible still shows background)
                 }
             };
 }
