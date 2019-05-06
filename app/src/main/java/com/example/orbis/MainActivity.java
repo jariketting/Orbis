@@ -53,9 +53,13 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
 
+                /**
+                 * Hides navigation
+                 */
                 void hideNav() {
+                    //find nav view
                     View nav = findViewById(R.id.bottom_navigation);
-                    nav.setVisibility(View.INVISIBLE);
+                    nav.setVisibility(View.GONE); //set visibility to gone (invisible still shows background)
                 }
             };
 }
