@@ -6,6 +6,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,12 +44,18 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case R.id.add:
                             selectedFagment = new NewFragment();
+                            hideNav();
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.container,    // Nadat er op eentje is gedrukt wordt deze ge-commit, dus vertoond en hierna begint de loop weer opnieuw
                             selectedFagment).commit();
 
                     return true;
+                }
+
+                void hideNav() {
+                    View nav = findViewById(R.id.bottom_navigation);
+                    nav.setVisibility(View.INVISIBLE);
                 }
             };
 }
