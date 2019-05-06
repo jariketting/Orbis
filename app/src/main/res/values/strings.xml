@@ -10,4 +10,7 @@
     <string name="new_fragment_time">Time</string>
     <string name="new_fragment_time_placeholder">Time</string>
     <string name="new_fragment_add_button">Add photo\'s and video\'s</string>
+    <string name="new_fragment_cancel">Cancel</string>
+    <string name="new_fragment_add_memory">Add memory</string>
+    <string name="new_fragment_description_placeholder">Add a description</string>
 </resources>
