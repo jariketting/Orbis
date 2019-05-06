@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Hides navigation
+     * Hides navigation bar
      */
     public void hideNav() {
         //find nav view
@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         nav.setVisibility(View.GONE); //set visibility to gone (invisible still shows background)
     }
 
+    /**
+     * Show navigation bar
+     */
     public void showNav() {
         //find nav view
         View nav = findViewById(R.id.bottom_navigation);
