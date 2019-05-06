@@ -1,5 +1,6 @@
 package com.example.orbis;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,8 +17,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class NewFragment extends Fragment implements OnMapReadyCallback {
+public class NewFragment extends Fragment implements  OnMapReadyCallback {
     MapView mapView;
     GoogleMap map;
 
@@ -34,6 +36,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+        this.setUpMapIfNeeded();
 
         return view;
     }
@@ -72,16 +75,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         map = googleMap;
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.setMyLocationEnabled(true);
-
-
-       /*
-       //in old Api Needs to call MapsInitializer before doing any CameraUpdateFactory call
-        try {
-            MapsInitializer.initialize(this.getActivity());
-        } catch (GooglePlayServicesNotAvailableException e) {
-            e.printStackTrace();
-        }
-       */
+        map.getUiSettings().setMyLocationButtonEnabled(true);
 
         // Updates the location and zoom of the MapView
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(43.1, -87.9), 10);
