@@ -27,28 +27,28 @@ public class MainActivity extends AppCompatActivity {
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                    Fragment selectedFagment = null;
+                    Fragment selectedFragment = null;
 
                     switch (menuItem.getItemId()) {
                         case R.id.map:
-                            selectedFagment = new MapFragment();
+                            selectedFragment = new MapFragment();
                             break;
                         case R.id.books:
-                            selectedFagment = new DiaryFragment();
+                            selectedFragment = new DiaryFragment();
                             break;
                         case R.id.account:
-                            selectedFagment = new AccountFragment();
+                            selectedFragment = new AccountFragment();
                             break;
                         case R.id.search:
-                            selectedFagment = new SearchFragment();
+                            selectedFragment = new SearchFragment();
                             break;
                         case R.id.add:
-                            selectedFagment = new NewFragment();
+                            selectedFragment = new NewFragment();
                             hideNav();
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.container,    // Nadat er op eentje is gedrukt wordt deze ge-commit, dus vertoond en hierna begint de loop weer opnieuw
-                            selectedFagment).commit();
+                            selectedFragment).commit();
 
                     return true;
                 }
