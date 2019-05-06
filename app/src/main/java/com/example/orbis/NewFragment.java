@@ -17,6 +17,7 @@ public class NewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new, container, false);
 
         this.cancelOnClickListener(view);
+
         return view;
     }
 
