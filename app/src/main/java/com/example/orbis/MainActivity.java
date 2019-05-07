@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = new MapFragment();
                             break;
                         case R.id.books:
-                            selectedFragment = new DiaryFragment();
+                            //selectedFragment = new DiaryFragment();
+                            selectedFragment = new MemoryFragment(); //temp for development purposes
                             break;
                         case R.id.account:
                             selectedFragment = new AccountFragment();
