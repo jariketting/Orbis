@@ -15,7 +15,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //Button to go from login screen to the home screen
     //Add a checker
-    public void Login_button(View view) {
+    public void loginButton(View view) {
         Intent intent = new Intent(this, MainActivity.class);
 //        Info = findViewById(R.id.attemptsTextView);
 //        validate(Email.getText().toString(), Password.getText().toString());
@@ -23,13 +23,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //Button to go from login screen to the register screen
-    public void Register_button(View view) {
+    public void registerButton(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
     //Button to go from login screen to the forgot password screen
-    public void Forgot_password(View view) {
+    public void forgotPassword(View view) {
         Intent intent = new Intent(this, ForgotPasswordActivity.class);
         startActivity(intent);
     }

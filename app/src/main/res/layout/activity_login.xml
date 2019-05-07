@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".LoginActivity"
     tools:ignore="ExtraText">
 
     <TextView
@@ -71,7 +71,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="#003D60"
-        android:onClick="Login_button"
+        android:onClick="loginButton"
         android:text="@string/login_screen_login_button"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -90,7 +90,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="96dp"
         android:background="#003D60"
-        android:onClick="Register_button"
+        android:onClick="registerButton"
         android:text="@string/login_screen_register_button"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/forgotPwButton"
@@ -126,7 +126,7 @@
         android:width="397dp"
         android:height="29dp"
         android:background="#FFFFFF"
-        android:onClick="Forgot_password"
+        android:onClick="forgotPassword"
         android:text="@string/login_screen_forgot_password_button"
         android:textAllCaps="false"
         android:textColor="#00AAB7"
