@@ -18,7 +18,8 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 
-public class MemoryFragment extends Fragment implements OnMapReadyCallback {
+public class
+MemoryFragment extends Fragment implements OnMapReadyCallback {
     MapView mapView;
     GoogleMap map;
 
