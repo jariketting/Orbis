@@ -21,9 +21,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 
 public class NewFragment extends Fragment implements OnMapReadyCallback {
-    MapView mapView;
-    GoogleMap map;
+    MapView mapView; //store map view
+    GoogleMap map; //store gmap stuff
 
+    /**
+     * Setup when view is created
+     *
+     * @param inflater idk what this is
+     * @param container same
+     * @param savedInstanceState saved instance state
+     * @return created view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
