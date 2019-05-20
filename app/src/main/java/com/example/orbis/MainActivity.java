@@ -9,8 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-    Fragment lastFragment = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,22 +39,11 @@ public class MainActivity extends AppCompatActivity {
         nav.setVisibility(View.VISIBLE); //set visibility to visible
     }
 
-    /**
-     *
-     * @return current fragment
-     */
-    public Fragment getCurrentFragment()
-    {
-        return getSupportFragmentManager().findFragmentById(R.id.content_frame);
-    }
-
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =         // Hier wordt geselecteerd op welk fragment er is gedrukt
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     Fragment selectedFragment = null;
-
-                    lastFragment = getCurrentFragment(); //update last fragment
 
                     switch (menuItem.getItemId()) {
                         case R.id.map:
@@ -77,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.container,    // Nadat er op eentje is gedrukt wordt deze ge-commit, dus vertoond en hierna begint de loop weer opnieuw
-                            selectedFragment).commit();
+                            selectedFragment).addToBackStack(null).commit();
 
                     return true;
                 }
