@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+    int lastMenuItemId = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,17 @@ public class MainActivity extends AppCompatActivity {
         nav.setVisibility(View.VISIBLE); //set visibility to visible
     }
 
+    public void goToLastFragment() {
+        getSupportFragmentManager().popBackStack();
+
+
+        Fragment currentFragment = getSupportFragmentManager()
+                .findFragmentById(R.id.content_frame);
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.getMenu().getItem(lastMenuItemId).setChecked(true);
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =         // Hier wordt geselecteerd op welk fragment er is gedrukt
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -53,14 +66,14 @@ public class MainActivity extends AppCompatActivity {
                             //selectedFragment = new DiaryFragment();
                             selectedFragment = new MemoryFragment(); //temp for development purposes
                             break;
-                        case R.id.account:
-                            selectedFragment = new AccountFragment();
+                        case R.id.add:
+                            selectedFragment = new NewFragment();
                             break;
                         case R.id.search:
                             selectedFragment = new SearchFragment();
                             break;
-                        case R.id.add:
-                            selectedFragment = new NewFragment();
+                        case R.id.account:
+                            selectedFragment = new AccountFragment();
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.container,    // Nadat er op eentje is gedrukt wordt deze ge-commit, dus vertoond en hierna begint de loop weer opnieuw

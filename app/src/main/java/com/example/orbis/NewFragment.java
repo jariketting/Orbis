@@ -63,15 +63,11 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         CancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                assert getFragmentManager() != null;
-                getFragmentManager().popBackStack();
-
                 MainActivity main = ((MainActivity) getActivity());
+
                 assert main != null;
                 main.showNav();
-                BottomNavigationView bottomNav = main.findViewById(R.id.bottom_navigation);
-                bottomNav.getMenu().getItem(0).setChecked(true);
-
+                main.goToLastFragment();
             }
         });
     }

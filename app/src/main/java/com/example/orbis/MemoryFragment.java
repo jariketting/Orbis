@@ -24,7 +24,6 @@ public class
 MemoryFragment extends Fragment implements OnMapReadyCallback {
     MapView mapView;
     GoogleMap map;
-    Toolbar toolbar;
 
     @SuppressLint("PrivateResource")
     @Nullable
@@ -40,8 +39,10 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                assert getFragmentManager() != null;
-                getFragmentManager().popBackStack();
+                MainActivity main = ((MainActivity) getActivity());
+
+                assert main != null;
+                main.goToLastFragment();
             }
         });
 

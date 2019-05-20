@@ -28,13 +28,13 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:contentDescription="TODO"
             android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:srcCompat="@drawable/placeholder_cats"
-            android:contentDescription="TODO" />
+            app:srcCompat="@drawable/placeholder_cats" />
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapView"
