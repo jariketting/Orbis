@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+    Fragment lastFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +41,22 @@ public class MainActivity extends AppCompatActivity {
         nav.setVisibility(View.VISIBLE); //set visibility to visible
     }
 
+    /**
+     *
+     * @return current fragment
+     */
+    public Fragment getCurrentFragment()
+    {
+        return getSupportFragmentManager().findFragmentById(R.id.content_frame);
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =         // Hier wordt geselecteerd op welk fragment er is gedrukt
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     Fragment selectedFragment = null;
+
+                    lastFragment = getCurrentFragment(); //update last fragment
 
                     switch (menuItem.getItemId()) {
                         case R.id.map:
