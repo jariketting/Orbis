@@ -65,9 +65,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 Fragment mapFragment = new MapFragment(); //create fragment
 
-                //prevent errors
-                if (getFragmentManager() != null)
-                    getFragmentManager().beginTransaction().add(R.id.container, mapFragment).commit(); //go back to map fragment
+                getFragmentManager().popBackStack();
 
                 MainActivity main = ((MainActivity) getActivity());
                 main.showNav();
