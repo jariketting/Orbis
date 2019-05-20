@@ -40,8 +40,8 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getFragmentManager() != null)
-                    getFragmentManager().popBackStack();
+                assert getFragmentManager() != null;
+                getFragmentManager().popBackStack();
             }
         });
 
