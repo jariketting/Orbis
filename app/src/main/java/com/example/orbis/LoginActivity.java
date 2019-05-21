@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,10 @@ public class LoginActivity extends AppCompatActivity {
        password = findViewById(R.id.passwordLogin);
        info = findViewById(R.id.attemptsText);
        Login = findViewById(R.id.loginButton);
+//       toolbar title
+//       View view = inflater.inflate(R.layout.activity_login, container, false);
+//       Toolbar toolbar = view.findViewById(R.id.toolbar);
+//       toolbar.setTitle(getContext().getResources().getString(R.string.login_screen_toolbar_title));
     }
 
     //Button to go from login screen to the home screen

@@ -40,4 +40,5 @@
     <string name="new_fragment_toolbar_title">New memory</string>
     <string name="invite_friend_send_button">Send</string>
     <string name="account_notifications">Notifications</string>
+    <string name="login_screen_toolbar_title">Login to Orbis</string>
 </resources>
