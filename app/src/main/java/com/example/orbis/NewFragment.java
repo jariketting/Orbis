@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +37,23 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new, container, false);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
 
         ((MainActivity) getActivity()).hideNav();
+
+        toolbar.setTitle(R.string.new_fragment_toolbar_title);
+        toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity main = ((MainActivity) getActivity());
+
+                assert main != null;
+                main.showNav();
+                main.goToLastFragment();
+            }
+        });
 
         this.cancelOnClickListener(view);
 
