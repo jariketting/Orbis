@@ -18,7 +18,7 @@
     <string name="login_screen_password">Password</string>
     <string name="login_screen_login_button">Login</string>
     <string name="login_screen_register_button">Register</string>
-    <string name="login_screen_login_attempts">Attempts left:</string>
+    <string name="login_screen_login_attempts">"Attempts left: "</string>
     <string name="login_screen_forgot_password_button">Forgot your password? Click here</string>
     <string name="register_screen_full_name">Full name</string>
     <string name="register_screen_title">Welcome to Orbis</string>

@@ -27,9 +27,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //Button to go from login screen to the home screen
-    //Add a checker
+    // program cleans up code by turning == into .equals()
+    //&& means and
     public void loginButton(View view) {
-        if(email.getText().toString().equals("admin")&&password.getText().toString().equals("1234")) {
+        if(email.getText().toString().equals("admin")&& password.getText().toString().equals("1234")) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }else{
