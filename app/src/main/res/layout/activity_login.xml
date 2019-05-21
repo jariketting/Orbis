@@ -34,7 +34,7 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/login_screen_username_or_email"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:textColor="#1F2D3D"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
