@@ -63,7 +63,7 @@
         android:layout_marginRight="162dp"
         android:layout_marginBottom="115dp"
         android:background="#003d60"
-        android:text="@string/invite_friends_send_button"
+        android:text="@string/invite_friend_send_button"
         android:textColor="#ffffff"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
