@@ -18,7 +18,7 @@
     <string name="login_screen_password">Password</string>
     <string name="login_screen_login_button">Login</string>
     <string name="login_screen_register_button">Register</string>
-    <string name="login_screen_login_attempts">Attempts left:</string>
+    <string name="login_screen_login_attempts">"Attempts left: "</string>
     <string name="login_screen_forgot_password_button">Forgot your password? Click here</string>
     <string name="register_screen_full_name">Full name</string>
     <string name="register_screen_title">Welcome to Orbis</string>
@@ -40,4 +40,5 @@
     <string name="new_fragment_toolbar_title">New memory</string>
     <string name="invite_friend_send_button">Send</string>
     <string name="account_notifications">Notifications</string>
+    <string name="login_screen_toolbar_title">Login to Orbis</string>
 </resources>
