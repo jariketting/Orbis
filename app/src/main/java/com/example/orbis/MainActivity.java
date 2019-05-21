@@ -67,10 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
                     int menuId = 0; //stores selected menu id, zero is default (map)
 
-                    //prevent current menu item being selected twice
-                    if(menuIdCurrent != menuId)
-                        return false;
-
                     //go trough each menu item, then set item id and set selected fragment
                     switch (menuItem.getItemId()) {
                         case R.id.map:
@@ -95,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
                             menuId = 4;
                             break;
                     }
+
+                    //prevent current menu item being selected twice
+                    if(menuIdCurrent == menuId)
+                        return false;
 
                     //set new fragment and add to backstack
                     getSupportFragmentManager().beginTransaction().replace(R.id.container,    // Nadat er op eentje is gedrukt wordt deze ge-commit, dus vertoond en hierna begint de loop weer opnieuw
