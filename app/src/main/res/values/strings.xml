@@ -34,16 +34,4 @@
     <string name="forgot_pw_screen_new_pw">Send</string>
     <string name="forgot_pw_screen_email">Email</string>
     <string name="memory_toolbar_title">Memory</string>
-    <string name="username_main">-------</string>
-    <string name="fullname_profile">.........</string>
-    <string name="editbtn_profile">Edit Profile</string>
-    <string name="bio_profile">**************</string>
-    <string name="followersbtn_profile">Followers</string>
-    <string name="followingbtn_profile">Followers</string>
-    <string name="membtn_profile">All Memories</string>
-    <string name="lastmem_profile">Last Memory:</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="followers_followers">Followers</string>
 </resources>
