@@ -33,7 +33,7 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
 
         //setup toolbar
-        toolbar.setTitle(R.string.memory_toolbar_title + ": " + "This is a memory");
+        toolbar.setTitle(getContext().getResources().getString(R.string.memory_toolbar_title) + ": " + "This is a memory");
         toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
