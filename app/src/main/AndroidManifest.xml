@@ -24,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".FollowingActivity"></activity>
+        <activity android:name=".FollowersActivity" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".RegisterActivity" />
         <activity

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FollowingActivity">
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="412dp"
+        android:layout_height="61dp"
+        android:background="#00AAB7"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/backfollowingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#00AAB7"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:srcCompat="@android:drawable/ic_media_rew" />
+
+    <TextView
+        android:id="@+id/followingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Following"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+
+    <android.support.constraint.Placeholder
+        android:id="@+id/placeholder1_following"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <android.support.constraint.Placeholder
+        android:id="@+id/placeholder2_following"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/placeholder1_following"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <android.support.constraint.Placeholder
+        android:id="@+id/placeholder3_following_following"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/placeholder2_following"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <android.support.constraint.Placeholder
+        android:id="@+id/placeholder4_following"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/placeholder3_following_following"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <android.support.constraint.Placeholder
+        android:id="@+id/placeholder5_following"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/placeholder4_following"
+        tools:layout_editor_absoluteX="8dp" />
+
+
+</android.support.constraint.ConstraintLayout>
