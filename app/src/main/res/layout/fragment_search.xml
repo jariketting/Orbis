@@ -1,14 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/holo_red_light">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Zoeken"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.Placeholder
+            android:id="@+id/placeholder5_search"
+            tools:layout_editor_absoluteX="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/placeholder4_search" />
+
+        <android.support.constraint.Placeholder
+            android:id="@+id/placeholder3_search"
+            tools:layout_editor_absoluteX="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/placeholder2_search" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="412dp"
+            android:layout_height="61dp"
+            android:background="#00AAB7"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            ]</LinearLayout>
+
+        <android.support.constraint.Placeholder
+            android:id="@+id/placeholder2_search"
+            tools:layout_editor_absoluteX="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/placeholder1_search" />
+
+        <EditText
+            android:id="@+id/searchText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:ems="10"
+            android:hint="Search "
+            android:inputType="textPersonName"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_search" />
+
+        <TextView
+            android:id="@+id/recentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Recent"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <android.support.constraint.Placeholder
+            android:id="@+id/placeholder4_search"
+            tools:layout_editor_absoluteX="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/placeholder3_search" />
+
+        <android.support.constraint.Placeholder
+            android:id="@+id/placeholder1_search"
+            tools:layout_editor_absoluteX="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/recentText" />
+    </android.support.constraint.ConstraintLayout>
+
+    ]
+
 
 </RelativeLayout>
