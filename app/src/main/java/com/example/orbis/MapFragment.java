@@ -23,6 +23,7 @@ MapFragment extends Fragment implements OnMapReadyCallback {
     MapView mapView;
     GoogleMap map;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -34,5 +34,8 @@
     <string name="forgot_pw_screen_new_pw">Send</string>
     <string name="forgot_pw_screen_email">Email</string>
     <string name="memory_toolbar_title">Memory</string>
-    <string name="invite_friends_send_button">Send</string>
+    <string name="memory_menu_share">Share</string>
+    <string name="memory_menu_delete">Delete</string>
+    <string name="memory_menu_edit">Edit</string>
+    <string name="new_fragment_toolbar_title">New memory</string>
 </resources>
