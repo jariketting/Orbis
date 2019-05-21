@@ -8,8 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.lang.reflect.Array;
-
 public class MainActivity extends AppCompatActivity {
     int menuIdCurrent;
     int menuIdLast;
@@ -48,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToLastFragment() {
-        //TODO fix issue when menu item is already clicked
         getSupportFragmentManager().popBackStack();
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
@@ -64,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
                     Fragment selectedFragment = null;
 
                     int menuId = 0;
+
+                    if(menuIdCurrent != menuId)
+                        return false;
 
                     switch (menuItem.getItemId()) {
                         case R.id.map:
@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.container,    // Nadat er op eentje is gedrukt wordt deze ge-commit, dus vertoond en hierna begint de loop weer opnieuw
                             selectedFragment).addToBackStack(null).commit();
 
-                    if(menuIdCurrent != menuId)
-                        menuIdLast = menuIdCurrent;
+
+                    menuIdLast = menuIdCurrent;
 
                     menuIdCurrent = menuId;
 
