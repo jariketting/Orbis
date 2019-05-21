@@ -21,9 +21,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 
 public class NewFragment extends Fragment implements OnMapReadyCallback {
-    MapView mapView;
-    GoogleMap map;
+    MapView mapView; //store map view
+    GoogleMap map; //store gmap stuff
 
+    /**
+     * Setup when view is created
+     *
+     * @param inflater idk what this is
+     * @param container same
+     * @param savedInstanceState saved instance state
+     * @return created view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,17 +63,11 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         CancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment mapFragment = new MapFragment(); //create fragment
-
-                //prevent errors
-                if (getFragmentManager() != null)
-                    getFragmentManager().beginTransaction().add(R.id.container, mapFragment).commit(); //go back to map fragment
-
                 MainActivity main = ((MainActivity) getActivity());
-                main.showNav();
-                BottomNavigationView bottomNav = main.findViewById(R.id.bottom_navigation);
-                bottomNav.getMenu().getItem(0).setChecked(true);
 
+                assert main != null;
+                main.showNav();
+                main.goToLastFragment();
             }
         });
     }
