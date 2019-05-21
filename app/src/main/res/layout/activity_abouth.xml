@@ -32,6 +32,14 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme" />
+
         <TextView
             android:id="@+id/textView8"
             android:layout_width="311sp"
@@ -63,5 +71,4 @@
 
     </LinearLayout>
 
-    </ScrollView>
-<!--</android.support.constraint.ConstraintLayout>-->
+</ScrollView>
