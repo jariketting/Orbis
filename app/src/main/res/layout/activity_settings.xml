@@ -121,7 +121,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="20dp"
-        android:text="Notifications"
+        android:text="@string/account_notifications"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/textAccountheadline"
         app:layout_constraintTop_toBottomOf="@+id/textAccountheadline" />
