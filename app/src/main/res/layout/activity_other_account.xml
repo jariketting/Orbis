@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OtherAccountActivity">
+
+ <LinearLayout
+     android:id="@+id/linearLayout"
+     android:layout_width="412dp"
+     android:layout_height="61dp"
+     android:background="#00AAB7"
+     android:orientation="vertical"
+     android:visibility="visible"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.0"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent">
+
+ </LinearLayout>
+
+ <ImageButton
+     android:id="@+id/backsearchButton"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginStart="8dp"
+     android:layout_marginLeft="8dp"
+     android:layout_marginTop="8dp"
+     android:layout_marginBottom="8dp"
+     android:background="#00AAB7"
+     app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+     app:layout_constraintStart_toStartOf="@+id/linearLayout"
+     app:layout_constraintTop_toTopOf="@+id/linearLayout"
+     app:srcCompat="@android:drawable/ic_media_rew" />
+
+ <Button
+     android:id="@+id/allmemButton_other"
+     android:layout_width="0dp"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="2dp"
+     android:background="#003D60"
+     android:text="All his/her memories"
+     android:textColor="#FFFFFF"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.0"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toBottomOf="@+id/followingButton_other" />
+
+ <Button
+     android:id="@+id/followersButton_other"
+     android:layout_width="0dp"
+     android:layout_height="47dp"
+     android:layout_marginTop="50dp"
+     android:background="#003D60"
+     android:text="Followers"
+     android:textColor="#FFFFFF"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="1.0"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toBottomOf="@+id/bioText4" />
+
+ <Button
+     android:id="@+id/followingButton_other"
+     android:layout_width="0dp"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="2dp"
+     android:background="#003D60"
+     android:text="Following"
+     android:textColor="#FFFFFF"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.0"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toBottomOf="@+id/followersButton_other" />
+
+ <TextView
+     android:id="@+id/fullnameText4"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginStart="12dp"
+     android:layout_marginLeft="12dp"
+     android:layout_marginTop="28dp"
+     android:text="*********"
+     android:textColor="#47525E"
+     android:textStyle="bold"
+     app:layout_constraintStart_toEndOf="@+id/placeholder_profilepic_other"
+     app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+ <TextView
+     android:id="@+id/bioText4"
+     android:layout_width="365dp"
+     android:layout_height="0dp"
+     android:layout_marginStart="8dp"
+     android:layout_marginLeft="8dp"
+     android:layout_marginTop="20dp"
+     android:layout_marginEnd="8dp"
+     android:layout_marginRight="8dp"
+     android:text='-*-*-**-*-*'
+     android:textColor="#47525E"
+     android:textSize="18sp"
+     android:textStyle="italic"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toBottomOf="@+id/placeholder_profilepic_other" />
+
+
+ <android.support.constraint.Placeholder
+     android:id="@+id/placeholder_profilepic_other"
+     android:layout_width="50dp"
+     android:layout_height="50dp"
+     android:layout_marginStart="16dp"
+     android:layout_marginLeft="16dp"
+     android:layout_marginTop="24dp"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+ <TextView
+     android:id="@+id/searchnameText"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginStart="8dp"
+     android:layout_marginLeft="8dp"
+     android:layout_marginEnd="8dp"
+     android:layout_marginRight="8dp"
+     android:text="--------"
+     android:textColor="#FFFFFF"
+     android:textSize="18sp"
+     app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+
+ <Button
+     android:id="@+id/followButton"
+     android:layout_width="96dp"
+     android:layout_height="22dp"
+     android:layout_marginStart="12dp"
+     android:layout_marginLeft="12dp"
+     android:layout_marginTop="2dp"
+     android:background="#003D60"
+     android:text="Follow"
+     android:textColor="#FFFFFF"
+     app:layout_constraintStart_toEndOf="@+id/placeholder_profilepic_other"
+     app:layout_constraintTop_toBottomOf="@+id/fullnameText4" />
+
+ <android.support.constraint.Placeholder
+     android:layout_width="match_parent"
+     android:layout_height="150dp"
+     android:layout_marginTop="16dp"
+     android:background="@android:color/darker_gray"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toBottomOf="@+id/lastmemText4"/>
+
+
+ <TextView
+     android:id="@+id/lastmemText4"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginStart="24dp"
+     android:layout_marginLeft="24dp"
+     android:layout_marginTop="16dp"
+     android:text="Latest memory:"
+     android:textColor="#8492A6"
+     android:textSize="18sp"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toBottomOf="@+id/allmemButton_other" />
+
+
+</android.support.constraint.ConstraintLayout>
