@@ -166,6 +166,7 @@
         android:background="#00AAB7"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:titleTextColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/titleRegisterScreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

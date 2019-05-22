@@ -28,11 +28,11 @@ public class LoginActivity extends AppCompatActivity {
        password = findViewById(R.id.passwordLogin);
        info = findViewById(R.id.attemptsText);
        Login = findViewById(R.id.loginButton);
-//       toolbar title
-//       View view = inflater.inflate(R.layout.activity_login, container, false);
-//       Toolbar toolbar = view.findViewById(R.id.toolbar);
-//       toolbar.setTitle(getContext().getResources().getString(R.string.login_screen_toolbar_title));
-    }
+
+       //toolbar title
+       Toolbar toolbar = findViewById(R.id.toolbarLogin);
+       toolbar.setTitle(R.string.login_screen_toolbar_title);
+}
 
     //Button to go from login screen to the home screen
     // program cleans up code by turning == into .equals()
