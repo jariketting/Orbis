@@ -20,18 +20,18 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 //        deze code zorgt voor een pijl in de title bar waardoor je terug kan naar de vorige pagina
 //        actionbar heeft al bepaalde abstracte kunstjes
 
-        setContentView(R.layout.activity_forgot_password);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        setContentView(R.layout.activity_forgot_password);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == android.R.id.home) {
+//            finish();
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        return true;
+//    }
 }

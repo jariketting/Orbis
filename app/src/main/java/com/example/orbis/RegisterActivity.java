@@ -19,7 +19,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void Already_Registered_Button(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 }
