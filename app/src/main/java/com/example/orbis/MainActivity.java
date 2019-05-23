@@ -12,16 +12,22 @@ public class MainActivity extends AppCompatActivity {
     int menuIdCurrent;
     int menuIdLast;
 
+    BottomNavigationView bottomNav; //stores bottom navigation
+
+    /**
+     * Setup activity
+     *
+     * @param savedInstanceState saved state of instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); //set content view to activity main for this activity
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-        // StartScreen selection
-        getSupportFragmentManager().beginTransaction().replace(R.id.container,          // Hier geef ik aan dat als de app opstart, hij het Kaart Fragment laat zien, als wijze van homescherm
-                new MapFragment()).commit();
+        //get bottom navigation
+        bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener); //setup nav listener for bottom navigation
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, new MapFragment()).commit(); //default fragment to be shown
 
         //store menu history
         menuIdCurrent = 0; //current menu item id (defaults to zero / map)
@@ -32,18 +38,14 @@ public class MainActivity extends AppCompatActivity {
      * Hides navigation bar
      */
     public void hideNav() {
-        //find nav view
-        View nav = findViewById(R.id.bottom_navigation);
-        nav.setVisibility(View.GONE); //set visibility to gone (invisible still shows background)
+        bottomNav.setVisibility(View.GONE); //set visibility to gone (invisible still shows background)
     }
 
     /**
      * Show navigation bar
      */
     public void showNav() {
-        //find nav view
-        View nav = findViewById(R.id.bottom_navigation);
-        nav.setVisibility(View.VISIBLE); //set visibility to visible
+        bottomNav.setVisibility(View.VISIBLE); //set visibility to visible
     }
 
     /**
@@ -51,11 +53,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void goToLastFragment() {
         getSupportFragmentManager().popBackStack(); //goes to previous fragment stored in the backstack
-
-        //change menu to fragments menu item
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation); //get bottom navigation
         bottomNav.getMenu().getItem(menuIdLast).setChecked(true); //set previous fragment item checked
-
         menuIdCurrent = menuIdLast; //set current menu id to last menu item id
     }
 
@@ -66,30 +64,34 @@ public class MainActivity extends AppCompatActivity {
      * @param menuIndex menu item index to change menu item to
      */
     public void goToFragment(Fragment fragment, int menuIndex) {
-        //start transaction
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
-
-        //change menu to fragments menu item
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation); //get bottom navigation
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit(); //start and commit transaction to new fragment
         bottomNav.getMenu().getItem(menuIndex).setChecked(true); //set previous fragment item checked
 
         menuIdLast = menuIdCurrent; //update last id
         menuIdCurrent = menuIndex; //set current menu id to last menu item id
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =         // Hier wordt geselecteerd op welk fragment er is gedrukt
+    /**
+     * Bottom navigation listener
+     */
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
+                /**
+                 * Changes fragment based on what item the user has clicked in the bottom navigation
+                 *
+                 * @param menuItem clicked item in menu
+                 * @return true
+                 */
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                    Fragment selectedFragment = null;
-
-                    int menuId = 0; //stores selected menu id, zero is default (map)
+                    //stores default values (always defaults back to the mapfragment
+                    Fragment selectedFragment = new MapFragment(); //create map fragment
+                    int menuId = 0; //menu id for map fragment
 
                     //go trough each menu item, then set item id and set selected fragment
                     switch (menuItem.getItemId()) {
                         case R.id.map:
-                            selectedFragment = new MapFragment();
-                            menuId = 0;
+                            //default values already set
                             break;
                         case R.id.books:
                             //selectedFragment = new DiaryFragment();
