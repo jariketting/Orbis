@@ -17,6 +17,8 @@ import android.view.ViewGroup;
  * Use the {@link Invite_a_friendFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+//TODO rename class to InviteAFriendFragment plz
 public class Invite_a_friendFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
