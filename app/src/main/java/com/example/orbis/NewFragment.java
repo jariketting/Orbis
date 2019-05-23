@@ -1,5 +1,6 @@
 package com.example.orbis;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -23,6 +24,9 @@ import com.google.android.gms.maps.model.LatLng;
 public class NewFragment extends Fragment implements OnMapReadyCallback {
     MapView mapView; //store map view
     GoogleMap map; //store gmap stuff
+    View view; //store view
+    Toolbar toolbar; //store view
+    MainActivity main; //store main activity
 
     /**
      * Setup when view is created
@@ -35,26 +39,16 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_new, container, false);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        view = inflater.inflate(R.layout.fragment_new, container, false);
+        toolbar = view.findViewById(R.id.toolbar);
+        main = ((MainActivity) getActivity());
 
-        ((MainActivity) getActivity()).hideNav();
+        assert main != null;
+        main.hideNav();
 
-        toolbar.setTitle(R.string.new_fragment_toolbar_title);
-        toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity main = ((MainActivity) getActivity());
-
-                assert main != null;
-                main.showNav();
-                main.goToLastFragment();
-            }
-        });
-
-        this.cancelOnClickListener(view);
+        //set stuff up
+        setupToolbar();
+        cancelOnClickListener();
 
         // Gets the MapView from the XML layout and creates it
         mapView = view.findViewById(R.id.mapView);
@@ -65,13 +59,30 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
     }
 
     /**
+     * Setup toolbar
+     */
+    @SuppressLint("PrivateResource")
+    public void setupToolbar() {
+        toolbar.setTitle(R.string.new_fragment_toolbar_title);
+        toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity main = ((MainActivity) getActivity());
+
+                assert main != null;
+                main.goToLastFragment();
+            }
+        });
+    }
+
+    /**
      * Onclick cancel button listener
      *
      * When clicked will go back to map view
-     *
-     * @param view view to get cancel button from
      */
-    public void cancelOnClickListener(View view) {
+    public void cancelOnClickListener() {
         Button CancelButton = view.findViewById(R.id.buttonCancel); //get cancel button by view ID
 
         //create listener
