@@ -3,17 +3,21 @@ package com.example.orbis;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
+import android.support.constraint.Constraints;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,11 +26,17 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class
 MemoryFragment extends Fragment implements OnMapReadyCallback {
     MapView mapView;
     GoogleMap map;
     MainActivity main;
+    ImageView imageView;
+    ViewGroup.LayoutParams imageViewLayoutParams;
+    boolean isImageFitToScreen;
 
     @SuppressLint("PrivateResource")
     @Nullable
@@ -64,6 +74,32 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 main.goToLastFragment();
+            }
+        });
+
+        imageView = view.findViewById(R.id.imageViewGallery); //get cancel button by view ID
+        imageViewLayoutParams = imageView.getLayoutParams();
+
+        //list with images in image gallery
+        List<Drawable> imageGallery = new ArrayList<>();
+        imageGallery.add(ContextCompat.getDrawable(main, R.drawable.placeholder_cats)); //add placeholder cats
+
+        imageView.setImageDrawable(imageGallery.get(0));
+
+        //create listener
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isImageFitToScreen) {
+                    isImageFitToScreen = false;
+                    imageView.setLayoutParams(imageViewLayoutParams);
+                    imageView.setAdjustViewBounds(true);
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                } else {
+                    isImageFitToScreen = true;
+                    imageView.setLayoutParams(new Constraints.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                }
             }
         });
 
