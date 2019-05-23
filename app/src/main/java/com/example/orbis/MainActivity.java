@@ -2,6 +2,7 @@ package com.example.orbis;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +58,24 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.getMenu().getItem(menuIdLast).setChecked(true); //set previous fragment item checked
 
         menuIdCurrent = menuIdLast; //set current menu id to last menu item id
+    }
+
+    /**
+     * Go to provided fragment and change menu to provided index
+     *
+     * @param fragment fragment to go to
+     * @param menuIndex menu item index to change menu item to
+     */
+    public void goToFragment(Fragment fragment, int menuIndex) {
+        //start transaction
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
+
+        //change menu to fragments menu item
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation); //get bottom navigation
+        bottomNav.getMenu().getItem(menuIndex).setChecked(true); //set previous fragment item checked
+
+        menuIdLast = menuIdCurrent; //update last id
+        menuIdCurrent = menuIndex; //set current menu id to last menu item id
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =         // Hier wordt geselecteerd op welk fragment er is gedrukt
