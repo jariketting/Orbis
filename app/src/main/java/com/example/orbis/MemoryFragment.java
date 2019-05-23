@@ -26,6 +26,7 @@ public class
 MemoryFragment extends Fragment implements OnMapReadyCallback {
     MapView mapView;
     GoogleMap map;
+    MainActivity main;
 
     @SuppressLint("PrivateResource")
     @Nullable
@@ -33,6 +34,7 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_memory, container, false);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
+        main = ((MainActivity) getActivity());
 
         //setup toolbar
         toolbar.setTitle(getContext().getResources().getString(R.string.memory_toolbar_title) + ": " + "This is a memory");
@@ -47,9 +49,6 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
                         //do something
                         break;
                     case R.id.edit:
-                        MainActivity main = ((MainActivity) getActivity());
-
-                        assert main != null;
                         main.goToFragment(new NewFragment(), 2);
                         break;
                     case R.id.delete:
@@ -64,9 +63,6 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity main = ((MainActivity) getActivity());
-
-                assert main != null;
                 main.goToLastFragment();
             }
         });
