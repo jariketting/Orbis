@@ -47,15 +47,10 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
                         //do something
                         break;
                     case R.id.edit:
-                        assert getFragmentManager() != null;
-                        getFragmentManager().beginTransaction().replace(R.id.container, new NewFragment()).addToBackStack(null).commit();
-
                         MainActivity main = ((MainActivity) getActivity());
 
                         assert main != null;
-                        //change menu to fragments menu item
-                        BottomNavigationView bottomNav = main.findViewById(R.id.bottom_navigation); //get bottom navigation
-                        bottomNav.getMenu().getItem(2).setChecked(true); //set previous fragment item checked
+                        main.goToFragment(new NewFragment(), 2);
                         break;
                     case R.id.delete:
                         //do something
