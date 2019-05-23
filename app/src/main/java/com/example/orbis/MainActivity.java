@@ -48,12 +48,18 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setVisibility(View.VISIBLE); //set visibility to visible
     }
 
+    @Override
+    public void onBackPressed() {
+        goToLastFragment();
+    }
+
     /**
      * Go to last fragment
      */
     public void goToLastFragment() {
         getSupportFragmentManager().popBackStack(); //goes to previous fragment stored in the backstack
         bottomNav.getMenu().getItem(menuIdLast).setChecked(true); //set previous fragment item checked
+        showNav(); //make sure nav is shown
         menuIdCurrent = menuIdLast; //set current menu id to last menu item id
     }
 

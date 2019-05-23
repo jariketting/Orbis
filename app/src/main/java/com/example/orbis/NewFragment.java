@@ -81,7 +81,6 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
                 MainActivity main = ((MainActivity) getActivity());
 
                 assert main != null;
-                main.showNav();
                 main.goToLastFragment();
             }
         });
