@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setVisibility(View.VISIBLE); //set visibility to visible
     }
 
+    /**
+     * Overwrite default with our own last fragment function
+     */
     @Override
     public void onBackPressed() {
         goToLastFragment();
