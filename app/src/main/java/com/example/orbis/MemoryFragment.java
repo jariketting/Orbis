@@ -37,6 +37,7 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     Toolbar toolbar;
     GoogleMap map;
     MainActivity main;
+    Context context;
 
     ImageView imageView;
     int imageGalleryIndex;
@@ -44,20 +45,28 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     ViewGroup.LayoutParams imageViewLayoutParams;
     boolean isImageFitToScreen;
 
-    @SuppressLint("PrivateResource")
+    /**
+     * Setup fragment
+     *
+     * @param inflater ...
+     * @param container ...
+     * @param savedInstanceState ...
+     * @return view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_memory, container, false);
         toolbar = view.findViewById(R.id.toolbar);
         main = ((MainActivity) getActivity());
+        mapView = view.findViewById(R.id.mapView);
+        context = getContext();
 
         //set stuff up
         setupImageGallery();
         setupToolbar();
 
         // Gets the MapView from the XML layout and creates it
-        mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
@@ -87,24 +96,28 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         ImageButton leftButton = view.findViewById(R.id.imageButtonLeft);
         ImageButton rightButton = view.findViewById(R.id.imageButtonRight);
 
+        //right button pressed
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int max = imageGallery.size();
+                int max = imageGallery.size(); //get size of image gallery
 
+                //prevent from going past amount in gallery
                 if(imageGalleryIndex < max-1) {
-                    imageGalleryIndex++;
-                    imageView.setImageDrawable(imageGallery.get(imageGalleryIndex));
+                    imageGalleryIndex++; //next index item
+                    imageView.setImageDrawable(imageGallery.get(imageGalleryIndex)); //update image
                 }
             }
         });
 
+        //left button pressed
         leftButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //prevent from going past amount in gallery
                 if(imageGalleryIndex != 0) {
-                    imageGalleryIndex--;
-                    imageView.setImageDrawable(imageGallery.get(imageGalleryIndex));
+                    imageGalleryIndex--; //previous image item
+                    imageView.setImageDrawable(imageGallery.get(imageGalleryIndex)); //update image
                 }
             }
         });
@@ -114,13 +127,14 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //check if image is already sized up
                 if(isImageFitToScreen) {
-                    isImageFitToScreen = false;
+                    isImageFitToScreen = false; //image is not fit to screen
                     imageView.setLayoutParams(imageViewLayoutParams);
                     imageView.setAdjustViewBounds(true);
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 } else {
-                    isImageFitToScreen = true;
+                    isImageFitToScreen = true; //image is fit to screen
                     imageView.setLayoutParams(new Constraints.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
                     imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 }
@@ -131,14 +145,18 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     /**
      * Set up toolbar
      */
+    @SuppressLint("PrivateResource") //stop stupid error
     public void setupToolbar() {
-        toolbar.setTitle(getContext().getResources().getString(R.string.memory_toolbar_title) + ": " + "This is a memory");
-        toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);
-        toolbar.inflateMenu(R.menu.memory_menu);
+        toolbar.setTitle(context.getResources().getString(R.string.memory_toolbar_title)); //set toolbar title
+        toolbar.setSubtitle("This is a memory"); //set title of memory
+        toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material); //set back arrow
+        toolbar.inflateMenu(R.menu.memory_menu); //setup menu
 
+        //menu items clicked listener
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                //check what item was clicked
                 switch (item.getItemId()) {
                     case R.id.share:
                         //do something
@@ -155,6 +173,7 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        //setup back button in toolbar
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
