@@ -32,6 +32,8 @@ import java.util.List;
 public class
 MemoryFragment extends Fragment implements OnMapReadyCallback {
     MapView mapView;
+    View view;
+    Toolbar toolbar;
     GoogleMap map;
     MainActivity main;
     ImageView imageView;
@@ -42,11 +44,60 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_memory, container, false);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        view = inflater.inflate(R.layout.fragment_memory, container, false);
+        toolbar = view.findViewById(R.id.toolbar);
         main = ((MainActivity) getActivity());
 
-        //setup toolbar
+        //set stuff up
+        setupImageGallery();
+        setupToolbar();
+
+        // Gets the MapView from the XML layout and creates it
+        mapView = view.findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+
+        // Inflate the layout for this fragment
+        return view;
+    }
+
+    /**
+     * Everything for the image gallery
+     */
+    public void setupImageGallery() {
+        imageView = view.findViewById(R.id.imageViewGallery); //get cancel button by view ID
+        imageViewLayoutParams = imageView.getLayoutParams();
+
+        //list with images in image gallery
+        List<Drawable> imageGallery = new ArrayList<>();
+        imageGallery.add(ContextCompat.getDrawable(main, R.drawable.placeholder_cats)); //add placeholder cats
+        imageGallery.add(ContextCompat.getDrawable(main, R.drawable.placeholder_kitten)); //add placeholder cats
+        imageGallery.add(ContextCompat.getDrawable(main, R.drawable.placeholder_kitten_lick)); //add placeholder cats
+
+        imageView.setImageDrawable(imageGallery.get(1));
+
+        //create listener
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isImageFitToScreen) {
+                    isImageFitToScreen = false;
+                    imageView.setLayoutParams(imageViewLayoutParams);
+                    imageView.setAdjustViewBounds(true);
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                } else {
+                    isImageFitToScreen = true;
+                    imageView.setLayoutParams(new Constraints.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                }
+            }
+        });
+    }
+
+    /**
+     * Set up toolbar
+     */
+    public void setupToolbar() {
         toolbar.setTitle(getContext().getResources().getString(R.string.memory_toolbar_title) + ": " + "This is a memory");
         toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);
         toolbar.inflateMenu(R.menu.memory_menu);
@@ -76,41 +127,6 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
                 main.goToLastFragment();
             }
         });
-
-        imageView = view.findViewById(R.id.imageViewGallery); //get cancel button by view ID
-        imageViewLayoutParams = imageView.getLayoutParams();
-
-        //list with images in image gallery
-        List<Drawable> imageGallery = new ArrayList<>();
-        imageGallery.add(ContextCompat.getDrawable(main, R.drawable.placeholder_cats)); //add placeholder cats
-        imageGallery.add(ContextCompat.getDrawable(main, R.drawable.placeholder_kitten)); //add placeholder cats
-
-        imageView.setImageDrawable(imageGallery.get(0));
-
-        //create listener
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isImageFitToScreen) {
-                    isImageFitToScreen = false;
-                    imageView.setLayoutParams(imageViewLayoutParams);
-                    imageView.setAdjustViewBounds(true);
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                } else {
-                    isImageFitToScreen = true;
-                    imageView.setLayoutParams(new Constraints.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                }
-            }
-        });
-
-        // Gets the MapView from the XML layout and creates it
-        mapView = view.findViewById(R.id.mapView);
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(this);
-
-        // Inflate the layout for this fragment
-        return view;
     }
 
     @Override
