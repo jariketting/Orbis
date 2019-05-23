@@ -46,4 +46,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="register_screen_toolbar_title">Register to Orbis</string>
     <string name="forgot_pw_screen_toolbar_title">Forgot your password?</string>
+    <string name="bottom_navigation_map">Map</string>
+    <string name="bottom_navigation_diary">Diary</string>
+    <string name="bottom_navigation_new">New</string>
+    <string name="bottom_navigation_search">Search</string>
+    <string name="bottom_navigation_account">Account</string>
 </resources>
