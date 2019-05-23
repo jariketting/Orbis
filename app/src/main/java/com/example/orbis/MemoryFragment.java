@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -36,7 +37,10 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     Toolbar toolbar;
     GoogleMap map;
     MainActivity main;
+
     ImageView imageView;
+    int imageGalleryIndex;
+    List<Drawable> imageGallery;
     ViewGroup.LayoutParams imageViewLayoutParams;
     boolean isImageFitToScreen;
 
@@ -69,12 +73,42 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         imageViewLayoutParams = imageView.getLayoutParams();
 
         //list with images in image gallery
-        List<Drawable> imageGallery = new ArrayList<>();
+        imageGallery = new ArrayList<>();
         imageGallery.add(ContextCompat.getDrawable(main, R.drawable.placeholder_cats)); //add placeholder cats
         imageGallery.add(ContextCompat.getDrawable(main, R.drawable.placeholder_kitten)); //add placeholder cats
         imageGallery.add(ContextCompat.getDrawable(main, R.drawable.placeholder_kitten_lick)); //add placeholder cats
 
-        imageView.setImageDrawable(imageGallery.get(1));
+        imageGalleryIndex = 0;
+
+        //set default image
+        imageView.setImageDrawable(imageGallery.get(imageGalleryIndex));
+
+        //create left and right gallery button listeners
+        ImageButton leftButton = view.findViewById(R.id.imageButtonLeft);
+        ImageButton rightButton = view.findViewById(R.id.imageButtonRight);
+
+        rightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int max = imageGallery.size();
+
+                if(imageGalleryIndex < max-1) {
+                    imageGalleryIndex++;
+                    imageView.setImageDrawable(imageGallery.get(imageGalleryIndex));
+                }
+            }
+        });
+
+        leftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(imageGalleryIndex != 0) {
+                    imageGalleryIndex--;
+                    imageView.setImageDrawable(imageGallery.get(imageGalleryIndex));
+                }
+            }
+        });
+
 
         //create listener
         imageView.setOnClickListener(new View.OnClickListener() {
