@@ -83,6 +83,7 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         //list with images in image gallery
         List<Drawable> imageGallery = new ArrayList<>();
         imageGallery.add(ContextCompat.getDrawable(main, R.drawable.placeholder_cats)); //add placeholder cats
+        imageGallery.add(ContextCompat.getDrawable(main, R.drawable.placeholder_kitten)); //add placeholder cats
 
         imageView.setImageDrawable(imageGallery.get(0));
 
