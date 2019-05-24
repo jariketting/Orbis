@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                  */
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                    //stores default values (always defaults back to the mapfragment
+                    //stores default values (always defaults back to the map fragment
                     Fragment selectedFragment = new MapFragment(); //create map fragment
                     int menuId = 0; //menu id for map fragment
 
@@ -126,9 +126,7 @@ public class MainActivity extends AppCompatActivity {
                         return false;
 
                     //set new fragment and add to backstack
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container,    // Nadat er op eentje is gedrukt wordt deze ge-commit, dus vertoond en hierna begint de loop weer opnieuw
-                            selectedFragment).addToBackStack(null).commit();
-
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit();
 
                     //update menu item id history
                     menuIdLast = menuIdCurrent;
