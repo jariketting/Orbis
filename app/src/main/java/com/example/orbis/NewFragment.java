@@ -50,6 +50,9 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         setupToolbar();
         setupCancelButton();
 
+        //TODO setup image/video selector
+        //TODO allow user to search and pick a location
+
         // Gets the MapView from the XML layout and creates it
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
