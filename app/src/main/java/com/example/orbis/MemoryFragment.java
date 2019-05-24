@@ -32,18 +32,19 @@ import java.util.List;
 
 public class
 MemoryFragment extends Fragment implements OnMapReadyCallback {
-    MapView mapView;
-    View view;
-    Toolbar toolbar;
-    GoogleMap map;
-    MainActivity main;
-    Context context;
+    MapView mapView; //stores map view from layout
+    View view; //stores view
+    Toolbar toolbar; //stores toolbar (green thing on top of layout)
+    GoogleMap map; //stores map stuff
+    MainActivity main; //stores our main activity
+    Context context; //stores contect
 
-    ImageView imageView;
-    int imageGalleryIndex;
-    List<Drawable> imageGallery;
-    ViewGroup.LayoutParams imageViewLayoutParams;
-    boolean isImageFitToScreen;
+    //image gallery
+    ImageView imageView; //stores image view (where current image is shown)
+    int imageGalleryIndex; //index number of current shown image
+    List<Drawable> imageGallery; //stores all images in the gallery
+    ViewGroup.LayoutParams imageViewLayoutParams; //stores the original layout params of the image view
+    boolean isImageFitToScreen; //true if image is full screen, false if not.
 
     /**
      * Setup fragment
@@ -56,6 +57,7 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //assign all variables
         view = inflater.inflate(R.layout.fragment_memory, container, false);
         toolbar = view.findViewById(R.id.toolbar);
         main = ((MainActivity) getActivity());
@@ -159,13 +161,13 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
                 //check what item was clicked
                 switch (item.getItemId()) {
                     case R.id.share:
-                        //do something
+                        //TODO implement share feature
                         break;
                     case R.id.edit:
                         main.goToFragment(new NewFragment(), 2);
                         break;
                     case R.id.delete:
-                        //do something
+                        //TODO implement delete future
                         break;
                 }
 
