@@ -48,7 +48,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
 
         //set stuff up
         setupToolbar();
-        cancelOnClickListener();
+        setupCancelButton();
 
         // Gets the MapView from the XML layout and creates it
         mapView = view.findViewById(R.id.mapView);
@@ -69,9 +69,6 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity main = ((MainActivity) getActivity());
-
-                assert main != null;
                 main.goToLastFragment();
             }
         });
@@ -82,16 +79,13 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
      *
      * When clicked will go back to map view
      */
-    public void cancelOnClickListener() {
+    public void setupCancelButton() {
         Button CancelButton = view.findViewById(R.id.buttonCancel); //get cancel button by view ID
 
         //create listener
         CancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity main = ((MainActivity) getActivity());
-
-                assert main != null;
                 main.goToLastFragment();
             }
         });
