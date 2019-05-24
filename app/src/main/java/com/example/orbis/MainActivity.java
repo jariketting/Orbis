@@ -83,56 +83,55 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Bottom navigation listener
      */
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                /**
-                 * Changes fragment based on what item the user has clicked in the bottom navigation
-                 *
-                 * @param menuItem clicked item in menu
-                 * @return true
-                 */
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                    //stores default values (always defaults back to the map fragment
-                    Fragment selectedFragment = new MapFragment(); //create map fragment
-                    int menuId = 0; //menu id for map fragment
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        /**
+         * Changes fragment based on what item the user has clicked in the bottom navigation
+         *
+         * @param menuItem clicked item in menu
+         * @return true
+         */
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            //stores default values (always defaults back to the map fragment
+            Fragment selectedFragment = new MapFragment(); //create map fragment
+            int menuId = 0; //menu id for map fragment
 
-                    //go trough each menu item, then set item id and set selected fragment
-                    switch (menuItem.getItemId()) {
-                        case R.id.map:
-                            //default values already set
-                            break;
-                        case R.id.books:
-                            //selectedFragment = new DiaryFragment();
-                            selectedFragment = new MemoryFragment(); //temp for development purposes
-                            menuId = 1;
-                            break;
-                        case R.id.add:
-                            selectedFragment = new NewFragment();
-                            menuId = 2;
-                            break;
-                        case R.id.search:
-                            selectedFragment = new SearchFragment();
-                            menuId = 3;
-                            break;
-                        case R.id.account:
-                            selectedFragment = new AccountFragment();
-                            menuId = 4;
-                            break;
-                    }
+            //go trough each menu item, then set item id and set selected fragment
+            switch (menuItem.getItemId()) {
+                case R.id.map:
+                    //default values already set
+                    break;
+                case R.id.books:
+                    //selectedFragment = new DiaryFragment();
+                    selectedFragment = new MemoryFragment(); //temp for development purposes
+                    menuId = 1;
+                    break;
+                case R.id.add:
+                    selectedFragment = new NewFragment();
+                    menuId = 2;
+                    break;
+                case R.id.search:
+                    selectedFragment = new SearchFragment();
+                    menuId = 3;
+                    break;
+                case R.id.account:
+                    selectedFragment = new AccountFragment();
+                    menuId = 4;
+                    break;
+            }
 
-                    //prevent current menu item being selected twice
-                    if(menuIdCurrent == menuId)
-                        return false;
+            //prevent current menu item being selected twice
+            if(menuIdCurrent == menuId)
+                return false;
 
-                    //set new fragment and add to backstack
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit();
+            //set new fragment and add to backstack
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, selectedFragment).addToBackStack(null).commit();
 
-                    //update menu item id history
-                    menuIdLast = menuIdCurrent;
-                    menuIdCurrent = menuId;
+            //update menu item id history
+            menuIdLast = menuIdCurrent;
+            menuIdCurrent = menuId;
 
-                    return true;
-                }
-            };
+            return true;
+        }
+    };
 }
