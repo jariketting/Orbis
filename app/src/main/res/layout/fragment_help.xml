@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".HelpFragment">
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="100dp"
-            android:text="Report a problem"
+            android:text="@string/help_report"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -48,7 +48,7 @@
             android:layout_width="311sp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Write us a detailed story about the problem or tell us what happened and we will see what we can do. Thank you in advance!"
+            android:text="@string/help_text"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -61,7 +61,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:singleLine="false"
-            android:text="Text here"
+            android:text="@string/help_texthere"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/button2"
             app:layout_constraintStart_toStartOf="@+id/button2" />

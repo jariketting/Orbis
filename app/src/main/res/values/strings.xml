@@ -64,4 +64,7 @@
     <string name="inviteafriend_email">Email adress</string>
     <string name="inviteafriend_tellthem">Tell them something about the app</string>
     <string name="changepassword_changepasswordbutton">Change password</string>
+    <string name="help_report">Report a problem</string>
+    <string name="help_text">Write us a detailed story about the problem or tell us what happened and we will see what we can do. Thank you in advance!</string>
+    <string name="help_texthere">Text here</string>
 </resources>
