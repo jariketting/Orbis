@@ -1,12 +1,14 @@
 package com.example.orbis;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 
 
 /**
@@ -89,6 +91,16 @@ public class SettingsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void clicked(String pageName){
+
+    }
+
+    //button to go from Settings to About
+    public void About(View view) {
+        Intent intent = new Intent(this, AboutFragment.class);
+        startActivity(intent);
     }
 
     /**
