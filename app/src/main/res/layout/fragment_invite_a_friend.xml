@@ -5,16 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".Invite_a_friendFragment">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Invite_a_friendActivity">
 
 
-        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <android.support.constraint.ConstraintLayout
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".InviteafriendActivity">
@@ -36,7 +34,7 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="100dp"
-                android:text="How?"
+                android:text="@string/inviteafriend_how"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -48,7 +46,7 @@
                 android:layout_width="311sp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Just fill in the email adresss of the person you want to invite and we will take care of the rest.\n \nYou can even write a little about why you want the person to use our app so they can read your experience with us!"
+                android:text="@string/inviteafriend_text"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/textView"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -60,10 +58,11 @@
                 android:layout_marginTop="20dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Tell them something about the app"
+                android:text="@string/inviteafriend_tellthem"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/editText3"
-                app:layout_constraintTop_toBottomOf="@+id/editText3" />
+                app:layout_constraintTop_toBottomOf="@+id/editText3"
+                android:autofillHints="" />
 
             <EditText
                 android:id="@+id/editText3"
@@ -72,9 +71,10 @@
                 android:layout_marginTop="20dp"
                 android:ems="10"
                 android:inputType="textEmailAddress"
-                android:text="Email adress"
+                android:text="@string/inviteafriend_email"
                 app:layout_constraintStart_toStartOf="@+id/textView3"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                android:autofillHints="" />
 
             <Button
                 android:id="@+id/button"
@@ -86,7 +86,7 @@
                 android:layout_marginRight="162dp"
                 android:layout_marginBottom="115dp"
                 android:background="#003d60"
-                android:text="@string/invite_friend_send_button"
+                android:text="@string/sendbutton"
                 android:textColor="#ffffff"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
