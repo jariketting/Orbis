@@ -5,9 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".SettingsFragment">
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".SettingsActivity">
@@ -45,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Private account"
+            android:text="@string/settings_private"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/TextNotifications"
             app:layout_constraintTop_toBottomOf="@+id/TextNotifications" />
@@ -55,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Help"
+            android:text="@string/settings_help"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/TextInvitefriends"
             app:layout_constraintTop_toBottomOf="@+id/TextInvitefriends" />
@@ -67,7 +66,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="75dp"
-            android:text="Account"
+            android:text="@string/settings_account"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -81,7 +80,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="100dp"
-            android:text="General"
+            android:text="@string/settings_general"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -94,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:onClick="About"
-            android:text="About"
+            android:text="@string/settings_about"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/TextHelp"
             app:layout_constraintTop_toBottomOf="@+id/TextHelp" />
@@ -104,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Sign out"
+            android:text="@string/settings_signout"
             android:textColor="#2196F3"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/TextChangepassword"
@@ -115,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Change password"
+            android:text="@string/settings_changepassword"
             android:textColor="#2196F3"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/TextAccountheadline"
@@ -126,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Invite friends"
+            android:text="@string/settings_invite"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/TextPrivateaccount"
             app:layout_constraintTop_toBottomOf="@+id/TextPrivateaccount" />
@@ -138,7 +137,7 @@
             android:layout_marginStart="25dp"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="20dp"
-            android:text="@string/account_notifications"
+            android:text="@string/settings_notifications"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/textAccountheadline"
             app:layout_constraintTop_toBottomOf="@+id/textAccountheadline" />

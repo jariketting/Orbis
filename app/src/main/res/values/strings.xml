@@ -39,7 +39,7 @@
     <string name="memory_menu_edit">Edit</string>
     <string name="new_fragment_toolbar_title">New memory</string>
     <string name="invite_friend_send_button">Send</string>
-    <string name="account_notifications">Notifications</string>
+    <string name="settings_notifications">Notifications</string>
     <string name="login_screen_toolbar_title">Login to Orbis</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -51,4 +51,12 @@
     <string name="bottom_navigation_new">New</string>
     <string name="bottom_navigation_search">Search</string>
     <string name="bottom_navigation_account">Account</string>
+    <string name="settings_private">Private account</string>
+    <string name="settings_invite">Invite friends</string>
+    <string name="settings_help">Help</string>
+    <string name="settings_about">About</string>
+    <string name="settings_general">General</string>
+    <string name="settings_account">Account</string>
+    <string name="settings_changepassword">Change password</string>
+    <string name="settings_signout">Sign out</string>
 </resources>
