@@ -5,17 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".Invite_a_friendFragment">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".Invite_a_friendActivity">
-
-
         <android.support.constraint.ConstraintLayout
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".InviteafriendActivity">
+            tools:context=".Invite_a_friendActivity">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar4"
@@ -94,5 +88,4 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
-    </FrameLayout>
 </FrameLayout>
