@@ -3,21 +3,21 @@
     <item
         android:id="@+id/map"
         android:icon="@drawable/ic_map_black_24dp"
-        android:title="Kaart" />
+        android:title="@string/bottom_navigation_map" />
     <item
         android:id="@+id/books"
         android:icon="@drawable/ic_library_books_black_24dp"
-        android:title="Dagboek" />
+        android:title="@string/bottom_navigation_diary" />
     <item
         android:id="@+id/add"
         android:icon="@drawable/ic_add_circle_black_24dp"
-        android:title="Nieuw" />
+        android:title="@string/bottom_navigation_new" />
     <item
         android:id="@+id/search"
         android:icon="@drawable/ic_search_black_24dp"
-        android:title="Zoeken" />
+        android:title="@string/bottom_navigation_search" />
     <item
         android:id="@+id/account"
         android:icon="@drawable/ic_account_circle_black_24dp"
-        android:title="Account" />
+        android:title="@string/bottom_navigation_account" />
 </menu>
