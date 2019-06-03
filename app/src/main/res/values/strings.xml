@@ -87,4 +87,5 @@
     <string name="register_screen_toolbar_title">Register to Orbis</string>
     <string name="forgot_pw_screen_toolbar_title">Forgot your password?</string>
     <string name="login_screen_toolbar_title">Login to Orbis</string>
+    <string name="opensettingsbutton">opensettingsbutton</string>
 </resources>
