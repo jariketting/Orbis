@@ -92,16 +92,8 @@ public class SettingsFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+    
 
-    public void clicked(String pageName){
-
-    }
-
-    //button to go from Settings to About
-    public void About(View view) {
-        Intent intent = new Intent(this, AboutFragment.class);
-        startActivity(intent);
-    }
 
     /**
      * This interface must be implemented by activities that contain this
