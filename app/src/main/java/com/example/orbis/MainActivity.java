@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         //get bottom navigation
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener); //setup nav listener for bottom navigation
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new MapFragment()).commit(); //default fragment to be shown
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, new GoogleMapsFragment()).commit(); //default fragment to be shown
 
         //store menu history
         menuIdCurrent = 0; //current menu item id (defaults to zero / map)
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             //stores default values (always defaults back to the map fragment
-            Fragment selectedFragment = new MapFragment(); //create map fragment
+            Fragment selectedFragment = new GoogleMapsFragment(); //create map fragment
             int menuId = 0; //menu id for map fragment
 
             //go trough each menu item, then set item id and set selected fragment

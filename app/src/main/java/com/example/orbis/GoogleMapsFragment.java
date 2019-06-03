@@ -50,9 +50,9 @@ public class GoogleMapsFragment extends Fragment implements
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_google_maps);
+//        this.getActivity().setContentView(R.layout.activity_google_maps);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -62,7 +62,7 @@ public class GoogleMapsFragment extends Fragment implements
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        SupportMapFragment mapFragment = (SupportMapFragment) this.getActivity().getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
@@ -71,7 +71,7 @@ public class GoogleMapsFragment extends Fragment implements
 
         switch (v.getId()) {
             case R.id.search_address:
-                EditText addressField = (EditText) findViewById(R.id.location_search);
+                EditText addressField = (EditText) this.getActivity().findViewById(R.id.location_search);
                 String address = addressField.getText().toString();
 
                 List<Address> addressList = null;
@@ -128,15 +128,15 @@ public class GoogleMapsFragment extends Fragment implements
 
     public boolean checkUserLocationPermission()
     {
-        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this), Manifest.permission.ACCESS_FINE_LOCATION))
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION))
             {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Request_User_Location_Code);
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Request_User_Location_Code);
             }
             else
             {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Request_User_Location_Code);
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Request_User_Location_Code);
             }
             return false;
         }
@@ -154,7 +154,7 @@ public class GoogleMapsFragment extends Fragment implements
             case Request_User_Location_Code:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                    if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
                     {
                         if (googleApiClient == null)
                         {
@@ -222,7 +222,7 @@ public class GoogleMapsFragment extends Fragment implements
         locationRequest.setFastestInterval(1100);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(this.getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,locationRequest,this);
         }
