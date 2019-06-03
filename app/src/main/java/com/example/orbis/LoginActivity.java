@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     // program cleans up code by turning == into .equals()
     //&& means and
     public void loginButton(View view) {
-        if(email.getText().toString().equals("admin@hr.nl")&& password.getText().toString().equals("1234")) {
+        if(email.getText().toString().equals("1")&& password.getText().toString().equals("1")) {
 //            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){}
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
