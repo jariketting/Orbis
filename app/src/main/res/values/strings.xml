@@ -40,4 +40,14 @@
     <string name="new_fragment_toolbar_title">New memory</string>
     <string name="invite_friend_send_button">Send</string>
     <string name="account_notifications">Notifications</string>
+    <string name="followers_followers">Followers</string>
+    <string name="following_following">Following</string>
+    <string name="membtn_profile">All my memories</string>
+    <string name="bio_profile">.........</string>
+    <string name="followersbtn_profile">Followers</string>
+    <string name="followingbtn_profile">Following</string>
+    <string name="fullname_profile">------</string>
+    <string name="lastmem_profile">Latest Memory:</string>
+    <string name="editbtn_profile">Edit Profile</string>
+    <string name="username_main">*********</string>
 </resources>
