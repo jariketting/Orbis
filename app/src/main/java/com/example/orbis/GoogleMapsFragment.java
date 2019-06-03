@@ -1,26 +1,30 @@
 package com.example.orbis;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,7 +43,8 @@ public class GoogleMapsFragment extends Fragment implements
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener,
+        View.OnClickListener {
 
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
@@ -48,23 +53,33 @@ public class GoogleMapsFragment extends Fragment implements
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
 
+    View view; //stores view
+    MainActivity main; //stores our main activity
+    Context context; //stores context
 
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        this.getActivity().setContentView(R.layout.activity_google_maps);
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //assign all variables
+        view = inflater.inflate(R.layout.activity_google_maps, container, false);
+        main = ((MainActivity) getActivity());
+        SupportMapFragment mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        context = getContext();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             checkUserLocationPermission();
         }
 
+        ImageButton searchAddressButton = view.findViewById(R.id.search_address);
+        searchAddressButton.setOnClickListener(this);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) this.getActivity().getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        // Gets the MapView from the XML layout and creates it
+        mapFrag.onCreate(savedInstanceState);
+        mapFrag.getMapAsync(this);
+
+        // Inflate the layout for this fragment
+        return view;
     }
 
     public void onClick(View v) {
@@ -209,7 +224,7 @@ public class GoogleMapsFragment extends Fragment implements
 
         if (googleApiClient != null)
         {
-            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient,this);
+            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
 
         }
     }
@@ -224,7 +239,7 @@ public class GoogleMapsFragment extends Fragment implements
 
         if (ContextCompat.checkSelfPermission(this.getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,locationRequest,this);
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,locationRequest, this);
         }
 
 
