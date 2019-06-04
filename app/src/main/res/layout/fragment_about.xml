@@ -19,14 +19,13 @@
             app:layout_constraintEnd_toEndOf="parent">
 
 
-
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar2"
+                android:id="@+id/toolbarAbout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
+                android:background="#00AAB7"
                 android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme"
+                android:theme="@style/AppTheme.AppBarOverlay"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="8dp" />
 

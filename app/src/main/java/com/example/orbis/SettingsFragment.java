@@ -9,13 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
 public class SettingsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        //toolbar
+        Toolbar toolbar = view.findViewById(R.id.toolbarSettings);
+        toolbar.setTitle(R.string.toolbarSettings);
+
 
         //invite a friend button
         TextView TextInvitefriends = (TextView) view.findViewById(R.id.TextInvitefriends);
