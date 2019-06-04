@@ -21,6 +21,7 @@ public class AccountFragment extends Fragment {
         main = ((MainActivity) getActivity());
 
         Button followersButton = view.findViewById(R.id.followersButton); //get cancel button by view ID
+        Button followingButton = view.findViewById(R.id.followingButton); //get cancel button by view ID
 
         //create listener
         followersButton.setOnClickListener(new View.OnClickListener() {
@@ -29,7 +30,21 @@ public class AccountFragment extends Fragment {
                 Intent intent = new Intent(getActivity().getApplication(), FollowersActivity.class);
                 startActivity(intent);
             }
+
         });
+
+        //create listener
+        followingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(getActivity().getApplication(), FollowingActivity.class);
+                startActivity(intent1);
+            }
+
+        });
+
+
+
 
         return view;
     }
