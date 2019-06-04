@@ -106,10 +106,10 @@ public class GoogleMapsFragment extends Fragment implements
                                 Address userAddress = addressList.get(i);
                                 LatLng latLng = new LatLng(userAddress.getLatitude(), userAddress.getLongitude());
 
-//                                userMarkerOptions.position(latLng);
-//                                userMarkerOptions.title(address);
-//                                userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-//                                mMap.addMarker(userMarkerOptions);
+                                userMarkerOptions.position(latLng);
+                                userMarkerOptions.title(address);
+                                userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                                mMap.addMarker(userMarkerOptions);
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                                 mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
                             }
@@ -123,6 +123,7 @@ public class GoogleMapsFragment extends Fragment implements
                     Toast.makeText(this.getContext(), "Search for any location...", Toast.LENGTH_SHORT).show();
                 }
                 break;
+
 
         }
 
