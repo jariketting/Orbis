@@ -45,7 +45,8 @@ public class GoogleMapsFragment extends Fragment implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
-        View.OnClickListener {
+        View.OnClickListener,
+        GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
@@ -105,12 +106,12 @@ public class GoogleMapsFragment extends Fragment implements
                                 Address userAddress = addressList.get(i);
                                 LatLng latLng = new LatLng(userAddress.getLatitude(), userAddress.getLongitude());
 
-                                userMarkerOptions.position(latLng);
-                                userMarkerOptions.title(address);
-                                userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                                mMap.addMarker(userMarkerOptions);
+//                                userMarkerOptions.position(latLng);
+//                                userMarkerOptions.title(address);
+//                                userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+//                                mMap.addMarker(userMarkerOptions);
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                                mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                                mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
                             }
                         } else {
                             Toast.makeText(this.getContext(), "Location not found...", Toast.LENGTH_SHORT).show();
@@ -131,6 +132,13 @@ public class GoogleMapsFragment extends Fragment implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        googleMap.setOnMarkerClickListener(this);
+
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(51.924419, 4.477733))
+                .title("Titel van herinnering"))
+                .setSnippet("Dit is een herinnering");
 
 
         if (ContextCompat.checkSelfPermission(this.getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
@@ -264,5 +272,14 @@ public class GoogleMapsFragment extends Fragment implements
 
     }
 
+    @Override
+    public boolean onMarkerClick(final Marker marker)
+    {
+        return false;
+    }
 }
+
+
+
+
 
