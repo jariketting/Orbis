@@ -139,7 +139,8 @@ public class GoogleMapsFragment extends Fragment implements
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(51.924419, 4.477733))
                 .title("Titel van herinnering"))
-                .setSnippet("Dit is een herinnering");
+                .showInfoWindow();
+//                .setSnippet("Dit is een herinnering");
 
 
         if (ContextCompat.checkSelfPermission(this.getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
@@ -276,7 +277,9 @@ public class GoogleMapsFragment extends Fragment implements
     @Override
     public boolean onMarkerClick(final Marker marker)
     {
-        return false;
+        //if-statement needed for checking if it switched to the fragment with the right fragment
+        main.switchToMemory(0);
+        return true;
     }
 }
 

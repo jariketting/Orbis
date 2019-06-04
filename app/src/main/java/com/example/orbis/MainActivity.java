@@ -1,6 +1,7 @@
 package com.example.orbis;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,8 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity {
     int menuIdCurrent;
     int menuIdLast;
+    int menuId;
+    Fragment selectedFragment;
 
     BottomNavigationView bottomNav; //stores bottom navigation
 
@@ -93,8 +96,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             //stores default values (always defaults back to the map fragment
-            Fragment selectedFragment = new GoogleMapsFragment(); //create map fragment
-            int menuId = 0; //menu id for map fragment
+            selectedFragment = new GoogleMapsFragment(); //create map fragment
+            menuId = 0; //menu id for map fragment
 
             //go trough each menu item, then set item id and set selected fragment
             switch (menuItem.getItemId()) {
@@ -134,4 +137,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
+
+    protected void switchToMemory(int id){
+        selectedFragment = new MemoryFragment(); //id needs to be given as parameter
+        menuId = 1;
+        goToFragment(selectedFragment, menuId);
+    }
 }
