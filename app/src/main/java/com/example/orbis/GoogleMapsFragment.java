@@ -59,6 +59,7 @@ public class GoogleMapsFragment extends Fragment implements
     View view; //stores view
     MainActivity main; //stores our main activity
     Context context; //stores context
+    MarkerOptions currentLocationMarker; // stores the marker of current location
 
     @Nullable
     @Override
@@ -230,12 +231,12 @@ public class GoogleMapsFragment extends Fragment implements
         mMap.moveCamera(cameraUpdate);
 
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title("You are here");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+        currentLocationMarker = new MarkerOptions();
+        currentLocationMarker.position(latLng);
+        currentLocationMarker.title("You are here");
+        currentLocationMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
-        currentUserLocationMarker = mMap.addMarker(markerOptions);
+        currentUserLocationMarker = mMap.addMarker(currentLocationMarker);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(11));
@@ -277,8 +278,11 @@ public class GoogleMapsFragment extends Fragment implements
     @Override
     public boolean onMarkerClick(final Marker marker)
     {
-        //if-statement needed for checking if it switched to the fragment with the right fragment
-        main.switchToMemory(0);
+        if (!marker.equals(currentUserLocationMarker))
+        {
+            //if-statement needed for checking if it switched to the fragment with the right fragment
+            main.switchToMemory(0);
+        }
         return true;
     }
 }
