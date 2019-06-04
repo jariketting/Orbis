@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+
 
 public class MainActivity extends AppCompatActivity {
     int menuIdCurrent;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         //store menu history
         menuIdCurrent = 0; //current menu item id (defaults to zero / map)
         menuIdLast = 0; //last menu item id (defaults to zero / map)
+
     }
 
     /**

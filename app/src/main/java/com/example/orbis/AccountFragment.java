@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class AccountFragment extends Fragment {
     View view;
@@ -46,6 +47,14 @@ public class AccountFragment extends Fragment {
 
 
 
+
+        ImageButton opensettingsbutton = (ImageButton)view.findViewById(R.id.opensettingsbutton);
+        opensettingsbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).addToBackStack(null).commit();
+            }
+        });
         return view;
     }
 }
