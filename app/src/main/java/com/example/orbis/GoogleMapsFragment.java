@@ -27,6 +27,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -52,6 +53,7 @@ public class GoogleMapsFragment extends Fragment implements
     private Location lastLocation;
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
+
 
     View view; //stores view
     MainActivity main; //stores our main activity
@@ -130,12 +132,14 @@ public class GoogleMapsFragment extends Fragment implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+
         if (ContextCompat.checkSelfPermission(this.getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
 
             buildGoogleApiClient();
 
             mMap.setMyLocationEnabled(true);
+
         }
 
 
@@ -205,12 +209,16 @@ public class GoogleMapsFragment extends Fragment implements
     {
         lastLocation = location;
 
+
         if (currentUserLocationMarker != null)
         {
             currentUserLocationMarker.remove();
         }
 
         LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng,3);
+        mMap.moveCamera(cameraUpdate);
+
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
@@ -220,7 +228,7 @@ public class GoogleMapsFragment extends Fragment implements
         currentUserLocationMarker = mMap.addMarker(markerOptions);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(12));
+        mMap.animateCamera(CameraUpdateFactory.zoomBy(11));
 
         if (googleApiClient != null)
         {
