@@ -13,6 +13,6 @@ public class FollowersActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        getSupportFragmentManager().popBackStack();
+        finish();
     }
 }
