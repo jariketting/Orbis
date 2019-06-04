@@ -12,13 +12,15 @@ import android.widget.EditText;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    // regular expression for password validation
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
                     "(?=.*[0-9])" +         //at least 1 digit
                     "(?=.*[a-z])" +         //at least 1 lower case letter
                     "(?=.*[A-Z])" +         //at least 1 upper case letter
                     //"(?=.*[a-zA-Z])" +      //any letter
-                    "(?=.*[!@#$%^&+=])" +    //at least 1 special character
+                    "(?=.*[!@#$%^&+=])" +   //at least 1 special character
                     "(?=\\S+$)" +           //no white spaces
                     ".{4,}" +               //at least 4 characters
                     "$");                   //end of the string
@@ -42,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         textInputPassword = findViewById(R.id.passwordRegister);
 
     }
-
+// validation for the name that the field is not empty
     private boolean validateName() {
         String nameInput = textInputName.getEditText().getText().toString().trim();
 
@@ -54,7 +56,8 @@ public class RegisterActivity extends AppCompatActivity {
             return true;
         }
     }
-
+// validation for email to make sure it contains @ and . and error messages when field empty or no @ and/or .
+// done with regular expression that already existed
     private boolean validateEmail() {
         String emailInput = textInputEmail.getEditText().getText().toString().trim();
 
@@ -69,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
             return true;
         }
     }
-
+// validation for username that the field can't be empty
     private boolean validateUsername() {
         String usernameInput = textInputUsername.getEditText().getText().toString().trim();
 
@@ -81,7 +84,8 @@ public class RegisterActivity extends AppCompatActivity {
             return true;
         }
     }
-
+// validation for the password, with errors for being empty or not a strong enough password otherwise no error
+// done with self made regular expression at the top
     private boolean validatePassword() {
         String passwordInput = textInputPassword.getEditText().getText().toString().trim();
 
@@ -97,6 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+// button for people to register
     public void Register_Button(View v) {
         if (!validateName() | !validateEmail() | !validateUsername() | !validatePassword()) {
             return;
@@ -105,6 +110,7 @@ public class RegisterActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+// Button back to the login screen
     public void Already_Registered_Button(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
