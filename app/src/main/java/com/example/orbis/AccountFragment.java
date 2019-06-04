@@ -1,7 +1,6 @@
 package com.example.orbis;
 
 import android.content.Intent;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,9 +21,7 @@ public class AccountFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_account, container, false);
         main = ((MainActivity) getActivity());
 
-        ImageButton opensettingsbutton = (ImageButton)view.findViewById(R.id.opensettingsbutton);
         Button followersButton = view.findViewById(R.id.followersButton); //get cancel button by view ID
-
         //create listener
         followersButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +31,8 @@ public class AccountFragment extends Fragment {
             }
         });
 
+
+        ImageButton opensettingsbutton = (ImageButton)view.findViewById(R.id.opensettingsbutton);
         opensettingsbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
