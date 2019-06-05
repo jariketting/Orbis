@@ -16,13 +16,16 @@ import org.json.JSONObject;
 class API {
     private static final String TAG = "API";
     private RequestQueue requestQueue;
+    private Context appContext;
 
     API(Context context) {
+        appContext = context;
+
         requestQueue = Volley.newRequestQueue(context);
     }
 
     void request(String requestUrl, @Nullable JSONObject jsonBody, final APICallback callback) {
-        String baseUrl = "https://api.jariketting.nl/";
+        String baseUrl = appContext.getString(R.string.API_base_url);
         String url = baseUrl + requestUrl;
 
         JsonObjectRequest jsonObject = new JsonObjectRequest(Request.Method.POST, url, jsonBody, new Response.Listener<JSONObject>() {
