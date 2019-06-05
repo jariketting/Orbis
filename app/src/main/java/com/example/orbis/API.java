@@ -18,7 +18,7 @@ import org.json.JSONObject;
  */
 class API {
     private static final String TAG = "API"; //stores tag for logging
-    private static RequestQueue requestQueue; //stores request que
+    private RequestQueue requestQueue; //stores request que
     private Context appContext; //stores app context
 
     /**
@@ -31,8 +31,7 @@ class API {
         appContext = context;
 
         //only create request que once
-        if(requestQueue != null)
-            requestQueue = Volley.newRequestQueue(context);
+        requestQueue = Volley.newRequestQueue(context);
     }
 
     /**
