@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,8 @@ public class GoogleMapsFragment extends Fragment implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
         View.OnClickListener,
-        GoogleMap.OnMarkerClickListener {
+        GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
@@ -136,12 +138,18 @@ public class GoogleMapsFragment extends Fragment implements
         mMap = googleMap;
 
         googleMap.setOnMarkerClickListener(this);
+        googleMap.setOnInfoWindowClickListener(this);
 
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(51.924419, 4.477733))
                 .title("Titel van herinnering"))
                 .showInfoWindow();
 //                .setSnippet("Dit is een herinnering");
+
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(51.92500, 4.477720))
+                .title("Hutssss"))
+                .showInfoWindow();
 
 
         if (ContextCompat.checkSelfPermission(this.getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
@@ -213,8 +221,6 @@ public class GoogleMapsFragment extends Fragment implements
     }
 
 
-
-
     @Override
     public void onLocationChanged(Location location)
     {
@@ -279,11 +285,17 @@ public class GoogleMapsFragment extends Fragment implements
     public boolean onMarkerClick(final Marker marker)
     {
         if (!marker.equals(currentUserLocationMarker))
-        {
-            //if-statement needed for checking if it switched to the fragment with the right fragment
-            main.switchToMemory(0);
-        }
+            marker.showInfoWindow();
+
         return true;
+    }
+
+    @Override
+    public void onInfoWindowClick(final Marker marker) {
+        Log.i("MAP", "Info window clicked");
+
+        if (!marker.equals(currentUserLocationMarker))
+            main.switchToMemory(0);
     }
 }
 
