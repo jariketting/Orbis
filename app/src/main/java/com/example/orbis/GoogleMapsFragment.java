@@ -139,9 +139,7 @@ public class GoogleMapsFragment extends Fragment implements
 
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(51.924419, 4.477733))
-                .title("Titel van herinnering"))
-                .showInfoWindow();
-//                .setSnippet("Dit is een herinnering");
+                .title("Titel van herinnering"));
 
 
         if (ContextCompat.checkSelfPermission(this.getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
