@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -142,12 +141,11 @@ public class GoogleMapsFragment extends Fragment implements
 
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(51.924419, 4.477733))
-                .title("Titel van herinnering"));
+                .title("Herinnering 2"));
 
         mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(51.92500, 4.477720))
-                .title("Hutssss"))
-                .showInfoWindow();
+                .position(new LatLng(51.99000, 4.49900))
+                .title("Herinnering 1"));
 
 
         if (ContextCompat.checkSelfPermission(this.getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
