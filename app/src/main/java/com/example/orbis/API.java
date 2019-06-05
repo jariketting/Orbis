@@ -1,7 +1,8 @@
 package com.example.orbis;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -11,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -20,6 +22,7 @@ class API {
     private static final String TAG = "API"; //stores tag for logging
     private RequestQueue requestQueue; //stores request que
     private Context appContext; //stores app context
+    private SharedPreferences prefs; //stores our session id
 
     /**
      *
@@ -32,6 +35,27 @@ class API {
 
         //create queue
         requestQueue = Volley.newRequestQueue(context);
+
+        //get prefs from preference manager
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    /**
+     * Set session id in storage
+     *
+     * @param sessionId
+     */
+    void setSession(String sessionId) {
+        prefs.edit().putString("session_id", sessionId).apply();
+    }
+
+    /**
+     * Get session id from storage
+     *
+     * @return String
+     */
+    String getSession() {
+        return prefs.getString("session_id", "");
     }
 
     /**
@@ -41,9 +65,18 @@ class API {
      * @param jsonBody json body data, can be null
      * @param callback callback function
      */
-    void request(String requestUrl, @Nullable JSONObject jsonBody, final APICallback callback) {
+    void request(String requestUrl, JSONObject jsonBody, final APICallback callback) {
         String baseUrl = appContext.getString(R.string.API_base_url); //get base url
         String url = baseUrl + requestUrl; //combine base url and request url
+
+        if(!getSession().equals("")) {
+            try {
+                jsonBody.put("session_id", getSession());
+            } catch (JSONException e) {
+                Log.i(TAG, e.getMessage()); //log error to the logger
+            }
+        }
+
 
         //Make request
         JsonObjectRequest jsonObject = new JsonObjectRequest(Request.Method.POST, url, jsonBody, new Response.Listener<JSONObject>() {
