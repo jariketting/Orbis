@@ -30,7 +30,7 @@ class API {
     API(Context context) {
         appContext = context;
 
-        //only create request que once
+        //create queue
         requestQueue = Volley.newRequestQueue(context);
     }
 
