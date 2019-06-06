@@ -19,6 +19,7 @@ import android.widget.EditText;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -32,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -91,9 +93,6 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         api = new API(main.getApplicationContext());
 
-        assert getArguments() != null;
-        id = getArguments().getInt("id");
-
         title = view.findViewById(R.id.editTextTItle);
         date = view.findViewById(R.id.editTextDate);
         time = view.findViewById(R.id.editTextTime);
@@ -105,6 +104,16 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
 
         date.setText(dateFormat.format(new Date()));
         time.setText(timeFormat.format(new Date()));
+
+        Bundle arguments = getArguments();
+
+        if (arguments != null && arguments.containsKey("id")) {
+            id = getArguments().getInt("id");
+
+            Button newButton = view.findViewById(R.id.buttonAddMemory);
+            newButton.setText(R.string.new_fragment_save_memory);
+            setUpFields();
+        }
 
         main.hideNav();
 
@@ -176,6 +185,57 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
                 main.goToLastFragment();
             }
         });
+    }
+
+    /**
+     *
+     */
+    public void setUpFields() {
+        String url = "memory/get/" + id;
+
+        JSONObject jsonBody = new JSONObject();
+
+        api.request(url, jsonBody, new APICallback() {
+            @Override
+            public void onSuccessResponse(JSONObject response) {
+                try {
+                    onMemoryResponse(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    public void onMemoryResponse(JSONObject response) throws JSONException {
+        JSONObject error = response.getJSONObject("error");
+        JSONObject data = response.getJSONObject("data");
+
+        if(!error.getBoolean("error")) {
+            toolbar.setSubtitle(data.getString("title")); //set title of memory
+
+
+            date.setText(data.getString("datetime").substring(0, 10));
+            time.setText(data.getString("datetime").substring(11));
+
+
+            title.setText(data.getString("title"));
+            description.setText(data.getString("description"));
+
+            LatLng cords = new LatLng(data.getDouble("latitude"), data.getDouble("longitude"));
+
+            MarkerOptions marker = new MarkerOptions();
+            marker.position(cords);
+            marker.title(data.getString("title"));
+
+            mMap.addMarker(marker).showInfoWindow();
+
+            // Updates the location and zoom of the MapView
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(cords, 15);
+            mMap.animateCamera(cameraUpdate);
+        } else
+            toolbar.setSubtitle(main.getResources().getString(R.string.memory_not_found)); //set title of memory
     }
 
     /**
