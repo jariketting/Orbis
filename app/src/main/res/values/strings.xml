@@ -30,7 +30,7 @@
     <string name="register_screen_check_box">I agree to the Terms of Service</string>
     <string name="register_screen_back_to_login">Already registered? Login here</string>
     <string name="forgot_pw_screen_title">Forgot your Password?</string>
-    <string name="forgot_pw_screen_info">No problem! Fill in your Email adress that is connected to your account and we will send you an email with a link/ new temporary password.</string>
+    <string name="forgot_pw_screen_info">No problem! Fill in your Email address that is connected to your account and we will send you an email with a link/ new temporary password.</string>
     <string name="forgot_pw_screen_new_pw">Send</string>
     <string name="forgot_pw_screen_email">Email</string>
     <string name="memory_toolbar_title">Memory</string>
