@@ -63,7 +63,7 @@
     <string name="about_text2">With our team of highly enthusiastic programmers we want to give you the best experience of the app to make sure to give us feedback if you have any.&#xA;&#xA;As a team we are making this project for a school assignment and are trying our best. We hope you enjoy our efforts and that the app makes you able to enjoy your own trips even more.&#xA;&#xA;Sincerely,&#xA;Team Orbis&#xA;</string>
     <string name="help_report">Report a problem</string>
     <string name="help_text">Write us a detailed story about the problem or tell us what happened and we will see what we can do. Thank you in advance!</string>
-    <string name="help_texthere">Text here</string>
+    <string name="help_texthere">Type your problem here</string>
     <string name="sendbutton">Send</string>
     <string name="inviteafriend_how">How?</string>
     <string name="inviteafriend_text">Just fill in the email address of the person you want to invite and we will take care of the rest.&#xA;&#xA;You can even write a little about why you want the person to use our app so they can read your experience with us!</string>
@@ -90,7 +90,6 @@
     <string name="opensettingsbutton">opensettingsbutton</string>
     <string name="diary_screen_toolbar_title">Diary</string>
     <string name="diary_screen_search">Search for a memory</string>
-    <string name="opensettingsbutton">open_settings_button</string>
     <string name="toolbarSettings">Settings</string>
     <string name="API_base_url">"https://api.jariketting.nl/"</string>
 </resources>
