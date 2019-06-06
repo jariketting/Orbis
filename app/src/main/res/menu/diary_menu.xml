@@ -5,6 +5,6 @@
         android:id="@+id/searchDiary"
         android:icon="@drawable/diary_ic_search"
         android:title="Search"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="android.support.v7.widget.RecyclerView"/>
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"/>
 </menu>

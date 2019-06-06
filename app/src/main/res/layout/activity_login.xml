@@ -7,6 +7,20 @@
     tools:context=".LoginActivity"
     tools:ignore="ExtraText">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarLogin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:background="#00AAB7"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toTopOf="@+id/titleLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="#FFFFFF" />
+
     <TextView
         android:id="@+id/titleLogin"
         android:layout_width="wrap_content"
@@ -24,61 +38,72 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.075" />
 
-    <EditText
-        android:id="@+id/usernameEmailLogin"
-        android:layout_width="357dp"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="416dp"
+        android:layout_height="189dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="140dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="@string/login_screen_username_or_email"
-        android:inputType="textEmailAddress"
-        android:textColor="#1F2D3D"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/loginButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleLogin"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:ignore="TextFields" />
+        tools:context=".MainActivity"
+        tools:ignore="ExtraText">
 
-    <EditText
-        android:id="@+id/passwordLogin"
-        android:layout_width="354dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="@string/login_screen_password"
-        android:inputType="textPassword"
-        android:textColor="#1F2D3D"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameEmailLogin"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="TextFields" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/emailLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/login_screen_email"
+                android:inputType="textEmailAddress" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/passwordLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/login_screen_password"
+                android:inputType="textEmailAddress" />
+
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="370dp"
         android:layout_height="70dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="264dp"
         android:background="#003D60"
-        android:onClick="loginButton"
+        android:onClick="LoginButton"
         android:text="@string/login_screen_login_button"
         android:textColor="#FFFFFF"
+        android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/attemptsText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/registerButton"
@@ -92,26 +117,12 @@
         android:onClick="registerButton"
         android:text="@string/login_screen_register_button"
         android:textColor="#FFFFFF"
+        android:textSize="17sp"
         app:layout_constraintBottom_toTopOf="@+id/forgotPwButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginButton"
         app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/attemptsText"
-        android:layout_width="103dp"
-        android:layout_height="23dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/login_screen_login_attempts"
-        app:layout_constraintBottom_toBottomOf="@+id/forgotPwButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordLogin"
-        app:layout_constraintVertical_bias="0.026" />
 
     <Button
         android:id="@+id/forgotPwButton"
@@ -132,23 +143,28 @@
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:background="#00AAB7"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:titleTextColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/titleLogin"
+    <TextView
+        android:id="@+id/OrLogin"
+        android:layout_width="68dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="176dp"
+        android:layout_marginLeft="176dp"
+        android:layout_marginTop="43dp"
+        android:layout_marginEnd="217dp"
+        android:layout_marginRight="217dp"
+        android:layout_marginBottom="39dp"
+        android:gravity="center"
+        android:text="@string/login_screen_or"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/registerButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/loginButton"
+        app:layout_constraintVertical_bias="0.694" />
 
 </android.support.constraint.ConstraintLayout>
