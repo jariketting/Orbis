@@ -21,11 +21,10 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -44,7 +43,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
     private static final String TAG = NewFragment.class.getSimpleName();
 
     private GoogleMap mMap;
-    private CameraPosition mCameraPosition;
+    SupportMapFragment mapFragment;
 
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -59,6 +58,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
     private Location mLastKnownLocation;
+    private LatLng mLastClickedCords;
 
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
@@ -86,6 +86,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         view = inflater.inflate(R.layout.fragment_new, container, false);
         toolbar = view.findViewById(R.id.toolbar);
         main = ((MainActivity) getActivity());
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         api = new API(main.getApplicationContext());
 
         title = view.findViewById(R.id.editTextTItle);
@@ -112,13 +113,11 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
-            mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
 
         // Construct a FusedLocationProviderClient.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(main);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         return view;
@@ -242,6 +241,20 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                mLastClickedCords = latLng;
+
+                mMap.clear();
+
+                MarkerOptions marker = new MarkerOptions();
+                marker.position(latLng);
+
+                mMap.addMarker(marker).showInfoWindow();
+            }
+        });
     }
 
     /**
