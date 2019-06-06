@@ -111,7 +111,6 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
 
             Button newButton = view.findViewById(R.id.buttonAddMemory);
             newButton.setText(R.string.new_fragment_save_memory);
-            setUpFields();
         }
 
         main.hideNav();
@@ -234,7 +233,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
 
             // Updates the location and zoom of the MapView
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(cords, 15);
-            mMap.animateCamera(cameraUpdate);
+            mMap.moveCamera(cameraUpdate);
         } else
             toolbar.setSubtitle(main.getResources().getString(R.string.memory_not_found)); //set title of memory
     }
@@ -323,7 +322,10 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         updateLocationUI();
 
         // Get the current location of the device and set the position of the map.
-        getDeviceLocation();
+        if(id != null)
+            setUpFields();
+        else
+            getDeviceLocation();
 
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
