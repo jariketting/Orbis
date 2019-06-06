@@ -89,4 +89,5 @@
     <string name="login_screen_toolbar_title">Login to Orbis</string>
     <string name="opensettingsbutton">open_settings_button</string>
     <string name="toolbarSettings">Settings</string>
+    <string name="API_base_url">"https://api.jariketting.nl/"</string>
 </resources>

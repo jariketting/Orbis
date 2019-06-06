@@ -13,8 +13,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +27,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -44,7 +45,9 @@ public class GoogleMapsFragment extends Fragment implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
-        View.OnClickListener {
+        View.OnClickListener,
+        GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
@@ -53,9 +56,11 @@ public class GoogleMapsFragment extends Fragment implements
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
 
+
     View view; //stores view
     MainActivity main; //stores our main activity
     Context context; //stores context
+    MarkerOptions currentLocationMarker; // stores the marker of current location
 
     @Nullable
     @Override
@@ -108,7 +113,7 @@ public class GoogleMapsFragment extends Fragment implements
                                 userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                                 mMap.addMarker(userMarkerOptions);
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                                mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                                mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
                             }
                         } else {
                             Toast.makeText(this.getContext(), "Location not found...", Toast.LENGTH_SHORT).show();
@@ -121,6 +126,7 @@ public class GoogleMapsFragment extends Fragment implements
                 }
                 break;
 
+
         }
 
     }
@@ -130,12 +136,25 @@ public class GoogleMapsFragment extends Fragment implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        googleMap.setOnMarkerClickListener(this);
+        googleMap.setOnInfoWindowClickListener(this);
+
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(51.924419, 4.477733))
+                .title("Herinnering 2"));
+
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(51.99000, 4.49900))
+                .title("Herinnering 1"));
+
+
         if (ContextCompat.checkSelfPermission(this.getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
 
             buildGoogleApiClient();
 
             mMap.setMyLocationEnabled(true);
+
         }
 
 
@@ -198,12 +217,11 @@ public class GoogleMapsFragment extends Fragment implements
     }
 
 
-
-
     @Override
     public void onLocationChanged(Location location)
     {
         lastLocation = location;
+
 
         if (currentUserLocationMarker != null)
         {
@@ -211,16 +229,19 @@ public class GoogleMapsFragment extends Fragment implements
         }
 
         LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng,3);
+        mMap.moveCamera(cameraUpdate);
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title("You are here");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
-        currentUserLocationMarker = mMap.addMarker(markerOptions);
+        currentLocationMarker = new MarkerOptions();
+        currentLocationMarker.position(latLng);
+        currentLocationMarker.title("You are here");
+        currentLocationMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+
+        currentUserLocationMarker = mMap.addMarker(currentLocationMarker);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(12));
+        mMap.animateCamera(CameraUpdateFactory.zoomBy(11));
 
         if (googleApiClient != null)
         {
@@ -256,5 +277,25 @@ public class GoogleMapsFragment extends Fragment implements
 
     }
 
+    @Override
+    public boolean onMarkerClick(final Marker marker)
+    {
+        if (!marker.equals(currentUserLocationMarker))
+            marker.showInfoWindow();
+
+        return true;
+    }
+
+    @Override
+    public void onInfoWindowClick(final Marker marker) {
+        Log.i("MAP", "Info window clicked");
+
+        if (!marker.equals(currentUserLocationMarker))
+            main.switchToMemory(0);
+    }
 }
+
+
+
+
 
