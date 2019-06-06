@@ -129,6 +129,8 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
             textViewTitle.setText(data.getString("title"));
             textViewDescription.setText(data.getString("description"));
 
+            id = data.getInt("id");
+
             LatLng cords = new LatLng(data.getDouble("latitude"), data.getDouble("longitude"));
 
             MarkerOptions marker = new MarkerOptions();
@@ -231,7 +233,14 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
                         //TODO implement share feature
                         break;
                     case R.id.edit:
-                        main.goToFragment(new NewFragment(), 2);
+                        Fragment newFragment = new NewFragment();
+
+                        //Pass the ID to the memory
+                        Bundle bundle = new Bundle(); //bundle stores stuff we want to give to memory
+                        bundle.putInt("id", id); //the id of the memory
+                        newFragment.setArguments(bundle); //set the bundle to the arguments of the memory so we can access it from there
+
+                        main.goToFragment(newFragment, 2);
                         break;
                     case R.id.delete:
                         //TODO implement delete future
