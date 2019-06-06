@@ -92,6 +92,8 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         api = new API(main.getApplicationContext());
 
+        view.findViewById(R.id.contentPanel).setVisibility(View.INVISIBLE);
+
         title = view.findViewById(R.id.editTextTItle);
         date = view.findViewById(R.id.editTextDate);
         time = view.findViewById(R.id.editTextTime);
@@ -236,6 +238,9 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
             mMap.moveCamera(cameraUpdate);
         } else
             toolbar.setSubtitle(main.getResources().getString(R.string.memory_not_found)); //set title of memory
+
+        view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.contentPanel).setVisibility(View.VISIBLE);
     }
 
     /**
@@ -340,6 +345,11 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
                 mMap.addMarker(marker).showInfoWindow();
             }
         });
+
+        if(id == null) {
+            view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.contentPanel).setVisibility(View.VISIBLE);
+        }
     }
 
     /**
