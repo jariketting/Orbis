@@ -65,6 +65,10 @@ public class DiaryFragment extends Fragment {
                 exampleList.get(position);
                 Fragment mFragment = new MemoryFragment();
 
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", 2);
+                mFragment.setArguments(bundle);
+
                 main.goToFragment(mFragment, 1);
             }
         });

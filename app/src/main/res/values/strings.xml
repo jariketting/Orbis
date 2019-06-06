@@ -92,4 +92,5 @@
     <string name="diary_screen_search">Search for a memory</string>
     <string name="toolbarSettings">Settings</string>
     <string name="API_base_url">"https://api.jariketting.nl/"</string>
+    <string name="memory_not_found">Memory not found</string>
 </resources>

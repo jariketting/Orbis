@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,6 +28,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +44,20 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     MainActivity main; //stores our main activity
     Context context; //stores contect
 
+    API api;
+
     //image gallery
     ImageView imageView; //stores image view (where current image is shown)
     int imageGalleryIndex; //index number of current shown image
     List<Drawable> imageGallery; //stores all images in the gallery
     ViewGroup.LayoutParams imageViewLayoutParams; //stores the original layout params of the image view
     boolean isImageFitToScreen; //true if image is full screen, false if not.
+
+    //fields
+    Integer id;
+    TextView textViewDate;
+    TextView textViewTitle;
+    TextView textViewDescription;
 
     /**
      * Setup fragment
@@ -64,6 +77,8 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         mapView = view.findViewById(R.id.mapView);
         context = getContext();
 
+        api = new API(main.getApplicationContext());
+
         //set stuff up
         setupImageGallery();
         setupToolbar();
@@ -74,6 +89,52 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    /**
+     *
+     */
+    public void setUpFields() {
+        id = getArguments().getInt("id");
+
+        textViewDate = view.findViewById(R.id.textViewDate);
+        textViewTitle = view.findViewById(R.id.textViewTitle);
+        textViewDescription = view.findViewById(R.id.textViewDescription);
+
+        String url = "memory/get/" + id;
+
+        JSONObject jsonBody = new JSONObject();
+
+        api.request(url, jsonBody, new APICallback() {
+            @Override
+            public void onSuccessResponse(JSONObject response) {
+                try {
+                    onMemoryResponse(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    public void onMemoryResponse(JSONObject response) throws JSONException {
+        JSONObject error = response.getJSONObject("error");
+        JSONObject data = response.getJSONObject("data");
+
+        if(!error.getBoolean("error")) {
+            toolbar.setSubtitle(data.getString("title")); //set title of memory
+            textViewDate.setText(data.getString("datetime"));
+            textViewTitle.setText(data.getString("title"));
+            textViewDescription.setText(data.getString("description"));
+
+            LatLng cords = new LatLng(data.getDouble("latitude"), data.getDouble("longitude"));
+
+            // Updates the location and zoom of the MapView
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(cords, 12);
+            map.animateCamera(cameraUpdate);
+        } else
+            toolbar.setSubtitle(main.getResources().getString(R.string.memory_not_found)); //set title of memory
     }
 
     /**
@@ -150,7 +211,6 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     @SuppressLint("PrivateResource") //stop stupid error
     public void setupToolbar() {
         toolbar.setTitle(context.getResources().getString(R.string.memory_toolbar_title)); //set toolbar title
-        toolbar.setSubtitle("This is a memory"); //set title of memory
         toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material); //set back arrow
         toolbar.inflateMenu(R.menu.memory_menu); //setup menu
 
@@ -189,23 +249,7 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         map = googleMap;
         map.getUiSettings().setMyLocationButtonEnabled(false);
 
-        Context context = this.getContext();
-
-        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        map.setMyLocationEnabled(true);
-
-        // Updates the location and zoom of the MapView
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(43.1, -87.9), 10);
-        map.animateCamera(cameraUpdate);
+        setUpFields();
     }
 
     @Override
