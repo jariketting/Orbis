@@ -28,6 +28,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,6 +130,12 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
             textViewDescription.setText(data.getString("description"));
 
             LatLng cords = new LatLng(data.getDouble("latitude"), data.getDouble("longitude"));
+
+            MarkerOptions marker = new MarkerOptions();
+            marker.position(cords);
+            marker.title(data.getString("title"));
+
+            map.addMarker(marker);
 
             // Updates the location and zoom of the MapView
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(cords, 12);
