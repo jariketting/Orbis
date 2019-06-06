@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,8 +25,8 @@ import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -37,10 +38,10 @@ import java.util.List;
 
 public class
 MemoryFragment extends Fragment implements OnMapReadyCallback {
-    MapView mapView; //stores map view from layout
+    private static final String TAG = NewFragment.class.getSimpleName();
+
     View view; //stores view
     Toolbar toolbar; //stores toolbar (green thing on top of layout)
-    GoogleMap map; //stores map stuff
     MainActivity main; //stores our main activity
     Context context; //stores contect
 
@@ -59,6 +60,9 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     TextView textViewTitle;
     TextView textViewDescription;
 
+    private GoogleMap mMap;
+    SupportMapFragment mapFragment;
+
     /**
      * Setup fragment
      *
@@ -74,7 +78,7 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         view = inflater.inflate(R.layout.fragment_memory, container, false);
         toolbar = view.findViewById(R.id.toolbar);
         main = ((MainActivity) getActivity());
-        mapView = view.findViewById(R.id.mapView);
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         context = getContext();
 
         api = new API(main.getApplicationContext());
@@ -83,9 +87,7 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         setupImageGallery();
         setupToolbar();
 
-        // Gets the MapView from the XML layout and creates it
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(this);
+        mapFragment.getMapAsync(this);
 
         // Inflate the layout for this fragment
         return view;
@@ -134,11 +136,11 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
             marker.position(cords);
             marker.title(data.getString("title"));
 
-            map.addMarker(marker).showInfoWindow();
+            mMap.addMarker(marker).showInfoWindow();
 
             // Updates the location and zoom of the MapView
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(cords, 15);
-            map.animateCamera(cameraUpdate);
+            mMap.moveCamera(cameraUpdate);
         } else
             toolbar.setSubtitle(main.getResources().getString(R.string.memory_not_found)); //set title of memory
     }
@@ -304,34 +306,27 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
-        map.getUiSettings().setMyLocationButtonEnabled(false);
+    public void onMapReady(GoogleMap map) {
+        mMap = map;
+
+        // Turn on the My Location layer and the related control on the map.
+        updateLocationUI();
 
         setUpFields();
     }
 
-    @Override
-    public void onResume() {
-        mapView.onResume();
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mapView.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
+    /**
+     * Updates the map's UI settings based on whether the user has granted location permission.
+     */
+    private void updateLocationUI() {
+        if (mMap == null) {
+            return;
+        }
+        try {
+            mMap.setMyLocationEnabled(false);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage());
+        }
     }
 }
