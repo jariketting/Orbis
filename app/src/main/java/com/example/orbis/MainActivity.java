@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.books:
                     //selectedFragment = new DiaryFragment();
-                    selectedFragment = new MemoryFragment(); //temp for development purposes
+                    selectedFragment = new DiaryFragment(); //temp for development purposes
                     menuId = 1;
                     break;
                 case R.id.add:
