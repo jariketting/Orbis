@@ -90,7 +90,6 @@
     <string name="opensettingsbutton">opensettingsbutton</string>
     <string name="diary_screen_toolbar_title">Diary</string>
     <string name="diary_screen_search">Search for a memory</string>
-    <string name="opensettingsbutton">open_settings_button</string>
     <string name="toolbarSettings">Settings</string>
     <string name="API_base_url">"https://api.jariketting.nl/"</string>
 </resources>
