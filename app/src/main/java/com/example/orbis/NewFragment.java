@@ -28,6 +28,10 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class NewFragment extends Fragment implements OnMapReadyCallback {
     MapView mapView; //store map view
     GoogleMap map; //store gmap stuff
@@ -63,7 +67,13 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         time = view.findViewById(R.id.editTextTime);
         description = view.findViewById(R.id.editTextDescription);
 
-        assert main != null;
+        //set date and time
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        @SuppressLint("SimpleDateFormat") DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+
+        date.setText(dateFormat.format(new Date()));
+        time.setText(timeFormat.format(new Date()));
+
         main.hideNav();
 
         //set stuff up
