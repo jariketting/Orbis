@@ -163,7 +163,6 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/iconprivate"
             app:layout_constraintEnd_toStartOf="@+id/TextPrivateaccount"
-            app:layout_constraintStart_toStartOf="@+id/iconnotifications"
             app:layout_constraintTop_toBottomOf="@+id/textAccountheadline" />
 
         <ImageView
