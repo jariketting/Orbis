@@ -88,4 +88,17 @@
     <string name="forgot_pw_screen_toolbar_title">Forgot your password?</string>
     <string name="login_screen_toolbar_title">Login to Orbis</string>
     <string name="opensettingsbutton">opensettingsbutton</string>
+    <!--
+    Strings van Dion, worden nog met API veranderd.
+    -->
+    <string-array name="all_people">
+        <item>jarichain</item>
+        <item>dionros</item>
+        <item>naomivanduijn</item>
+        <item>nilsvandop</item>
+        <item>pizza</item>
+        <item>ben en jerry</item>
+        <item>noodles</item>
+        <item>cola</item>
+    </string-array>
 </resources>
