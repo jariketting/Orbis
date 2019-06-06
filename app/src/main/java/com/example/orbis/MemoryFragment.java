@@ -2,6 +2,7 @@ package com.example.orbis;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.Constraints;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -238,7 +240,7 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
                         main.goToFragment(newFragment, 2);
                         break;
                     case R.id.delete:
-                        //TODO implement delete future
+                        delete();
                         break;
                 }
 
@@ -253,6 +255,52 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
                 main.goToLastFragment();
             }
         });
+    }
+
+    /**
+     * Delete button pressed
+     */
+    public void delete() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Are you sure?").setPositiveButton("Yes", deleteDialogClickListener).setNegativeButton("No", deleteDialogClickListener).show();
+    }
+
+    DialogInterface.OnClickListener deleteDialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    String url = "memory/delete/" + id;
+
+                    JSONObject jsonBody = new JSONObject();
+
+                    api.request(url, jsonBody, new APICallback() {
+                        @Override
+                        public void onSuccessResponse(JSONObject response) {
+                            try {
+                                onDeleteResponse(response);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
+
+    public void onDeleteResponse(JSONObject response) throws JSONException {
+        JSONObject error = response.getJSONObject("error");
+
+        if(!error.getBoolean("error")) {
+            Fragment fragment = new GoogleMapsFragment();
+
+            main.goToFragment(fragment, 0);
+        }
     }
 
     @Override
