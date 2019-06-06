@@ -138,7 +138,7 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
             map.addMarker(marker).showInfoWindow();
 
             // Updates the location and zoom of the MapView
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(cords, 12);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(cords, 15);
             map.animateCamera(cameraUpdate);
         } else
             toolbar.setSubtitle(main.getResources().getString(R.string.memory_not_found)); //set title of memory

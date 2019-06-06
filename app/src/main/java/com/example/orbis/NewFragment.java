@@ -186,10 +186,15 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
                 try {
                     jsonBody.put("title", title.getText());
                     jsonBody.put("description", description.getText());
-                    //TODO format datetime
                     jsonBody.put("datetime", date.getText() + " " + time.getText());
-                    jsonBody.put("longitude", 0);
-                    jsonBody.put("latitude", 0);
+
+                    if(mLastClickedCords != null) {
+                        jsonBody.put("longitude", mLastClickedCords.longitude);
+                        jsonBody.put("latitude", mLastClickedCords.latitude);
+                    } else {
+                        jsonBody.put("longitude", mLastKnownLocation.getLongitude());
+                        jsonBody.put("latitude", mLastKnownLocation.getLatitude());
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
