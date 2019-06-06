@@ -64,7 +64,8 @@ public class DiaryFragment extends Fragment {
             public void onItemClick(int position) {
                 exampleList.get(position);
                 Fragment mFragment = new MemoryFragment();
-                main.getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragment).addToBackStack(null).commit();
+
+                main.goToFragment(mFragment, 1);
             }
         });
         return view;
