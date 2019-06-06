@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingsFragment">
 
-    <android.support.constraint.ConstraintLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".SettingsActivity">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar5"
+            android:id="@+id/toolbarSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="#00AAB7"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
+            android:theme="@style/AppTheme.AppBarOverlay"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="8dp" />
 
@@ -140,5 +140,57 @@
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/textAccountheadline"
             app:layout_constraintTop_toBottomOf="@+id/textAccountheadline" />
+
+        <ImageView
+            android:id="@+id/iconnotifications"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/TextNotifications"
+            app:layout_constraintTop_toBottomOf="@+id/textAccountheadline"
+            android:src="@drawable/iconnotifications"/>
+
+        <ImageView
+            android:id="@+id/iconprivate"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="17dp"
+            app:layout_constraintStart_toStartOf="@+id/iconnotifications"
+            app:layout_constraintTop_toBottomOf="@+id/iconnotifications"
+            android:src="@drawable/iconprivate"/>
+
+        <ImageView
+            android:id="@+id/iconinvite"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/iconinvite"
+            app:layout_constraintEnd_toEndOf="@+id/iconprivate"
+            app:layout_constraintStart_toStartOf="@+id/iconprivate"
+            app:layout_constraintTop_toBottomOf="@+id/iconprivate" />
+
+        <ImageView
+            android:id="@+id/iconhelp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="17dp"
+            android:src="@drawable/iconhelp"
+            app:layout_constraintStart_toStartOf="@+id/iconprivate"
+            app:layout_constraintTop_toBottomOf="@+id/iconinvite" />
+
+        <ImageView
+            android:id="@+id/iconinfo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="17dp"
+            app:layout_constraintStart_toStartOf="@+id/iconhelp"
+            app:layout_constraintTop_toBottomOf="@+id/iconhelp"
+            android:src="@drawable/iconinfo"/>
+
+
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
