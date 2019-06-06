@@ -132,6 +132,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
                 try {
                     jsonBody.put("title", title.getText());
                     jsonBody.put("description", description.getText());
+                    //TODO format datetime
                     jsonBody.put("datetime", date.getText() + " " + time.getText());
                     jsonBody.put("longitude", 0);
                     jsonBody.put("latitude", 0);
@@ -142,11 +143,32 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
                 api.request(url, jsonBody, new APICallback() {
                     @Override
                     public void onSuccessResponse(JSONObject response) {
-                        Log.i("Memory", response.toString());
+                        try {
+                            onAddMemoryResponse(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
             }
         });
+    }
+
+    public void onAddMemoryResponse(JSONObject response) throws JSONException {
+        JSONObject error = response.getJSONObject("error");
+        JSONObject data = response.getJSONObject("data");
+
+        if(!error.getBoolean("error")) {
+            Fragment memoryFragment = new MemoryFragment();
+
+            //Pass the ID to the memory
+            Bundle bundle = new Bundle(); //bundle stores stuff we want to give to memory
+            bundle.putInt("id", data.getInt("id")); //the id of the memory
+            memoryFragment.setArguments(bundle); //set the bundle to the arguments of the memory so we can access it from there
+
+            main.goToFragment(memoryFragment, 1);
+            main.showNav();
+        }
     }
 
     @Override
