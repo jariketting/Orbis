@@ -225,6 +225,8 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
 
             LatLng cords = new LatLng(data.getDouble("latitude"), data.getDouble("longitude"));
 
+            mLastClickedCords = cords;
+
             MarkerOptions marker = new MarkerOptions();
             marker.position(cords);
             marker.title(data.getString("title"));
@@ -249,7 +251,15 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         AddMemoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "memory/add/";
+                String url;
+
+                if(title.getText().length() < 1 || date.getText().length() < 1 || time.getText().length() < 1)
+                    return;
+
+                if(id != null)
+                    url = "memory/update/"+id;
+                else
+                    url = "memory/add/";
 
                 JSONObject jsonBody = new JSONObject();
                 try {
