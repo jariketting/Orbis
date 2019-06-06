@@ -81,6 +81,8 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         context = getContext();
 
+        view.findViewById(R.id.contentPanel).setVisibility(View.INVISIBLE);
+
         api = new API(main.getApplicationContext());
 
         //set stuff up
@@ -143,6 +145,9 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
             mMap.moveCamera(cameraUpdate);
         } else
             toolbar.setSubtitle(main.getResources().getString(R.string.memory_not_found)); //set title of memory
+
+        view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.contentPanel).setVisibility(View.VISIBLE);
     }
 
     /**
