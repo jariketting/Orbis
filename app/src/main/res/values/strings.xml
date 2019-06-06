@@ -92,4 +92,17 @@
     <string name="diary_screen_search">Search for a memory</string>
     <string name="toolbarSettings">Settings</string>
     <string name="API_base_url">"https://api.jariketting.nl/"</string>
+    <!--
+    Strings van Dion, worden nog met API veranderd.
+    -->
+    <string-array name="all_people">
+        <item>jarichain</item>
+        <item>dionros</item>
+        <item>naomivanduijn</item>
+        <item>nilsvandop</item>
+        <item>pizza</item>
+        <item>ben en jerry</item>
+        <item>noodles</item>
+        <item>cola</item>
+    </string-array>
 </resources>
