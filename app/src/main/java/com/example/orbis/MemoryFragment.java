@@ -126,8 +126,6 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
             textViewTitle.setText(data.getString("title"));
             textViewDescription.setText(data.getString("description"));
 
-            id = data.getInt("id");
-
             LatLng cords = new LatLng(data.getDouble("latitude"), data.getDouble("longitude"));
 
             MarkerOptions marker = new MarkerOptions();
