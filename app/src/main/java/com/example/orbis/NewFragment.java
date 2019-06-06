@@ -40,6 +40,8 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
     Toolbar toolbar; //store view
     MainActivity main; //store main activity
 
+    Integer id;
+
     private static final String TAG = NewFragment.class.getSimpleName();
 
     private GoogleMap mMap;
@@ -88,6 +90,9 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         main = ((MainActivity) getActivity());
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         api = new API(main.getApplicationContext());
+
+        assert getArguments() != null;
+        id = getArguments().getInt("id");
 
         title = view.findViewById(R.id.editTextTItle);
         date = view.findViewById(R.id.editTextDate);
@@ -141,7 +146,11 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
      */
     @SuppressLint("PrivateResource")
     public void setupToolbar() {
-        toolbar.setTitle(R.string.new_fragment_toolbar_title);
+        if(id != null)
+            toolbar.setTitle(R.string.new_fragment_toolbar_title_edit);
+        else
+            toolbar.setTitle(R.string.new_fragment_toolbar_title);
+
         toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
