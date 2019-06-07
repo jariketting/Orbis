@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolDiary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="0dp"
         android:background="#00AAB7"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toTopOf="@+id/search"
+        android:theme="@style/AppTheme.AppBarOverlay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="708dp"
         android:layout_below="@+id/toolDiary"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="0dp"
         android:background="#FFFFFF"
         android:padding="4dp"
         android:scrollbars="vertical" />

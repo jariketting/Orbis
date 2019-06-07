@@ -95,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
             textInputPassword.setError("Field can't be empty");
             return false;
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            textInputPassword.setError("Enter valid password"); // find a way for it to explain why
+            textInputPassword.setError("You need at least 4 characters, 1 upper and lower case letter, 1 digit and 1 special character "); // find a way for it to explain why
             return false;
         } else {
             textInputPassword.setError(null);
