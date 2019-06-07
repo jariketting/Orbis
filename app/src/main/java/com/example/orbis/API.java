@@ -55,7 +55,7 @@ class API {
      * @return String
      */
     String getSession() {
-        return prefs.getString("session_id", "");
+        return prefs.getString("session_id", "test");
     }
 
     /**

@@ -37,6 +37,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -62,6 +64,9 @@ public class GoogleMapsFragment extends Fragment implements
     Context context; //stores context
     MarkerOptions currentLocationMarker; // stores the marker of current location
 
+    API mapAPI;
+    mapsAPICallback mapsCallback;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,6 +75,13 @@ public class GoogleMapsFragment extends Fragment implements
         main = ((MainActivity) getActivity());
         SupportMapFragment mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         context = getContext();
+
+        mapAPI = new API(context);
+        mapsCallback = new mapsAPICallback();
+        JSONObject tezt = new JSONObject();
+        System.out.println("SHITE1");
+        mapAPI.request("map", tezt, mapsCallback);
+        System.out.println("SHITE2");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
@@ -139,13 +151,16 @@ public class GoogleMapsFragment extends Fragment implements
         googleMap.setOnMarkerClickListener(this);
         googleMap.setOnInfoWindowClickListener(this);
 
+
+        System.out.println("SHITE3");
+        System.out.println(mapsCallback.test.toString());
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(51.924419, 4.477733))
                 .title("Herinnering 2"));
-
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(51.99000, 4.49900))
-                .title("Herinnering 1"));
+//
+//        mMap.addMarker(new MarkerOptions()
+//                .position(new LatLng(51.99000, 4.49900))
+//                .title("Herinnering 1"));
 
 
         if (ContextCompat.checkSelfPermission(this.getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
@@ -294,8 +309,6 @@ public class GoogleMapsFragment extends Fragment implements
             main.switchToMemory(0);
     }
 }
-
-
 
 
 
