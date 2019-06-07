@@ -45,7 +45,7 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     MainActivity main; //stores our main activity
     Context context; //stores contect
 
-    API api;
+    API api; //store api
 
     //image gallery
     ImageView imageView; //stores image view (where current image is shown)
@@ -60,8 +60,8 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     TextView textViewTitle;
     TextView textViewDescription;
 
-    private GoogleMap mMap;
-    SupportMapFragment mapFragment;
+    private GoogleMap mMap; //stores map
+    SupportMapFragment mapFragment; //stores map fragment
 
     /**
      * Setup fragment
@@ -81,14 +81,16 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         context = getContext();
 
+        //hide content to show loader
         view.findViewById(R.id.contentPanel).setVisibility(View.INVISIBLE);
 
-        api = new API(main.getApplicationContext());
+        api = new API(main.getApplicationContext()); //create new api
 
         //set stuff up
         setupImageGallery();
         setupToolbar();
 
+        //assign map
         mapFragment.getMapAsync(this);
 
         // Inflate the layout for this fragment
@@ -96,24 +98,27 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     }
 
     /**
-     *
+     * Set up the fields by getting the memory from database
      */
     public void setUpFields() {
         id = getArguments().getInt("id");
 
+        //set date title and description
         textViewDate = view.findViewById(R.id.textViewDate);
         textViewTitle = view.findViewById(R.id.textViewTitle);
         textViewDescription = view.findViewById(R.id.textViewDescription);
 
-        String url = "memory/get/" + id;
+        String url = "memory/get/" + id; //build url with id
 
-        JSONObject jsonBody = new JSONObject();
+        JSONObject jsonBody = new JSONObject(); //create parameters object
+        //no parameters needed
 
+        //make request
         api.request(url, jsonBody, new APICallback() {
             @Override
             public void onSuccessResponse(JSONObject response) {
                 try {
-                    onMemoryResponse(response);
+                    onMemoryResponse(response); //handle response
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -122,30 +127,40 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
+    /**
+     * Handle on memory response
+     *
+     * @param response
+     * @throws JSONException
+     */
     public void onMemoryResponse(JSONObject response) throws JSONException {
-        JSONObject error = response.getJSONObject("error");
-        JSONObject data = response.getJSONObject("data");
+        JSONObject error = response.getJSONObject("error"); //get error
+        JSONObject data = response.getJSONObject("data"); //get data
 
+        //check if error
         if(!error.getBoolean("error")) {
             toolbar.setSubtitle(data.getString("title")); //set title of memory
-            textViewDate.setText(data.getString("datetime"));
-            textViewTitle.setText(data.getString("title"));
-            textViewDescription.setText(data.getString("description"));
+            textViewDate.setText(data.getString("datetime")); //set datetime
+            textViewTitle.setText(data.getString("title")); //set title
+            textViewDescription.setText(data.getString("description")); //set description
+
+            //TODO add address to map
 
             LatLng cords = new LatLng(data.getDouble("latitude"), data.getDouble("longitude"));
 
             MarkerOptions marker = new MarkerOptions();
             marker.position(cords);
-            marker.title(data.getString("title"));
+            marker.title(data.getString("title")); //add title to marker
 
-            mMap.addMarker(marker).showInfoWindow();
+            mMap.addMarker(marker).showInfoWindow(); //show marker
 
             // Updates the location and zoom of the MapView
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(cords, 15);
             mMap.moveCamera(cameraUpdate);
         } else
-            toolbar.setSubtitle(main.getResources().getString(R.string.memory_not_found)); //set title of memory
+            toolbar.setSubtitle(R.string.memory_not_found); //set title of memory
 
+        //loading done, show content
         view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.contentPanel).setVisibility(View.VISIBLE);
     }
@@ -310,6 +325,10 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    /**
+     * Create map and update on ready
+     * @param map
+     */
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
