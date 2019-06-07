@@ -37,13 +37,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class NewFragment extends Fragment implements OnMapReadyCallback {
+    private static final String TAG = NewFragment.class.getSimpleName();
+
     View view; //store view
     Toolbar toolbar; //store view
     MainActivity main; //store main activity
 
-    Integer id;
-
-    private static final String TAG = NewFragment.class.getSimpleName();
+    Integer id; //fragment ID for API
 
     private GoogleMap mMap;
     SupportMapFragment mapFragment;
@@ -67,12 +67,12 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
-    EditText title;
-    EditText date;
-    EditText time;
-    EditText description;
+    EditText title; //edit text for title
+    EditText date; //edit text for date
+    EditText time; //edit text for time
+    EditText description; //edit text for description
 
-    API api;
+    API api; //api
 
     /**
      * Setup when view is created
@@ -86,35 +86,42 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_new, container, false);
-        toolbar = view.findViewById(R.id.toolbar);
-        main = ((MainActivity) getActivity());
-        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        api = new API(main.getApplicationContext());
+        view = inflater.inflate(R.layout.fragment_new, container, false); //assign view
+        toolbar = view.findViewById(R.id.toolbar); //assign toolbar (green bar on top)
+        main = ((MainActivity) getActivity()); //assign main activity
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map); //assign map
+        api = new API(main.getApplicationContext()); //create api
 
+        //hide content panel, to show loading icon
         view.findViewById(R.id.contentPanel).setVisibility(View.INVISIBLE);
 
+        //assign title, date, time and description
         title = view.findViewById(R.id.editTextTItle);
         date = view.findViewById(R.id.editTextDate);
         time = view.findViewById(R.id.editTextTime);
         description = view.findViewById(R.id.editTextDescription);
 
-        //set date and time
+        //create date and time format
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         @SuppressLint("SimpleDateFormat") DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
+        //set the default values for the date and time to the current datetime
         date.setText(dateFormat.format(new Date()));
         time.setText(timeFormat.format(new Date()));
 
+        //get bundle arguments to extract id
         Bundle arguments = getArguments();
 
+        //check if arguments are given, if so also if the id is given
         if (arguments != null && arguments.containsKey("id")) {
-            id = getArguments().getInt("id");
+            id = getArguments().getInt("id"); //set id to given argument id
 
+            //change text in newButton
             Button newButton = view.findViewById(R.id.buttonAddMemory);
             newButton.setText(R.string.new_fragment_save_memory);
         }
 
+        //hide navigation
         main.hideNav();
 
         //set stuff up
@@ -125,13 +132,13 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         //TODO setup image/video selector
 
         // Retrieve location and camera position from saved instance state.
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null)
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
-        }
 
         // Construct a FusedLocationProviderClient.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(main);
 
+        //assign map
         mapFragment.getMapAsync(this);
 
         return view;
@@ -155,17 +162,20 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
      */
     @SuppressLint("PrivateResource")
     public void setupToolbar() {
+        //set title based on edit or new
         if(id != null)
             toolbar.setTitle(R.string.new_fragment_toolbar_title_edit);
         else
             toolbar.setTitle(R.string.new_fragment_toolbar_title);
 
+        //set back button
         toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);
 
+        //set onclick listener to go back when back button pressed
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                main.goToLastFragment();
+                main.goToLastFragment(); //go back to the last fragment
             }
         });
     }
@@ -182,24 +192,26 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         CancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                main.goToLastFragment();
+                main.goToLastFragment(); //go back to the last fragment
             }
         });
     }
 
     /**
-     *
+     * Retrieve memory from API and assign to fields
      */
     public void setUpFields() {
-        String url = "memory/get/" + id;
+        String url = "memory/get/" + id; //build url with memory ID
 
-        JSONObject jsonBody = new JSONObject();
+        JSONObject jsonBody = new JSONObject(); //store parameters
+        //no parameters needed for this request
 
+        //make request
         api.request(url, jsonBody, new APICallback() {
             @Override
             public void onSuccessResponse(JSONObject response) {
                 try {
-                    onMemoryResponse(response);
+                    onMemoryResponse(response); //handle response
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -208,30 +220,40 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
+    /**
+     * Handle on memory response
+     *
+     * @param response
+     * @throws JSONException
+     */
     public void onMemoryResponse(JSONObject response) throws JSONException {
-        JSONObject error = response.getJSONObject("error");
-        JSONObject data = response.getJSONObject("data");
+        JSONObject error = response.getJSONObject("error"); //get error
+        JSONObject data = response.getJSONObject("data"); //get data
 
+        //check if error
         if(!error.getBoolean("error")) {
             toolbar.setSubtitle(data.getString("title")); //set title of memory
 
-
+            //set date and time
             date.setText(data.getString("datetime").substring(0, 10));
             time.setText(data.getString("datetime").substring(11));
 
-
+            //set title and description
             title.setText(data.getString("title"));
             description.setText(data.getString("description"));
 
+            //create cords from lat and long
             LatLng cords = new LatLng(data.getDouble("latitude"), data.getDouble("longitude"));
 
+            //set last clicked cords to the memory one
             mLastClickedCords = cords;
 
+            //create marker to existing position
             MarkerOptions marker = new MarkerOptions();
             marker.position(cords);
             marker.title(data.getString("title"));
 
-            mMap.addMarker(marker).showInfoWindow();
+            mMap.addMarker(marker).showInfoWindow(); //show info window
 
             // Updates the location and zoom of the MapView
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(cords, 15);
@@ -239,6 +261,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         } else
             toolbar.setSubtitle(main.getResources().getString(R.string.memory_not_found)); //set title of memory
 
+        //loading is done. Hide loader and show content
         view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.contentPanel).setVisibility(View.VISIBLE);
     }
@@ -249,27 +272,32 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
      * When clicked, add a new memory and handle request
      */
     public void setupAddMemoryButton() {
-        Button AddMemoryButton = view.findViewById(R.id.buttonAddMemory);
+        Button AddMemoryButton = view.findViewById(R.id.buttonAddMemory); //add memory button
 
+        //add listener for clicked
         AddMemoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url;
+                String url; //stores request url
 
+                //block request if title, date or text are not set
                 if(title.getText().length() < 1 || date.getText().length() < 1 || time.getText().length() < 1)
                     return;
 
+                //if id is given update, else add new
                 if(id != null)
                     url = "memory/update/"+id;
                 else
                     url = "memory/add/";
 
+                //assign values to json body
                 JSONObject jsonBody = new JSONObject();
                 try {
-                    jsonBody.put("title", title.getText());
-                    jsonBody.put("description", description.getText());
-                    jsonBody.put("datetime", date.getText() + " " + time.getText());
+                    jsonBody.put("title", title.getText()); //title
+                    jsonBody.put("description", description.getText()); //description
+                    jsonBody.put("datetime", date.getText() + " " + time.getText()); //date and time
 
+                    //check if location was clicked, else use current location
                     if(mLastClickedCords != null) {
                         jsonBody.put("longitude", mLastClickedCords.longitude);
                         jsonBody.put("latitude", mLastClickedCords.latitude);
@@ -281,11 +309,12 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
                     e.printStackTrace();
                 }
 
+                //make request
                 api.request(url, jsonBody, new APICallback() {
                     @Override
                     public void onSuccessResponse(JSONObject response) {
                         try {
-                            onAddMemoryResponse(response);
+                            onAddMemoryResponse(response); //handle response
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -295,20 +324,28 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
+    /**
+     * Handles on add/update memory response
+     *
+     * @param response
+     * @throws JSONException
+     */
     public void onAddMemoryResponse(JSONObject response) throws JSONException {
-        JSONObject error = response.getJSONObject("error");
-        JSONObject data = response.getJSONObject("data");
+        JSONObject error = response.getJSONObject("error"); //get erro
+        JSONObject data = response.getJSONObject("data"); //get data
 
+        //only do stuff when no error
         if(!error.getBoolean("error")) {
-            Fragment memoryFragment = new MemoryFragment();
+            Fragment memoryFragment = new MemoryFragment(); //create new memory fragment
 
             //Pass the ID to the memory
             Bundle bundle = new Bundle(); //bundle stores stuff we want to give to memory
             bundle.putInt("id", data.getInt("id")); //the id of the memory
             memoryFragment.setArguments(bundle); //set the bundle to the arguments of the memory so we can access it from there
 
+            //go to memory fragment with new id assigned
             main.goToFragment(memoryFragment, 1);
-            main.showNav();
+            main.showNav(); //show navigation
         }
     }
 
@@ -332,20 +369,24 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         else
             getDeviceLocation();
 
-        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        //create onClick listener
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                mLastClickedCords = latLng;
+                mLastClickedCords = latLng; //set last clicked cords
 
-                mMap.clear();
+                mMap.clear(); //remove any existing markers
 
+                //create new marker with position that's clicked
                 MarkerOptions marker = new MarkerOptions();
                 marker.position(latLng);
+                //TODO add title?
 
-                mMap.addMarker(marker).showInfoWindow();
+                mMap.addMarker(marker).showInfoWindow(); //show info window
             }
         });
 
+        //if no id was show, now remove the loading icon
         if(id == null) {
             view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
             view.findViewById(R.id.contentPanel).setVisibility(View.VISIBLE);
@@ -424,16 +465,19 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
         }
-        updateLocationUI();
+
+        updateLocationUI(); //update UI
     }
 
     /**
      * Updates the map's UI settings based on whether the user has granted location permission.
      */
     private void updateLocationUI() {
-        if (mMap == null) {
-            return;
-        }
+        //check if mMap is set.
+        if (mMap == null)
+            return; //do nothing
+
+        //tru to get location permission
         try {
             if (mLocationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
