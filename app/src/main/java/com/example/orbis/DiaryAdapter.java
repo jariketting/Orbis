@@ -119,6 +119,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ExampleViewH
         protected void publishResults(CharSequence constraint, FilterResults results) {
             mExampleList.clear();
             mExampleList.addAll((List) results.values);
+            notifyDataSetChanged();
         }
     };
 }

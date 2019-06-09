@@ -2,16 +2,17 @@ package com.example.orbis;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.Constraints;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,25 +20,32 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class
 MemoryFragment extends Fragment implements OnMapReadyCallback {
-    MapView mapView; //stores map view from layout
+    private static final String TAG = NewFragment.class.getSimpleName();
+
     View view; //stores view
     Toolbar toolbar; //stores toolbar (green thing on top of layout)
-    GoogleMap map; //stores map stuff
     MainActivity main; //stores our main activity
     Context context; //stores contect
+
+    API api; //store api
 
     //image gallery
     ImageView imageView; //stores image view (where current image is shown)
@@ -45,6 +53,15 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     List<Drawable> imageGallery; //stores all images in the gallery
     ViewGroup.LayoutParams imageViewLayoutParams; //stores the original layout params of the image view
     boolean isImageFitToScreen; //true if image is full screen, false if not.
+
+    //fields
+    Integer id;
+    TextView textViewDate;
+    TextView textViewTitle;
+    TextView textViewDescription;
+
+    private GoogleMap mMap; //stores map
+    SupportMapFragment mapFragment; //stores map fragment
 
     /**
      * Setup fragment
@@ -61,19 +78,91 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         view = inflater.inflate(R.layout.fragment_memory, container, false);
         toolbar = view.findViewById(R.id.toolbar);
         main = ((MainActivity) getActivity());
-        mapView = view.findViewById(R.id.mapView);
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         context = getContext();
+
+        //hide content to show loader
+        view.findViewById(R.id.contentPanel).setVisibility(View.INVISIBLE);
+
+        api = new API(main.getApplicationContext()); //create new api
 
         //set stuff up
         setupImageGallery();
         setupToolbar();
 
-        // Gets the MapView from the XML layout and creates it
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(this);
+        //assign map
+        mapFragment.getMapAsync(this);
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    /**
+     * Set up the fields by getting the memory from database
+     */
+    public void setUpFields() {
+        id = getArguments().getInt("id");
+
+        //set date title and description
+        textViewDate = view.findViewById(R.id.textViewDate);
+        textViewTitle = view.findViewById(R.id.textViewTitle);
+        textViewDescription = view.findViewById(R.id.textViewDescription);
+
+        String url = "memory/get/" + id; //build url with id
+
+        JSONObject jsonBody = new JSONObject(); //create parameters object
+        //no parameters needed
+
+        //make request
+        api.request(url, jsonBody, new APICallback() {
+            @Override
+            public void onSuccessResponse(JSONObject response) {
+                try {
+                    onMemoryResponse(response); //handle response
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    /**
+     * Handle on memory response
+     *
+     * @param response
+     * @throws JSONException
+     */
+    public void onMemoryResponse(JSONObject response) throws JSONException {
+        JSONObject error = response.getJSONObject("error"); //get error
+        JSONObject data = response.getJSONObject("data"); //get data
+
+        //check if error
+        if(!error.getBoolean("error")) {
+            toolbar.setSubtitle(data.getString("title")); //set title of memory
+            textViewDate.setText(data.getString("datetime")); //set datetime
+            textViewTitle.setText(data.getString("title")); //set title
+            textViewDescription.setText(data.getString("description")); //set description
+
+            //TODO add address to map
+
+            LatLng cords = new LatLng(data.getDouble("latitude"), data.getDouble("longitude"));
+
+            MarkerOptions marker = new MarkerOptions();
+            marker.position(cords);
+            marker.title(data.getString("title")); //add title to marker
+
+            mMap.addMarker(marker).showInfoWindow(); //show marker
+
+            // Updates the location and zoom of the MapView
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(cords, 15);
+            mMap.moveCamera(cameraUpdate);
+        } else
+            toolbar.setSubtitle(R.string.memory_not_found); //set title of memory
+
+        //loading done, show content
+        view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.contentPanel).setVisibility(View.VISIBLE);
     }
 
     /**
@@ -150,7 +239,6 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     @SuppressLint("PrivateResource") //stop stupid error
     public void setupToolbar() {
         toolbar.setTitle(context.getResources().getString(R.string.memory_toolbar_title)); //set toolbar title
-        toolbar.setSubtitle("This is a memory"); //set title of memory
         toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material); //set back arrow
         toolbar.inflateMenu(R.menu.memory_menu); //setup menu
 
@@ -164,10 +252,17 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
                         //TODO implement share feature
                         break;
                     case R.id.edit:
-                        main.goToFragment(new NewFragment(), 2);
+                        Fragment newFragment = new NewFragment();
+
+                        //Pass the ID to the memory
+                        Bundle bundle = new Bundle(); //bundle stores stuff we want to give to memory
+                        bundle.putInt("id", id); //the id of the memory
+                        newFragment.setArguments(bundle); //set the bundle to the arguments of the memory so we can access it from there
+
+                        main.goToFragment(newFragment, 2);
                         break;
                     case R.id.delete:
-                        //TODO implement delete future
+                        delete();
                         break;
                 }
 
@@ -184,51 +279,78 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
+    /**
+     * Delete button pressed
+     */
+    public void delete() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Are you sure?").setPositiveButton("Yes", deleteDialogClickListener).setNegativeButton("No", deleteDialogClickListener).show();
+    }
+
+    DialogInterface.OnClickListener deleteDialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    String url = "memory/delete/" + id;
+
+                    JSONObject jsonBody = new JSONObject();
+
+                    api.request(url, jsonBody, new APICallback() {
+                        @Override
+                        public void onSuccessResponse(JSONObject response) {
+                            try {
+                                onDeleteResponse(response);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
+
+    public void onDeleteResponse(JSONObject response) throws JSONException {
+        JSONObject error = response.getJSONObject("error");
+
+        if(!error.getBoolean("error")) {
+            Fragment fragment = new GoogleMapsFragment();
+
+            main.goToFragment(fragment, 0);
+        }
+    }
+
+    /**
+     * Create map and update on ready
+     * @param map
+     */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
-        map.getUiSettings().setMyLocationButtonEnabled(false);
+    public void onMapReady(GoogleMap map) {
+        mMap = map;
 
-        Context context = this.getContext();
+        // Turn on the My Location layer and the related control on the map.
+        updateLocationUI();
 
-        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        setUpFields();
+    }
+
+    /**
+     * Updates the map's UI settings based on whether the user has granted location permission.
+     */
+    private void updateLocationUI() {
+        if (mMap == null) {
             return;
         }
-        map.setMyLocationEnabled(true);
-
-        // Updates the location and zoom of the MapView
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(43.1, -87.9), 10);
-        map.animateCamera(cameraUpdate);
-    }
-
-    @Override
-    public void onResume() {
-        mapView.onResume();
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mapView.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
+        try {
+            mMap.setMyLocationEnabled(false);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage());
+        }
     }
 }

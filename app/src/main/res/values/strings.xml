@@ -12,9 +12,10 @@
     <string name="new_fragment_add_button">Add photo\'s and video\'s</string>
     <string name="new_fragment_cancel">Cancel</string>
     <string name="new_fragment_add_memory">Add memory</string>
+    <string name="new_fragment_save_memory">Save memory</string>
     <string name="new_fragment_description_placeholder">Add a description</string>
     <string name="login_screen_title">Welcome to Orbis</string>
-    <string name="login_screen_username_or_email">Username or Email</string>
+    <string name="login_screen_email">Email</string>
     <string name="login_screen_password">Password</string>
     <string name="login_screen_login_button">Login</string>
     <string name="login_screen_register_button">Register</string>
@@ -38,6 +39,7 @@
     <string name="memory_menu_delete">Delete</string>
     <string name="memory_menu_edit">Edit</string>
     <string name="new_fragment_toolbar_title">New memory</string>
+    <string name="new_fragment_toolbar_title_edit">Edit memory</string>
     <string name="invite_friend_send_button">Send</string>
     <string name="account_notifications">Notifications</string>
     <string name="followers_followers">Followers</string>
@@ -92,6 +94,8 @@
     <string name="diary_screen_search">Search for a memory</string>
     <string name="toolbarSettings">Settings</string>
     <string name="API_base_url">"https://api.jariketting.nl/"</string>
+    <string name="memory_not_found">Memory not found</string>
+    <string name="login_screen_or">OR</string>
     <!--
     Strings van Dion, worden nog met API veranderd.
     -->
