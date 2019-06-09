@@ -15,7 +15,7 @@
     <string name="new_fragment_save_memory">Save memory</string>
     <string name="new_fragment_description_placeholder">Add a description</string>
     <string name="login_screen_title">Welcome to Orbis</string>
-    <string name="login_screen_username_or_email">Username or Email</string>
+    <string name="login_screen_email">Email</string>
     <string name="login_screen_password">Password</string>
     <string name="login_screen_login_button">Login</string>
     <string name="login_screen_register_button">Register</string>
@@ -65,7 +65,7 @@
     <string name="about_text2">With our team of highly enthusiastic programmers we want to give you the best experience of the app to make sure to give us feedback if you have any.&#xA;&#xA;As a team we are making this project for a school assignment and are trying our best. We hope you enjoy our efforts and that the app makes you able to enjoy your own trips even more.&#xA;&#xA;Sincerely,&#xA;Team Orbis&#xA;</string>
     <string name="help_report">Report a problem</string>
     <string name="help_text">Write us a detailed story about the problem or tell us what happened and we will see what we can do. Thank you in advance!</string>
-    <string name="help_texthere">Text here</string>
+    <string name="help_texthere">Type your problem here</string>
     <string name="sendbutton">Send</string>
     <string name="inviteafriend_how">How?</string>
     <string name="inviteafriend_text">Just fill in the email address of the person you want to invite and we will take care of the rest.&#xA;&#xA;You can even write a little about why you want the person to use our app so they can read your experience with us!</string>
@@ -95,4 +95,18 @@
     <string name="toolbarSettings">Settings</string>
     <string name="API_base_url">"https://api.jariketting.nl/"</string>
     <string name="memory_not_found">Memory not found</string>
+    <string name="login_screen_or">OR</string>
+    <!--
+    Strings van Dion, worden nog met API veranderd.
+    -->
+    <string-array name="all_people">
+        <item>jarichain</item>
+        <item>dionros</item>
+        <item>naomivanduijn</item>
+        <item>nilsvandop</item>
+        <item>pizza</item>
+        <item>ben en jerry</item>
+        <item>noodles</item>
+        <item>cola</item>
+    </string-array>
 </resources>
