@@ -146,7 +146,8 @@ public class MainActivity extends AppCompatActivity {
      * @param id
      */
     protected void switchToMemory(int id){
-        selectedFragment = new MemoryFragment(); //id needs to be given as parameter
+        selectedFragment = new NewFragment(); //id needs to be given as parameter
+        ((NewFragment) selectedFragment).id = id;
         menuId = 1;
         goToFragment(selectedFragment, menuId);
     }
