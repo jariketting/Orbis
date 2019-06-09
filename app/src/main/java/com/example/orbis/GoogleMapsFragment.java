@@ -62,7 +62,6 @@ public class GoogleMapsFragment extends Fragment implements
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
 
-
     View view; //stores view
     MainActivity main; //stores our main activity
     Context context; //stores context
@@ -325,7 +324,6 @@ public class GoogleMapsFragment extends Fragment implements
         JSONObject error = object.getJSONObject("error");
         JSONObject data = object.getJSONObject("data");
 
-//        resultTextView.setText("");
 
         if(!error.getBoolean("error")){
 
@@ -338,7 +336,8 @@ public class GoogleMapsFragment extends Fragment implements
 
                 mMap.addMarker(new MarkerOptions()
                         .position(cords)
-                        .title(memory.getString("title")));
+                        .title(memory.getString("title"))
+                        .snippet(memory.getString("id")));
             }
         }
     }
@@ -373,6 +372,7 @@ public class GoogleMapsFragment extends Fragment implements
      *
      * @param marker
      */
+
     @Override
     public void onInfoWindowClick(final Marker marker) {
         Log.i("MAP", "Info window clicked");
