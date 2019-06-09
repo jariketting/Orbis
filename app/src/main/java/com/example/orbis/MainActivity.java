@@ -108,8 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     //default values already set
                     break;
                 case R.id.books:
-                    //selectedFragment = new DiaryFragment();
-                    selectedFragment = new DiaryFragment(); //temp for development purposes
+                    selectedFragment = new DiaryFragment();
                     menuId = 1;
                     break;
                 case R.id.add:
@@ -141,6 +140,11 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Switch to memory
+     *
+     * @param id
+     */
     protected void switchToMemory(int id){
         selectedFragment = new MemoryFragment(); //id needs to be given as parameter
         menuId = 1;
