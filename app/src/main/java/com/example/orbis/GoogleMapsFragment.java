@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -37,7 +38,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import java.io.IOException;
 import java.util.List;
@@ -64,27 +69,19 @@ public class GoogleMapsFragment extends Fragment implements
     Context context; //stores context
     MarkerOptions currentLocationMarker; // stores the marker of current location
 
-    API mapAPI;
-    mapsAPICallback mapsCallback;
+    API api;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //assign all variables
+        api = new API(main.getApplicationContext());
         view = inflater.inflate(R.layout.activity_google_maps, container, false);
         main = ((MainActivity) getActivity());
         SupportMapFragment mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         context = getContext();
 
-        mapAPI = new API(context);
-        mapsCallback = new mapsAPICallback();
-        JSONObject tezt = new JSONObject();
-        System.out.println("SHITE1");
-        mapAPI.request("map", tezt, mapsCallback);
-        System.out.println("SHITE2");
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkUserLocationPermission();
         }
 
@@ -151,9 +148,6 @@ public class GoogleMapsFragment extends Fragment implements
         googleMap.setOnMarkerClickListener(this);
         googleMap.setOnInfoWindowClickListener(this);
 
-
-        System.out.println("SHITE3");
-        System.out.println(mapsCallback.test.toString());
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(51.924419, 4.477733))
                 .title("Herinnering 2"));
@@ -163,8 +157,7 @@ public class GoogleMapsFragment extends Fragment implements
 //                .title("Herinnering 1"));
 
 
-        if (ContextCompat.checkSelfPermission(this.getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-        {
+        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             buildGoogleApiClient();
 
@@ -175,53 +168,38 @@ public class GoogleMapsFragment extends Fragment implements
 
     }
 
-    public boolean checkUserLocationPermission()
-    {
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION))
-            {
+    public boolean checkUserLocationPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Request_User_Location_Code);
-            }
-            else
-            {
+            } else {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Request_User_Location_Code);
             }
             return false;
-        }
-        else
-        {
+        } else {
             return true;
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        switch (requestCode)
-        {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
             case Request_User_Location_Code:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-                    {
-                        if (googleApiClient == null)
-                        {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        if (googleApiClient == null) {
                             buildGoogleApiClient();
                         }
                         mMap.setMyLocationEnabled(true);
                     }
-                }
-                else
-                {
+                } else {
                     Toast.makeText(this.getContext(), "Permission Denied...", Toast.LENGTH_SHORT).show();
                 }
                 return;
         }
     }
 
-    protected synchronized void buildGoogleApiClient()
-    {
+    protected synchronized void buildGoogleApiClient() {
         googleApiClient = new GoogleApiClient.Builder(this.getContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -233,18 +211,16 @@ public class GoogleMapsFragment extends Fragment implements
 
 
     @Override
-    public void onLocationChanged(Location location)
-    {
+    public void onLocationChanged(Location location) {
         lastLocation = location;
 
 
-        if (currentUserLocationMarker != null)
-        {
+        if (currentUserLocationMarker != null) {
             currentUserLocationMarker.remove();
         }
 
-        LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng,3);
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 3);
         mMap.moveCamera(cameraUpdate);
 
 
@@ -258,28 +234,74 @@ public class GoogleMapsFragment extends Fragment implements
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(11));
 
-        if (googleApiClient != null)
-        {
+        if (googleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
 
         }
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle)
-    {
+    public void onConnected(@Nullable Bundle bundle) {
         locationRequest = new LocationRequest();
         locationRequest.setInterval(1100);
         locationRequest.setFastestInterval(1100);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-        if (ContextCompat.checkSelfPermission(this.getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-        {
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,locationRequest, this);
+        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
         }
 
 
+    }
 
+    /**
+     * @param view
+     * @throws org.json.JSONException
+     */
+    public void getUserClicked(View view) {
+        String url = "map/";
+
+        JSONObject jsonBody = new JSONObject();
+
+        api.request(url, jsonBody, new APICallback()) {
+            @Override
+            public void onSuccesResponse (JSONObject response){
+                try {
+                    outputData(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+    }
+    /**
+     *
+     * @param object
+     * @throws JSONException
+     */
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void outputData(JSONObject object) throws JSONException {
+        JSONObject error = object.getJSONObject("error");
+        JSONObject data = object.getJSONObject("data");
+
+        resultTextView.setText("");
+
+        if(!error.getBoolean("error")){
+
+            JSONArray key = data.names();
+            for (int i = 0; i < key.length(); ++i) {
+                String keys = key.getString(i);
+                JSONObject memory = data.getJSONObject(keys);
+
+                LatLng cords = new LatLng(memory.getDouble("latitude"), memory.getDouble("longitude"));
+
+                resultTextView.append(memory.getString("id") + "\n");
+                resultTextView.append(memory.getString("title") + "\n");
+                resultTextView.append(cords.toString() + "\n");
+            }}
     }
 
     @Override

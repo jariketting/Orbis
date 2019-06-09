@@ -1,13 +1,27 @@
 package com.example.orbis;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import org.json.JSONObject;
 
-public class mapsAPICallback implements APICallback {
-    public JSONObject test;
-    @Override
-    public void onSuccessResponse(JSONObject response) {
-        test = response;
+/**
+ *
+ * @param object
+ * @throws org.json.JSONException
+ */
 
-        System.out.println(response.toString());
-    }
+@RequiresApi(api = Build.VERSION_CODES.N)
+public void outputData(JSONObject)
+
+// public class mapsAPICallback implements APICallback {
+//    public JSONObject test;
+//    @Override
+//    public void onSuccessResponse(JSONObject response) {
+//        test = response;
+//
+//        System.out.println(response.toString());
+//    }
+
+
 }
