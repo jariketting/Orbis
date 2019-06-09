@@ -1,6 +1,7 @@
 package com.example.orbis;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -41,8 +42,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 
 import java.io.IOException;
 import java.util.List;
@@ -263,18 +262,17 @@ public class GoogleMapsFragment extends Fragment implements
 
         JSONObject jsonBody = new JSONObject();
 
-        api.request(url, jsonBody, new APICallback()) {
+        api.request(url, jsonBody, new APICallback() {
+            @SuppressLint("NewApi")
             @Override
-            public void onSuccesResponse (JSONObject response){
+            public void onSuccessResponse (JSONObject response){
                 try {
                     outputData(response);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
-
-        }
+        });
     }
     /**
      *
