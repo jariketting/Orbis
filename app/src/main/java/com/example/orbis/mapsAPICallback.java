@@ -1,19 +1,16 @@
-package com.example.orbis;
-
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
-import org.json.JSONObject;
-
-/**
- *
- * @param object
- * @throws org.json.JSONException
- */
-
-@RequiresApi(api = Build.VERSION_CODES.N)
-public void outputData(JSONObject)
-
+//package com.example.orbis;
+//
+//import android.os.Build;
+//import android.support.annotation.RequiresApi;
+//
+//import org.json.JSONObject;
+//
+///**
+// *
+// * @param object
+// * @throws org.json.JSONException
+// */
+//
 // public class mapsAPICallback implements APICallback {
 //    public JSONObject test;
 //    @Override
@@ -22,6 +19,6 @@ public void outputData(JSONObject)
 //
 //        System.out.println(response.toString());
 //    }
-
-
-}
+//
+//
+//        }
