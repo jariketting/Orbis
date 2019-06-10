@@ -3,6 +3,7 @@ package com.example.orbis;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -263,10 +264,12 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
                     imageView.setLayoutParams(imageViewLayoutParams);
                     imageView.setAdjustViewBounds(true);
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    imageView.setBackgroundColor(Color.rgb(255, 255, 255));
                 } else {
                     isImageFitToScreen = true; //image is fit to screen
                     imageView.setLayoutParams(new Constraints.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    imageView.setBackgroundColor(Color.rgb(0, 0, 0));
                 }
             }
         });
