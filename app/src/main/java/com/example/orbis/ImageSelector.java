@@ -97,18 +97,22 @@ public class ImageSelector extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new NewFragment();
-
-                ArrayList<ImageItem> imageItemsArray = new ArrayList<>(iga.getItemCount());
-                imageItemsArray.addAll(iga.getImageItemList());
-
-                arguments.putSerializable("images", imageItemsArray);
-
-                fragment.setArguments(arguments);
-
-                main.getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit(); //start and commit transaction to new fragment
+                backButtonPressed();
             }
         });
+    }
+
+    public void backButtonPressed() {
+        Fragment fragment = new NewFragment();
+
+        ArrayList<ImageItem> imageItemsArray = new ArrayList<>(iga.getItemCount());
+        imageItemsArray.addAll(iga.getImageItemList());
+
+        arguments.putSerializable("images", imageItemsArray);
+
+        fragment.setArguments(arguments);
+
+        main.getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit(); //start and commit transaction to new fragment
     }
 
     public void onPickButtonClicked() {
