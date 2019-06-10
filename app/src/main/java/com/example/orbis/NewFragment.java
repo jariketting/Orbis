@@ -74,6 +74,8 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
 
     API api; //api
 
+    Bundle arguments;
+
     /**
      * Setup when view is created
      *
@@ -110,7 +112,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         time.setText(timeFormat.format(new Date()));
 
         //get bundle arguments to extract id
-        Bundle arguments = getArguments();
+        arguments = getArguments();
 
         //check if arguments are given, if so also if the id is given
         if (arguments != null && arguments.containsKey("id")) {
@@ -119,20 +121,6 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
             //change text in newButton
             Button newButton = view.findViewById(R.id.buttonAddMemory);
             newButton.setText(R.string.new_fragment_save_memory);
-        } else if(arguments != null &&
-                arguments.containsKey("title") &&
-                arguments.containsKey("date") &&
-                arguments.containsKey("time") &&
-                arguments.containsKey("description") &&
-                arguments.containsKey("cords")) {
-
-            setFields(
-                getArguments().getString("title"),
-                getArguments().getString("date"),
-                getArguments().getString("time"),
-                getArguments().getString("description"),
-                (LatLng)getArguments().get("cords")
-            );
         }
 
         //hide navigation
@@ -207,6 +195,26 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 Fragment fragment = new ImageSelector();
+
+                if(arguments == null)
+                    arguments = new Bundle();
+
+                arguments.putString("title", title.getText().toString());
+                arguments.putString("date", date.getText().toString());
+                arguments.putString("time", time.getText().toString());
+                arguments.putString("description", description.getText().toString());
+
+                //check if location was clicked, else use current location
+                if(mLastClickedCords != null) {
+                    arguments.putDouble("lat", mLastClickedCords.latitude);
+                    arguments.putDouble("long", mLastClickedCords.longitude);
+                } else {
+                    arguments.putDouble("lat", mLastKnownLocation.getLatitude());
+                    arguments.putDouble("long", mLastKnownLocation.getLongitude());
+                }
+
+                fragment.setArguments(arguments);
+
                 main.getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit(); //start and commit transaction to new fragment
             }
         });
@@ -418,6 +426,25 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
             setUpFields();
         else
             getDeviceLocation();
+
+        if(arguments != null &&
+            arguments.containsKey("title") &&
+            arguments.containsKey("date") &&
+            arguments.containsKey("time") &&
+            arguments.containsKey("description") &&
+            arguments.containsKey("lat") &&
+            arguments.containsKey("long")) {
+
+            LatLng cords = new LatLng(arguments.getDouble("lat"), arguments.getDouble("long"));
+
+            setFields(
+                    getArguments().getString("title"),
+                    getArguments().getString("date"),
+                    getArguments().getString("time"),
+                    getArguments().getString("description"),
+                    cords
+            );
+        }
 
         //create onClick listener
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {

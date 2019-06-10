@@ -48,6 +48,8 @@ public class ImageSelector extends Fragment {
     MainActivity main; //stores our main activity
     Toolbar toolbar; //store view
 
+    Bundle arguments;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //assign all variables
         view = inflater.inflate(R.layout.fragment_image_selector, container, false);
@@ -62,6 +64,10 @@ public class ImageSelector extends Fragment {
         rv.setLayoutManager(sglm);
 
         List<ImageItem> imageItemList = new ArrayList<>();
+
+        //get bundle arguments to extract id
+        arguments = getArguments();
+
         iga = new ImageGridAdapter(imageItemList);
         rv.setAdapter(iga);
 
@@ -87,7 +93,11 @@ public class ImageSelector extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                main.goToLastFragment(); //go back to the last fragment
+                Fragment fragment = new NewFragment();
+
+                fragment.setArguments(arguments);
+
+                main.getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit(); //start and commit transaction to new fragment
             }
         });
     }
