@@ -119,6 +119,20 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
             //change text in newButton
             Button newButton = view.findViewById(R.id.buttonAddMemory);
             newButton.setText(R.string.new_fragment_save_memory);
+        } else if(arguments != null &&
+                arguments.containsKey("title") &&
+                arguments.containsKey("date") &&
+                arguments.containsKey("time") &&
+                arguments.containsKey("description") &&
+                arguments.containsKey("cords")) {
+
+            setFields(
+                getArguments().getString("title"),
+                getArguments().getString("date"),
+                getArguments().getString("time"),
+                getArguments().getString("description"),
+                (LatLng)getArguments().get("cords")
+            );
         }
 
         //hide navigation
@@ -278,7 +292,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
      * @param dataDescription
      * @param dataCords
      */
-    public void setFields(String dataTitle, String dataDate, String dataTime, String dataDescription, LatLng dataCords) {
+    private void setFields(String dataTitle, String dataDate, String dataTime, String dataDescription, LatLng dataCords) {
         //set date and time
         date.setText(dataDate);
         time.setText(dataTime);
