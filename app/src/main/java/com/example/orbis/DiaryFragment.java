@@ -21,9 +21,11 @@ import java.util.ArrayList;
 
 public class DiaryFragment extends Fragment {
     public ArrayList<DiaryItems> exampleList;
+
     private RecyclerView mRecyclerView;
     private DiaryAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
     private MainActivity main;
 
     @Override
@@ -64,7 +66,13 @@ public class DiaryFragment extends Fragment {
             public void onItemClick(int position) {
                 exampleList.get(position);
                 Fragment mFragment = new MemoryFragment();
-                main.getSupportFragmentManager().beginTransaction().replace(R.id.container, mFragment).addToBackStack(null).commit();
+
+                //Pass the ID to the memory
+                Bundle bundle = new Bundle(); //bundle stores stuff we want to give to memory
+                bundle.putInt("id", 1); //the id of the memory
+                mFragment.setArguments(bundle); //set the bundle to the arguments of the memory so we can access it from there
+
+                main.goToFragment(mFragment, 1);
             }
         });
         return view;
@@ -86,18 +94,16 @@ public class DiaryFragment extends Fragment {
 
         //SearchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                mAdapter.getFilter().filter(s);
-                return false;
-            }
-        });
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                mAdapter.getFilter().filter(s);
+//                return false;
     }
 }
 

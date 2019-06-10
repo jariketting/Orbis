@@ -55,7 +55,8 @@ class API {
      * @return String
      */
     String getSession() {
-        return prefs.getString("session_id", "");
+        //TODO remove test from api session id
+        return prefs.getString("session_id", "test");
     }
 
     /**

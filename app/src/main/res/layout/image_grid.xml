@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.example.orbis.SquareImageView
+        android:id="@+id/siv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageButton
+        android:id="@+id/imageDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/siv"
+        android:layout_alignEnd="@+id/siv"
+        android:layout_alignRight="@+id/siv"
+        android:layout_marginTop="0dp"
+        android:background="#00FFFFFF"
+        app:srcCompat="@android:drawable/ic_delete" />
+
+</RelativeLayout>
