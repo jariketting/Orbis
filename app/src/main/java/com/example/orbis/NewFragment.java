@@ -29,12 +29,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class NewFragment extends Fragment implements OnMapReadyCallback {
     private static final String TAG = NewFragment.class.getSimpleName();
@@ -350,6 +353,16 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
 
                 //assign values to json body
                 JSONObject jsonBody = new JSONObject();
+                JSONArray jsonImages = new JSONArray();
+
+                if(arguments != null && arguments.containsKey("images")) {
+                    List<ImageItem> images = (ArrayList<ImageItem>)arguments.getSerializable("images");
+
+                    for(int i = 0; i < images.size(); i++) {
+                        jsonImages.put(images.get(i).id);
+                    }
+                }
+
                 try {
                     jsonBody.put("title", title.getText()); //title
                     jsonBody.put("description", description.getText()); //description
@@ -363,6 +376,8 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
                         jsonBody.put("longitude", mLastKnownLocation.getLongitude());
                         jsonBody.put("latitude", mLastKnownLocation.getLatitude());
                     }
+
+                    jsonBody.put("images", jsonImages);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
