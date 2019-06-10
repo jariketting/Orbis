@@ -252,36 +252,54 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         if(!error.getBoolean("error")) {
             toolbar.setSubtitle(data.getString("title")); //set title of memory
 
-            //set date and time
-            date.setText(data.getString("datetime").substring(0, 10));
-            time.setText(data.getString("datetime").substring(11));
-
-            //set title and description
-            title.setText(data.getString("title"));
-            description.setText(data.getString("description"));
-
             //create cords from lat and long
             LatLng cords = new LatLng(data.getDouble("latitude"), data.getDouble("longitude"));
 
-            //set last clicked cords to the memory one
-            mLastClickedCords = cords;
-
-            //create marker to existing position
-            MarkerOptions marker = new MarkerOptions();
-            marker.position(cords);
-            marker.title(data.getString("title"));
-
-            mMap.addMarker(marker).showInfoWindow(); //show info window
-
-            // Updates the location and zoom of the MapView
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(cords, 15);
-            mMap.moveCamera(cameraUpdate);
+            setFields(
+                    data.getString("title"),
+                    data.getString("datetime").substring(0, 10),
+                    data.getString("datetime").substring(11),
+                    data.getString("description"),
+                    cords);
         } else
             toolbar.setSubtitle(main.getResources().getString(R.string.memory_not_found)); //set title of memory
 
         //loading is done. Hide loader and show content
         view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.contentPanel).setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Set fields
+     *
+     * @param dataTitle
+     * @param dataDate
+     * @param dataTime
+     * @param dataDescription
+     * @param dataCords
+     */
+    public void setFields(String dataTitle, String dataDate, String dataTime, String dataDescription, LatLng dataCords) {
+        //set date and time
+        date.setText(dataDate);
+        time.setText(dataTime);
+
+        //set title and description
+        title.setText(dataTitle);
+        description.setText(dataDescription);
+
+        //set last clicked cords to the memory one
+        mLastClickedCords = dataCords;
+
+        //create marker to existing position
+        MarkerOptions marker = new MarkerOptions();
+        marker.position(dataCords);
+        marker.title(dataTitle);
+
+        mMap.addMarker(marker).showInfoWindow(); //show info window
+
+        // Updates the location and zoom of the MapView
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(dataCords, 15);
+        mMap.moveCamera(cameraUpdate);
     }
 
     /**

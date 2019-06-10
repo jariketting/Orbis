@@ -1,5 +1,6 @@
 package com.example.orbis;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,10 +46,12 @@ public class ImageSelector extends Fragment {
 
     View view; //stores view
     MainActivity main; //stores our main activity
+    Toolbar toolbar; //store view
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //assign all variables
         view = inflater.inflate(R.layout.fragment_image_selector, container, false);
+        toolbar = view.findViewById(R.id.toolbar); //assign toolbar (green bar on top)
         main = ((MainActivity) getActivity());
 
         api = new API(main);
@@ -61,10 +65,31 @@ public class ImageSelector extends Fragment {
         iga = new ImageGridAdapter(imageItemList);
         rv.setAdapter(iga);
 
+        setupToolbar();
         onPickButtonClicked();
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    /**
+     * Setup toolbar
+     */
+    @SuppressLint("PrivateResource")
+    public void setupToolbar() {
+        //set title based on edit or new
+        toolbar.setTitle(R.string.image_selector_title);
+
+        //set back button
+        toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);
+
+        //set onclick listener to go back when back button pressed
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                main.goToLastFragment(); //go back to the last fragment
+            }
+        });
     }
 
     public void onPickButtonClicked() {
