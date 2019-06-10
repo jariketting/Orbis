@@ -68,6 +68,10 @@ public class ImageSelector extends Fragment {
         //get bundle arguments to extract id
         arguments = getArguments();
 
+        if(arguments != null && arguments.containsKey("images")) {
+            imageItemList = (ArrayList<ImageItem>)arguments.getSerializable("images");
+        }
+
         iga = new ImageGridAdapter(imageItemList);
         rv.setAdapter(iga);
 
@@ -94,6 +98,11 @@ public class ImageSelector extends Fragment {
             @Override
             public void onClick(View v) {
                 Fragment fragment = new NewFragment();
+
+                ArrayList<ImageItem> imageItemsArray = new ArrayList<>(iga.getItemCount());
+                imageItemsArray.addAll(iga.getImageItemList());
+
+                arguments.putSerializable("images", imageItemsArray);
 
                 fragment.setArguments(arguments);
 
