@@ -152,7 +152,7 @@
             android:ems="10"
             android:gravity="start|top"
             android:hint="@string/new_fragment_description_placeholder"
-            android:maxLength="500"
+            android:maxLength="1500"
             android:inputType="textMultiLine"
             app:layout_constraintBottom_toTopOf="@+id/buttonCancel"
             app:layout_constraintEnd_toEndOf="parent"
