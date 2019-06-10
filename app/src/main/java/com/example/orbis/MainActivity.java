@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         //store menu history
         menuIdCurrent = 0; //current menu item id (defaults to zero / map)
         menuIdLast = 0; //last menu item id (defaults to zero / map)
-
     }
 
     /**
