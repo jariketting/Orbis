@@ -57,7 +57,10 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-        goToLastFragment();
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.container);
+
+        if(!(f instanceof ImageSelector))
+            goToLastFragment();
     }
 
     /**
