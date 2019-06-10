@@ -1,6 +1,8 @@
 package com.example.orbis;
 
-public class ImageItem {
+import java.io.Serializable;
+
+class ImageItem implements Serializable {
     Integer id;
     String URI;
 
