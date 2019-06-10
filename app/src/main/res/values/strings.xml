@@ -96,6 +96,7 @@
     <string name="API_base_url">"https://api.jariketting.nl/"</string>
     <string name="memory_not_found">Memory not found</string>
     <string name="login_screen_or">OR</string>
+    <string name="image_selector_add_image">Add image</string>
     <!--
     Strings van Dion, worden nog met API veranderd.
     -->
