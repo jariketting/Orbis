@@ -146,7 +146,6 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
             textViewTitle.setText(data.getString("title")); //set title
             textViewDescription.setText(data.getString("description")); //set description
 
-            //TODO add address to map
             imageGallery = new ArrayList<>();
 
             JSONObject images = data.getJSONObject("images");
