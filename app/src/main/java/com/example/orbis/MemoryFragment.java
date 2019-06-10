@@ -214,12 +214,19 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
                         Picasso.get()
                                 .load(path)
                                 .into(imageView); //update image
+
+                        view.findViewById(R.id.imageButtonLeft).setVisibility(View.VISIBLE);
+
+                        if(imageGalleryIndex >= max - 1)
+                            view.findViewById(R.id.imageButtonRight).setVisibility(View.INVISIBLE);
                     }
                 }
             });
         } else {
             rightButton.setVisibility(View.INVISIBLE);
         }
+
+        leftButton.setVisibility(View.INVISIBLE);
 
         if(imageGallery.size() > 1) {
             //left button pressed
@@ -233,6 +240,11 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
                         Picasso.get()
                                 .load(path)
                                 .into(imageView); //update image
+
+                        view.findViewById(R.id.imageButtonRight).setVisibility(View.VISIBLE);
+
+                        if(imageGalleryIndex < 1)
+                            view.findViewById(R.id.imageButtonLeft).setVisibility(View.INVISIBLE);
                     }
                 }
             });
