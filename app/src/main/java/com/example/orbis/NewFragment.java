@@ -290,8 +290,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
             toolbar.setSubtitle(main.getResources().getString(R.string.memory_not_found)); //set title of memory
 
         //loading is done. Hide loader and show content
-        view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
-        view.findViewById(R.id.contentPanel).setVisibility(View.VISIBLE);
+        loaded();
     }
 
     /**
@@ -436,12 +435,6 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
 
-        // Get the current location of the device and set the position of the map.
-        if(id != null)
-            setUpFields();
-        else
-            getDeviceLocation();
-
         if(arguments != null &&
             arguments.containsKey("title") &&
             arguments.containsKey("date") &&
@@ -453,13 +446,21 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
             LatLng cords = new LatLng(arguments.getDouble("lat"), arguments.getDouble("long"));
 
             setFields(
-                    getArguments().getString("title"),
-                    getArguments().getString("date"),
-                    getArguments().getString("time"),
-                    getArguments().getString("description"),
-                    cords
+                getArguments().getString("title"),
+                getArguments().getString("date"),
+                getArguments().getString("time"),
+                getArguments().getString("description"),
+                cords
             );
+
+            loaded();
+        } else if(id != null)
+            setUpFields();
+        else {
+            getDeviceLocation();
+            loaded();
         }
+
 
         //create onClick listener
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -477,12 +478,6 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
                 mMap.addMarker(marker).showInfoWindow(); //show info window
             }
         });
-
-        //if no id was show, now remove the loading icon
-        if(id == null) {
-            view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
-            view.findViewById(R.id.contentPanel).setVisibility(View.VISIBLE);
-        }
     }
 
     /**
@@ -583,5 +578,10 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
+    }
+
+    private void loaded() {
+        view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.contentPanel).setVisibility(View.VISIBLE);
     }
 }
