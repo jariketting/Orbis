@@ -127,6 +127,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         //set stuff up
         setupToolbar();
         setupCancelButton();
+        setupImageButton();
         setupAddMemoryButton();
 
         //TODO setup image/video selector
@@ -176,6 +177,23 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 main.goToLastFragment(); //go back to the last fragment
+            }
+        });
+    }
+
+
+    /**
+     * On add media button
+     */
+    public void setupImageButton() {
+        Button ImageButton = view.findViewById(R.id.buttonAddMedia);
+
+        //create listener
+        ImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new ImageSelector();
+                main.getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit(); //start and commit transaction to new fragment
             }
         });
     }
