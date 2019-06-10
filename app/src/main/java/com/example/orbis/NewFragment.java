@@ -277,6 +277,23 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         if(!error.getBoolean("error")) {
             toolbar.setSubtitle(data.getString("title")); //set title of memory
 
+            List<ImageItem> imageItemList = new ArrayList<>();
+
+            JSONObject images = data.getJSONObject("images");
+            JSONArray key = images.names();
+            if(key != null) {
+                for (int i = 0; i < key.length (); ++i) {
+                    String keys = key.getString(i);
+                    JSONObject image = images.getJSONObject(keys);
+
+                    imageItemList.add(new ImageItem(image.getInt("id"), image.getString("uri")));
+                }
+
+                ArrayList<ImageItem> imageItemsArray = new ArrayList<>(imageItemList.size());
+                imageItemsArray.addAll(imageItemList);
+                arguments.putSerializable("images", imageItemsArray);
+            }
+
             //create cords from lat and long
             LatLng cords = new LatLng(data.getDouble("latitude"), data.getDouble("longitude"));
 
