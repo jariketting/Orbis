@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -108,6 +109,8 @@ public class AccountFragment extends Fragment {
 
             TextView bio = view.findViewById(R.id.bioText);
             bio.setText(data.getString("bio"));
+
+            ImageView profilepic = view.findViewById(R.id.profilepicView);
         }
 
     }
