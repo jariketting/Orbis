@@ -27,7 +27,7 @@ public class SettingsFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                main.goToLastFragment();
+                getFragmentManager().beginTransaction().replace(R.id.container, new AccountFragment()).commit();
             }
         });
 

@@ -52,7 +52,7 @@ public class AccountFragment extends Fragment {
         opensettingsbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).addToBackStack(null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
             }
         });
         return view;
