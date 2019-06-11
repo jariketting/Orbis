@@ -31,13 +31,12 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:text="@string/bio_profile"
             android:textColor="#47525E"
             android:textSize="18sp"
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/placeholder_profilepic" />
+            app:layout_constraintTop_toBottomOf="@+id/profilepicView" />
 
         <Button
             android:id="@+id/followersButton"
@@ -77,16 +76,6 @@
 
         </LinearLayout>
 
-        <android.support.constraint.Placeholder
-            android:id="@+id/placeholder_profilepic"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
         <TextView
             android:id="@+id/fullnameText"
             android:layout_width="wrap_content"
@@ -94,10 +83,9 @@
             android:layout_marginStart="12dp"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="28dp"
-            android:text="@string/fullname_profile"
             android:textColor="#47525E"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/placeholder_profilepic"
+            app:layout_constraintStart_toEndOf="@+id/profilepicView"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <TextView
@@ -123,7 +111,7 @@
             android:background="#003D60"
             android:text="@string/editbtn_profile"
             android:textColor="#FFFFFF"
-            app:layout_constraintStart_toEndOf="@+id/placeholder_profilepic"
+            app:layout_constraintStart_toEndOf="@+id/profilepicView"
             app:layout_constraintTop_toBottomOf="@+id/fullnameText" />
 
         <ImageButton
@@ -132,6 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:background="#00000000"
             android:baselineAligned="false"
             android:contentDescription="@string/opensettingsbutton"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
@@ -147,7 +136,6 @@
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:text="@string/username_main"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
@@ -161,6 +149,17 @@
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/lastmemText"
             tools:layout_editor_absoluteX="8dp" />
+
+        <ImageView
+            android:id="@+id/profilepicView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:srcCompat="@tools:sample/avatars" />
     </android.support.constraint.ConstraintLayout>
 
 

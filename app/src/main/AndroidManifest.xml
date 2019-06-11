@@ -9,14 +9,24 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <permission
+        android:name="com.example.permission.READ_EXTERNAL_STORAGE"
+        android:protectionLevel="signature" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <permission
+        android:name="com.example.permission.WRITE_EXTERNAL_STORAGE"
+        android:protectionLevel="signature" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <permission
+        android:name="com.example.permission.CAMERA"
+        android:protectionLevel="signature" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <permission
         android:name="com.example.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
-
     <uses-permission android:name="com.example.permission.MAPS_RECEIVE" />
 
     <application

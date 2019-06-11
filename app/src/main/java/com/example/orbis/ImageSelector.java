@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -50,6 +52,13 @@ public class ImageSelector extends Fragment {
 
     Bundle arguments;
 
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //assign all variables
         view = inflater.inflate(R.layout.fragment_image_selector, container, false);
@@ -97,20 +106,30 @@ public class ImageSelector extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new NewFragment();
-
-                ArrayList<ImageItem> imageItemsArray = new ArrayList<>(iga.getItemCount());
-                imageItemsArray.addAll(iga.getImageItemList());
-
-                arguments.putSerializable("images", imageItemsArray);
-
-                fragment.setArguments(arguments);
-
-                main.getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit(); //start and commit transaction to new fragment
+                backButtonPressed();
             }
         });
     }
 
+    /**
+     *
+     */
+    public void backButtonPressed() {
+        Fragment fragment = new NewFragment();
+
+        ArrayList<ImageItem> imageItemsArray = new ArrayList<>(iga.getItemCount());
+        imageItemsArray.addAll(iga.getImageItemList());
+
+        arguments.putSerializable("images", imageItemsArray);
+
+        fragment.setArguments(arguments);
+
+        main.getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit(); //start and commit transaction to new fragment
+    }
+
+    /**
+     *
+     */
     public void onPickButtonClicked() {
         Button pickButton = view.findViewById(R.id.pickButton);
 
@@ -122,6 +141,9 @@ public class ImageSelector extends Fragment {
         });
     }
 
+    /**
+     *
+     */
     private void showPictureDialog() {
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(main);
         pictureDialog.setTitle("Select action");
@@ -149,6 +171,9 @@ public class ImageSelector extends Fragment {
         pictureDialog.show();
     }
 
+    /**
+     *
+     */
     public void choosePhotoFromGallary() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -156,8 +181,13 @@ public class ImageSelector extends Fragment {
         startActivityForResult(galleryIntent, GALLERY);
     }
 
+    /**
+     *
+     */
     private void takePhotoFromCamera() {
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
+        //TODO fix orientation issue on some devices
 
         if (intent.resolveActivity(main.getPackageManager()) != null) {
             File photoFile = null;
@@ -178,6 +208,12 @@ public class ImageSelector extends Fragment {
 
     }
 
+    /**
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -197,14 +233,50 @@ public class ImageSelector extends Fragment {
                 }
             }
         } else if(requestCode == CAMERA) {
-            Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+            Bitmap rotatedBitmap = BitmapFactory.decodeFile(currentPhotoPath);
+
+            ExifInterface ei = null;
+            try {
+                ei = new ExifInterface(currentPhotoPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_UNDEFINED);
+
+            Bitmap bitmap = null;
+            switch(orientation) {
+
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    bitmap = rotateImage(rotatedBitmap, 90);
+                    break;
+
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    bitmap = rotateImage(rotatedBitmap, 180);
+                    break;
+
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    bitmap = rotateImage(rotatedBitmap, 270);
+                    break;
+
+                case ExifInterface.ORIENTATION_NORMAL:
+                default:
+                    bitmap = rotatedBitmap;
+            }
+
             addImage(bitmap);
         }
     }
 
+    /**
+     * Add new image to server
+     *
+     * @param bitmap
+     */
     private void addImage(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 45, baos);
         byte[] b = baos.toByteArray();
         String imageEncoded = Base64.encodeToString(b,Base64.DEFAULT);
 
@@ -229,6 +301,12 @@ public class ImageSelector extends Fragment {
         });
     }
 
+    /**
+     * Update list with new added or removed image
+     *
+     * @param object
+     * @throws JSONException
+     */
     private void updateImageList(JSONObject object) throws JSONException {
         JSONObject error = object.getJSONObject("error");
         JSONObject data = object.getJSONObject("data");
@@ -242,6 +320,12 @@ public class ImageSelector extends Fragment {
         }
     }
 
+    /**
+     * Create image file from bitmap on disk
+     *
+     * @return
+     * @throws IOException
+     */
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -256,5 +340,19 @@ public class ImageSelector extends Fragment {
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    /**
+     * Rotate bitmap image
+     *
+     * @param source
+     * @param angle
+     * @return
+     */
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
     }
 }
