@@ -52,6 +52,13 @@ public class ImageSelector extends Fragment {
 
     Bundle arguments;
 
+    /**
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //assign all variables
         view = inflater.inflate(R.layout.fragment_image_selector, container, false);
@@ -104,6 +111,9 @@ public class ImageSelector extends Fragment {
         });
     }
 
+    /**
+     *
+     */
     public void backButtonPressed() {
         Fragment fragment = new NewFragment();
 
@@ -117,6 +127,9 @@ public class ImageSelector extends Fragment {
         main.getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit(); //start and commit transaction to new fragment
     }
 
+    /**
+     *
+     */
     public void onPickButtonClicked() {
         Button pickButton = view.findViewById(R.id.pickButton);
 
@@ -128,6 +141,9 @@ public class ImageSelector extends Fragment {
         });
     }
 
+    /**
+     *
+     */
     private void showPictureDialog() {
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(main);
         pictureDialog.setTitle("Select action");
@@ -155,6 +171,9 @@ public class ImageSelector extends Fragment {
         pictureDialog.show();
     }
 
+    /**
+     *
+     */
     public void choosePhotoFromGallary() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -162,6 +181,9 @@ public class ImageSelector extends Fragment {
         startActivityForResult(galleryIntent, GALLERY);
     }
 
+    /**
+     *
+     */
     private void takePhotoFromCamera() {
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -186,6 +208,12 @@ public class ImageSelector extends Fragment {
 
     }
 
+    /**
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -241,6 +269,11 @@ public class ImageSelector extends Fragment {
         }
     }
 
+    /**
+     * Add new image to server
+     *
+     * @param bitmap
+     */
     private void addImage(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 45, baos);
@@ -268,6 +301,12 @@ public class ImageSelector extends Fragment {
         });
     }
 
+    /**
+     * Update list with new added or removed image
+     *
+     * @param object
+     * @throws JSONException
+     */
     private void updateImageList(JSONObject object) throws JSONException {
         JSONObject error = object.getJSONObject("error");
         JSONObject data = object.getJSONObject("data");
@@ -281,6 +320,12 @@ public class ImageSelector extends Fragment {
         }
     }
 
+    /**
+     * Create image file from bitmap on disk
+     *
+     * @return
+     * @throws IOException
+     */
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -297,6 +342,13 @@ public class ImageSelector extends Fragment {
         return image;
     }
 
+    /**
+     * Rotate bitmap image
+     *
+     * @param source
+     * @param angle
+     * @return
+     */
     public static Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
