@@ -66,9 +66,6 @@ public class AccountFragment extends Fragment {
         });
 
 
-
-
-
         ImageButton opensettingsbutton = (ImageButton)view.findViewById(R.id.opensettingsbutton);
         opensettingsbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +102,12 @@ public class AccountFragment extends Fragment {
 
             TextView username = view.findViewById(R.id.usernameText);
             username.setText(data.getString("username"));
+
+            TextView name = view.findViewById(R.id.fullnameText);
+            name.setText(data.getString("name"));
+
+            TextView bio = view.findViewById(R.id.bioText);
+            bio.setText(data.getString("bio"));
         }
 
     }
