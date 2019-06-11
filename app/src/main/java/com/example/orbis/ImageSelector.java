@@ -210,7 +210,7 @@ public class ImageSelector extends Fragment {
 
     private void addImage(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 45, baos);
         byte[] b = baos.toByteArray();
         String imageEncoded = Base64.encodeToString(b,Base64.DEFAULT);
 
