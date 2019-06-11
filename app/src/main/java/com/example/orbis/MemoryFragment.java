@@ -39,8 +39,6 @@ import java.util.List;
 
 public class
 MemoryFragment extends Fragment implements OnMapReadyCallback {
-    private static final String TAG = NewFragment.class.getSimpleName();
-
     View view; //stores view
     Toolbar toolbar; //stores toolbar (green thing on top of layout)
     MainActivity main; //stores our main activity
