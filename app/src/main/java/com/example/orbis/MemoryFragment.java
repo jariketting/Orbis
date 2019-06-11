@@ -42,7 +42,7 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     View view; //stores view
     Toolbar toolbar; //stores toolbar (green thing on top of layout)
     MainActivity main; //stores our main activity
-    Context context; //stores contect
+    Context context; //stores context
 
     API api; //store api
 
