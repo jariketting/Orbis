@@ -271,7 +271,7 @@ public class GoogleMapsFragment extends Fragment implements
     }
 
     /**
-     * This method does ?????????
+     * This method gets the current location and sets an interval for how long it waits to get it.
      *
      * @param bundle
      */
