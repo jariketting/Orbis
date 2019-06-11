@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -203,7 +205,38 @@ public class ImageSelector extends Fragment {
                 }
             }
         } else if(requestCode == CAMERA) {
-            Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+            Bitmap rotatedBitmap = BitmapFactory.decodeFile(currentPhotoPath);
+
+            ExifInterface ei = null;
+            try {
+                ei = new ExifInterface(currentPhotoPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_UNDEFINED);
+
+            Bitmap bitmap = null;
+            switch(orientation) {
+
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    bitmap = rotateImage(rotatedBitmap, 90);
+                    break;
+
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    bitmap = rotateImage(rotatedBitmap, 180);
+                    break;
+
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    bitmap = rotateImage(rotatedBitmap, 270);
+                    break;
+
+                case ExifInterface.ORIENTATION_NORMAL:
+                default:
+                    bitmap = rotatedBitmap;
+            }
+
             addImage(bitmap);
         }
     }
@@ -262,5 +295,12 @@ public class ImageSelector extends Fragment {
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
     }
 }
