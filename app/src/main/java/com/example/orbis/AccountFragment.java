@@ -29,6 +29,7 @@ public class AccountFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_account, container, false);
         main = ((MainActivity) getActivity());
         api = new API(main);
+        getUser();
 
 
         Button followersButton = view.findViewById(R.id.followersButton); //get cancel button by view ID
