@@ -10,20 +10,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 public class AccountFragment extends Fragment {
     View view;
     MainActivity main; //stores our main activity
+    API api;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_account, container, false);
         main = ((MainActivity) getActivity());
+        api = new API(main);
+
 
         Button followersButton = view.findViewById(R.id.followersButton); //get cancel button by view ID
         Button followingButton = view.findViewById(R.id.followingButton); //get cancel button by view ID
         Button diaryButton = view.findViewById(R.id.allmemButton); //get cancel button by view ID
+
 
         //create listener
         followersButton.setOnClickListener(new View.OnClickListener() {
@@ -67,5 +77,35 @@ public class AccountFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void getUser(){
+        String url = "user/get/";
+
+        JSONObject jsonBody = new JSONObject();
+
+        api.request(url, jsonBody, new APICallback() {
+            @Override
+            public void onSuccessResponse(JSONObject response) {
+                try {
+                    onUsernameResult(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private void onUsernameResult(JSONObject object) throws JSONException {
+        JSONObject error = object.getJSONObject("error");
+        JSONObject data = object.getJSONObject("data");
+
+        if(!error.getBoolean("error")) {
+
+            TextView username = view.findViewById(R.id.usernameText);
+            username.setText(data.getString("username"));
+        }
+
     }
 }
