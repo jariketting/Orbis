@@ -7,8 +7,10 @@
     tools:context=".MemoryFragment">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/contentPanel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:visibility="visible">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -23,11 +25,6 @@
             android:id="@+id/imageViewGallery"
             android:layout_width="0dp"
             android:layout_height="250dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:background="#00000000"
             android:clickable="false"
             android:contentDescription="TODO"
@@ -37,13 +34,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView"
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/scrollView"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,11 +49,18 @@
             android:id="@+id/imageButtonLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:background="#00997A7A"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="#80EDF0F6"
+            android:paddingLeft="-2dp"
+            android:paddingTop="5dp"
+            android:paddingRight="-2dp"
+            android:paddingBottom="5dp"
+            android:scaleType="centerInside"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
             android:src="@drawable/ic_chevron_left_black_24dp"
-            android:tint="#00B69595"
+            android:tint="#000000"
             app:layout_constraintBottom_toBottomOf="@+id/imageViewGallery"
             app:layout_constraintStart_toStartOf="@+id/imageViewGallery"
             app:layout_constraintTop_toTopOf="@+id/imageViewGallery" />
@@ -67,10 +69,17 @@
             android:id="@+id/imageButtonRight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:background="#00D6BCBC"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:background="#80EDF0F6"
+            android:paddingLeft="-2dp"
+            android:paddingTop="5dp"
+            android:paddingRight="-2dp"
+            android:paddingBottom="5dp"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
             android:src="@drawable/ic_chevron_right_black_24dp"
+            android:tint="#000000"
             app:layout_constraintBottom_toBottomOf="@+id/imageViewGallery"
             app:layout_constraintEnd_toEndOf="@+id/imageViewGallery"
             app:layout_constraintTop_toTopOf="@+id/imageViewGallery" />
@@ -79,13 +88,10 @@
             android:id="@+id/scrollView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
             android:background="#eff2f7"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/mapView"
+            app:layout_constraintStart_toEndOf="@+id/map"
             app:layout_constraintTop_toBottomOf="@+id/imageViewGallery"
             app:layout_constraintVertical_bias="0.0">
 
@@ -99,23 +105,42 @@
                     android:id="@+id/textViewDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="16-12-2019 12:20"
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/textViewTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="This is a memory"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textViewDescription"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin purus ligula, porttitor quis nulla ut, rhoncus efficitur lacus. Aliquam vulputate ultrices ante dictum accumsan. Sed nec sodales dui. Curabitur in magna blandit, lacinia dui nec, dignissim eros. Sed sed tincidunt velit. Cras eu euismod sapien. Nulla malesuada laoreet enim, ac pharetra ante imperdiet eget. Morbi cursus nisl et felis dignissim semper. Quisque id nulla feugiat, luctus sapien ac, ornare neque. Cras dictum elementum leo, sit amet accumsan ex lobortis et. Vestibulum eu nulla tellus. Praesent eu facilisis erat, ac varius erat. In hac habitasse platea dictumst.  Fusce mattis malesuada magna at hendrerit. Maecenas dignissim sit amet dolor et finibus. Duis ornare nunc vitae rhoncus euismod. Nam sed egestas mi, eu dignissim neque. Etiam at urna diam. Nullam eu tortor hendrerit, volutpat leo eu, sagittis massa. Nam gravida sodales neque at congue. Donec iaculis egestas ipsum, eget tincidunt nunc feugiat tincidunt. Etiam placerat mollis metus.  Quisque ac lectus mi. Aenean turpis risus, venenatis vel nibh ut, luctus porta augue. Suspendisse potenti. Aliquam ipsum quam, auctor at feugiat et, cursus ut purus. Vivamus rhoncus leo non sapien aliquam tempus. Proin gravida fringilla condimentum. Suspendisse potenti. Nulla justo lacus, scelerisque quis feugiat non, malesuada sit amet elit. Nulla odio sapien, ultricies in mi at, tempor mattis augue. Aliquam sollicitudin id arcu sed faucibus. Maecenas at maximus leo, sit amet faucibus mauris.  Sed mollis ac orci porttitor lobortis. Praesent ornare risus consequat ligula placerat molestie. In id mi ullamcorper, posuere arcu quis, commodo libero. Maecenas maximus sapien vitae libero laoreet pharetra. Ut faucibus, diam ut accumsan varius, lectus nibh ultrices odio, quis dapibus erat est vel ante. Curabitur id ornare est. Aliquam vel lacus sodales, ultricies lorem a, scelerisque mauris. Cras rutrum est lacus, eu varius ex hendrerit sit amet. Duis ut arcu et lorem aliquam facilisis ac at leo. Curabitur fringilla lectus arcu, et maximus odio feugiat sed. Sed a mauris sit amet dui finibus placerat. Vestibulum interdum lacus rhoncus, vestibulum ipsum scelerisque, ullamcorper risus. Ut quis eros augue.  Proin eu enim felis. Fusce tincidunt sodales ultricies. Mauris elementum felis id massa rutrum, et sollicitudin mi condimentum. Cras vel faucibus quam. Nam quis efficitur ante. Maecenas nunc augue, elementum at lectus non, varius tincidunt ligula. Duis fringilla tincidunt eros aliquam efficitur. Suspendisse porta nibh est, non euismod nunc sagittis a. Aliquam ornare tempus sapien, id malesuada dui lacinia quis. Ut dignissim et eros sit amet lobortis. Nam id tristique leo. " />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </ScrollView>
 
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:indeterminate="true"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>

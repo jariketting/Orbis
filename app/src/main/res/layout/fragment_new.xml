@@ -7,6 +7,7 @@
     android:background="#FFFFFF">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/contentPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
@@ -42,6 +43,7 @@
             android:autofillHints=""
             android:ems="10"
             android:hint="@string/new_fragment_title_placeholder"
+            android:maxLength="50"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -99,6 +101,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:text="@string/new_fragment_add_button"
+            android:background="#47525E"
+            android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
@@ -113,6 +117,8 @@
             android:layout_marginRight="4dp"
             android:layout_marginBottom="8dp"
             android:text="@string/new_fragment_cancel"
+            android:background="#47525E"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonAddMemory"
             app:layout_constraintStart_toStartOf="parent" />
@@ -127,6 +133,8 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/new_fragment_add_memory"
+            android:background="#47525E"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/buttonCancel" />
@@ -144,21 +152,19 @@
             android:ems="10"
             android:gravity="start|top"
             android:hint="@string/new_fragment_description_placeholder"
+            android:maxLength="1500"
             android:inputType="textMultiLine"
             app:layout_constraintBottom_toTopOf="@+id/buttonCancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:targetApi="o" />
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView"
-            android:layout_width="0dp"
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/editTextDescription"
             app:layout_constraintEnd_toEndOf="parent"
@@ -166,4 +172,28 @@
             app:layout_constraintTop_toBottomOf="@+id/buttonAddMedia" />
 
     </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:indeterminate="true"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+
 </RelativeLayout>

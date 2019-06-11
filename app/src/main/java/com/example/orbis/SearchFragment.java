@@ -48,7 +48,6 @@ public class SearchFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.search_menu, menu);
         MenuItem item = menu.findItem(R.id.search_people);
         SearchView searchView = (SearchView)item.getActionView();
 

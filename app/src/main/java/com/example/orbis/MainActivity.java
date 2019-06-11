@@ -1,11 +1,9 @@
 package com.example.orbis;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         //store menu history
         menuIdCurrent = 0; //current menu item id (defaults to zero / map)
         menuIdLast = 0; //last menu item id (defaults to zero / map)
-
     }
 
     /**
@@ -59,7 +56,10 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-        goToLastFragment();
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.container);
+
+        if(!(f instanceof ImageSelector))
+            goToLastFragment();
     }
 
     /**
@@ -108,8 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     //default values already set
                     break;
                 case R.id.books:
-                    //selectedFragment = new DiaryFragment();
-                    selectedFragment = new DiaryFragment(); //temp for development purposes
+                    selectedFragment = new DiaryFragment();
                     menuId = 1;
                     break;
                 case R.id.add:
@@ -141,6 +140,11 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Switch to memory
+     *
+     * @param id
+     */
     protected void switchToMemory(int id){
         selectedFragment = new MemoryFragment(); //id needs to be given as parameter
         menuId = 1;

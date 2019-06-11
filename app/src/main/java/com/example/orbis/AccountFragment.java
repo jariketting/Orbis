@@ -23,6 +23,7 @@ public class AccountFragment extends Fragment {
 
         Button followersButton = view.findViewById(R.id.followersButton); //get cancel button by view ID
         Button followingButton = view.findViewById(R.id.followingButton); //get cancel button by view ID
+        Button diaryButton = view.findViewById(R.id.allmemButton); //get cancel button by view ID
 
         //create listener
         followersButton.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +45,16 @@ public class AccountFragment extends Fragment {
 
         });
 
+        //create listener
+        diaryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new DiaryFragment();
+                main.goToFragment(fragment, 1);
+            }
+
+        });
+
 
 
 
@@ -52,7 +63,7 @@ public class AccountFragment extends Fragment {
         opensettingsbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).addToBackStack(null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
             }
         });
         return view;

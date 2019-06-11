@@ -28,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout textInputUsername;
     private TextInputLayout textInputPassword;
     private TextInputLayout textInputName;
+    private TextInputLayout textConfirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
         textInputEmail = findViewById(R.id.emailRegister);
         textInputUsername = findViewById(R.id.usernameRegister);
         textInputPassword = findViewById(R.id.passwordRegister);
+        textConfirmPassword = findViewById(R.id.confirmPasswordRegister);
 
     }
 // validation for the name that the field is not empty
@@ -93,17 +95,32 @@ public class RegisterActivity extends AppCompatActivity {
             textInputPassword.setError("Field can't be empty");
             return false;
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            textInputPassword.setError("Enter valid password"); // find a way for it to explain why
+            textInputPassword.setError("You need at least 4 characters, 1 upper and lower case letter, 1 digit and 1 special character "); // find a way for it to explain why
             return false;
         } else {
             textInputPassword.setError(null);
             return true;
         }
     }
+    private boolean validateConfirmPassword() {
+        String passwordInput = textConfirmPassword.getEditText().getText().toString().trim();
+
+        if (passwordInput.isEmpty()) {
+            textConfirmPassword.setError("Field can't be empty");
+            return false;
+        } else if (!textConfirmPassword.getEditText().toString().equals(textInputPassword.getEditText().toString())){
+        //(!textConfirmPassword .equals(textInputPassword)){
+            textConfirmPassword.setError("The password doesn't match"); // find a way for it to explain why
+            return false;
+        } else {
+            textConfirmPassword.setError(null);
+            return true;
+        }
+    }
 
 // button for people to register
     public void Register_Button(View v) {
-        if (!validateName() | !validateEmail() | !validateUsername() | !validatePassword()) {
+        if (!validateName() | !validateEmail() | !validateUsername() | !validatePassword() | !validateConfirmPassword()) {
             return;
         }
         Intent intent = new Intent(this, MainActivity.class);
