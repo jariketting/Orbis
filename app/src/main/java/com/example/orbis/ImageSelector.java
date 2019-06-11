@@ -163,6 +163,8 @@ public class ImageSelector extends Fragment {
     private void takePhotoFromCamera() {
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
+        //TODO fix orientation issue on some devices
+
         if (intent.resolveActivity(main.getPackageManager()) != null) {
             File photoFile = null;
             try {
