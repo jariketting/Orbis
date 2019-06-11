@@ -336,8 +336,8 @@ public class GoogleMapsFragment extends Fragment implements
 
                 mMap.addMarker(new MarkerOptions()
                         .position(cords)
-                        .title(memory.getString("title"))
-                        .snippet(memory.getString("id")));
+                        .title(memory.getString("title"))).setTag(memory.getInt("id"));
+
             }
         }
     }
@@ -378,7 +378,7 @@ public class GoogleMapsFragment extends Fragment implements
         Log.i("MAP", "Info window clicked");
 
         if (!marker.equals(currentUserLocationMarker))
-            main.switchToMemory(0);
+            main.switchToMemory((Integer)marker.getTag());
     }
 }
 
