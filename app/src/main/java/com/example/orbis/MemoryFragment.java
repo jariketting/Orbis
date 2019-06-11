@@ -3,13 +3,12 @@ package com.example.orbis;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.Constraints;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,7 +28,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,7 +51,7 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
     //image gallery
     ImageView imageView; //stores image view (where current image is shown)
     int imageGalleryIndex; //index number of current shown image
-    List<Drawable> imageGallery; //stores all images in the gallery
+    List<String> imageGallery;
     ViewGroup.LayoutParams imageViewLayoutParams; //stores the original layout params of the image view
     boolean isImageFitToScreen; //true if image is full screen, false if not.
 
@@ -87,7 +88,6 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         api = new API(main.getApplicationContext()); //create new api
 
         //set stuff up
-        setupImageGallery();
         setupToolbar();
 
         //assign map
@@ -144,7 +144,20 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
             textViewTitle.setText(data.getString("title")); //set title
             textViewDescription.setText(data.getString("description")); //set description
 
-            //TODO add address to map
+            imageGallery = new ArrayList<>();
+
+            JSONObject images = data.getJSONObject("images");
+            JSONArray key = images.names();
+            if(key != null) {
+                for (int i = 0; i < key.length (); ++i) {
+                    String keys = key.getString(i);
+                    JSONObject image = images.getJSONObject(keys);
+
+                    imageGallery.add(image.getString("uri"));
+                }
+            }
+
+            setupImageGallery();
 
             LatLng cords = new LatLng(data.getDouble("latitude"), data.getDouble("longitude"));
 
@@ -173,45 +186,69 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         imageViewLayoutParams = imageView.getLayoutParams();
 
         //list with images in image gallery
-        imageGallery = new ArrayList<>();
-        imageGallery.add(ContextCompat.getDrawable(main, R.drawable.placeholder_cats)); //add placeholder cats
-        imageGallery.add(ContextCompat.getDrawable(main, R.drawable.placeholder_kitten)); //add placeholder cats
-        imageGallery.add(ContextCompat.getDrawable(main, R.drawable.placeholder_kitten_lick)); //add placeholder cats
-
         imageGalleryIndex = 0;
 
         //set default image
-        imageView.setImageDrawable(imageGallery.get(imageGalleryIndex));
+        String path = imageGallery.get(imageGalleryIndex);
+        Picasso.get()
+                .load(path)
+                .into(imageView);
 
         //create left and right gallery button listeners
         ImageButton leftButton = view.findViewById(R.id.imageButtonLeft);
         ImageButton rightButton = view.findViewById(R.id.imageButtonRight);
 
         //right button pressed
-        rightButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int max = imageGallery.size(); //get size of image gallery
+        if(imageGallery.size() > 1) {
+            rightButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int max = imageGallery.size(); //get size of image gallery
 
-                //prevent from going past amount in gallery
-                if(imageGalleryIndex < max-1) {
-                    imageGalleryIndex++; //next index item
-                    imageView.setImageDrawable(imageGallery.get(imageGalleryIndex)); //update image
-                }
-            }
-        });
+                    //prevent from going past amount in gallery
+                    if (imageGalleryIndex < max - 1) {
+                        imageGalleryIndex++; //next index item
+                        String path = imageGallery.get(imageGalleryIndex);
+                        Picasso.get()
+                                .load(path)
+                                .into(imageView); //update image
 
-        //left button pressed
-        leftButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //prevent from going past amount in gallery
-                if(imageGalleryIndex != 0) {
-                    imageGalleryIndex--; //previous image item
-                    imageView.setImageDrawable(imageGallery.get(imageGalleryIndex)); //update image
+                        view.findViewById(R.id.imageButtonLeft).setVisibility(View.VISIBLE);
+
+                        if(imageGalleryIndex >= max - 1)
+                            view.findViewById(R.id.imageButtonRight).setVisibility(View.INVISIBLE);
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            rightButton.setVisibility(View.INVISIBLE);
+        }
+
+        leftButton.setVisibility(View.INVISIBLE);
+
+        if(imageGallery.size() > 1) {
+            //left button pressed
+            leftButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //prevent from going past amount in gallery
+                    if(imageGalleryIndex > 0) {
+                        imageGalleryIndex--; //previous image item
+                        String path = imageGallery.get(imageGalleryIndex);
+                        Picasso.get()
+                                .load(path)
+                                .into(imageView); //update image
+
+                        view.findViewById(R.id.imageButtonRight).setVisibility(View.VISIBLE);
+
+                        if(imageGalleryIndex < 1)
+                            view.findViewById(R.id.imageButtonLeft).setVisibility(View.INVISIBLE);
+                    }
+                }
+            });
+        } else {
+            leftButton.setVisibility(View.INVISIBLE);
+        }
 
 
         //create listener
@@ -224,10 +261,12 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
                     imageView.setLayoutParams(imageViewLayoutParams);
                     imageView.setAdjustViewBounds(true);
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    imageView.setBackgroundColor(Color.rgb(255, 255, 255));
                 } else {
                     isImageFitToScreen = true; //image is fit to screen
                     imageView.setLayoutParams(new Constraints.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    imageView.setBackgroundColor(Color.rgb(0, 0, 0));
                 }
             }
         });

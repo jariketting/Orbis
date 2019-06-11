@@ -29,12 +29,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class NewFragment extends Fragment implements OnMapReadyCallback {
     private static final String TAG = NewFragment.class.getSimpleName();
@@ -74,6 +77,8 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
 
     API api; //api
 
+    Bundle arguments;
+
     /**
      * Setup when view is created
      *
@@ -110,7 +115,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         time.setText(timeFormat.format(new Date()));
 
         //get bundle arguments to extract id
-        Bundle arguments = getArguments();
+        arguments = getArguments();
 
         //check if arguments are given, if so also if the id is given
         if (arguments != null && arguments.containsKey("id")) {
@@ -127,6 +132,7 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         //set stuff up
         setupToolbar();
         setupCancelButton();
+        setupImageButton();
         setupAddMemoryButton();
 
         //TODO setup image/video selector
@@ -176,6 +182,43 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 main.goToLastFragment(); //go back to the last fragment
+            }
+        });
+    }
+
+
+    /**
+     * On add media button
+     */
+    public void setupImageButton() {
+        Button ImageButton = view.findViewById(R.id.buttonAddMedia);
+
+        //create listener
+        ImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new ImageSelector();
+
+                if(arguments == null)
+                    arguments = new Bundle();
+
+                arguments.putString("title", title.getText().toString());
+                arguments.putString("date", date.getText().toString());
+                arguments.putString("time", time.getText().toString());
+                arguments.putString("description", description.getText().toString());
+
+                //check if location was clicked, else use current location
+                if(mLastClickedCords != null) {
+                    arguments.putDouble("lat", mLastClickedCords.latitude);
+                    arguments.putDouble("long", mLastClickedCords.longitude);
+                } else {
+                    arguments.putDouble("lat", mLastKnownLocation.getLatitude());
+                    arguments.putDouble("long", mLastKnownLocation.getLongitude());
+                }
+
+                fragment.setArguments(arguments);
+
+                main.getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit(); //start and commit transaction to new fragment
             }
         });
     }
@@ -234,36 +277,70 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         if(!error.getBoolean("error")) {
             toolbar.setSubtitle(data.getString("title")); //set title of memory
 
-            //set date and time
-            date.setText(data.getString("datetime").substring(0, 10));
-            time.setText(data.getString("datetime").substring(11));
+            List<ImageItem> imageItemList = new ArrayList<>();
 
-            //set title and description
-            title.setText(data.getString("title"));
-            description.setText(data.getString("description"));
+            JSONObject images = data.getJSONObject("images");
+            JSONArray key = images.names();
+            if(key != null) {
+                for (int i = 0; i < key.length (); ++i) {
+                    String keys = key.getString(i);
+                    JSONObject image = images.getJSONObject(keys);
+
+                    imageItemList.add(new ImageItem(image.getInt("id"), image.getString("uri")));
+                }
+
+                ArrayList<ImageItem> imageItemsArray = new ArrayList<>(imageItemList.size());
+                imageItemsArray.addAll(imageItemList);
+                arguments.putSerializable("images", imageItemsArray);
+            }
 
             //create cords from lat and long
             LatLng cords = new LatLng(data.getDouble("latitude"), data.getDouble("longitude"));
 
-            //set last clicked cords to the memory one
-            mLastClickedCords = cords;
-
-            //create marker to existing position
-            MarkerOptions marker = new MarkerOptions();
-            marker.position(cords);
-            marker.title(data.getString("title"));
-
-            mMap.addMarker(marker).showInfoWindow(); //show info window
-
-            // Updates the location and zoom of the MapView
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(cords, 15);
-            mMap.moveCamera(cameraUpdate);
+            setFields(
+                    data.getString("title"),
+                    data.getString("datetime").substring(0, 10),
+                    data.getString("datetime").substring(11),
+                    data.getString("description"),
+                    cords);
         } else
             toolbar.setSubtitle(main.getResources().getString(R.string.memory_not_found)); //set title of memory
 
         //loading is done. Hide loader and show content
-        view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
-        view.findViewById(R.id.contentPanel).setVisibility(View.VISIBLE);
+        loaded();
+    }
+
+    /**
+     * Set fields
+     *
+     * @param dataTitle
+     * @param dataDate
+     * @param dataTime
+     * @param dataDescription
+     * @param dataCords
+     */
+    private void setFields(String dataTitle, String dataDate, String dataTime, String dataDescription, LatLng dataCords) {
+        //set date and time
+        date.setText(dataDate);
+        time.setText(dataTime);
+
+        //set title and description
+        title.setText(dataTitle);
+        description.setText(dataDescription);
+
+        //set last clicked cords to the memory one
+        mLastClickedCords = dataCords;
+
+        //create marker to existing position
+        MarkerOptions marker = new MarkerOptions();
+        marker.position(dataCords);
+        marker.title(dataTitle);
+
+        mMap.addMarker(marker).showInfoWindow(); //show info window
+
+        // Updates the location and zoom of the MapView
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(dataCords, 15);
+        mMap.moveCamera(cameraUpdate);
     }
 
     /**
@@ -292,6 +369,16 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
 
                 //assign values to json body
                 JSONObject jsonBody = new JSONObject();
+                JSONArray jsonImages = new JSONArray();
+
+                if(arguments != null && arguments.containsKey("images")) {
+                    List<ImageItem> images = (ArrayList<ImageItem>)arguments.getSerializable("images");
+
+                    for(int i = 0; i < images.size(); i++) {
+                        jsonImages.put(images.get(i).id);
+                    }
+                }
+
                 try {
                     jsonBody.put("title", title.getText()); //title
                     jsonBody.put("description", description.getText()); //description
@@ -305,6 +392,8 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
                         jsonBody.put("longitude", mLastKnownLocation.getLongitude());
                         jsonBody.put("latitude", mLastKnownLocation.getLatitude());
                     }
+
+                    jsonBody.put("images", jsonImages);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -363,11 +452,32 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
 
-        // Get the current location of the device and set the position of the map.
-        if(id != null)
+        if(arguments != null &&
+            arguments.containsKey("title") &&
+            arguments.containsKey("date") &&
+            arguments.containsKey("time") &&
+            arguments.containsKey("description") &&
+            arguments.containsKey("lat") &&
+            arguments.containsKey("long")) {
+
+            LatLng cords = new LatLng(arguments.getDouble("lat"), arguments.getDouble("long"));
+
+            setFields(
+                getArguments().getString("title"),
+                getArguments().getString("date"),
+                getArguments().getString("time"),
+                getArguments().getString("description"),
+                cords
+            );
+
+            loaded();
+        } else if(id != null)
             setUpFields();
-        else
+        else {
             getDeviceLocation();
+            loaded();
+        }
+
 
         //create onClick listener
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -385,12 +495,6 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
                 mMap.addMarker(marker).showInfoWindow(); //show info window
             }
         });
-
-        //if no id was show, now remove the loading icon
-        if(id == null) {
-            view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
-            view.findViewById(R.id.contentPanel).setVisibility(View.VISIBLE);
-        }
     }
 
     /**
@@ -491,5 +595,10 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
+    }
+
+    private void loaded() {
+        view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.contentPanel).setVisibility(View.VISIBLE);
     }
 }
