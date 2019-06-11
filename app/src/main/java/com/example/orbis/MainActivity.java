@@ -147,6 +147,12 @@ public class MainActivity extends AppCompatActivity {
      */
     protected void switchToMemory(int id){
         selectedFragment = new MemoryFragment(); //id needs to be given as parameter
+
+        //Pass the ID to the memory
+        Bundle bundle = new Bundle(); //bundle stores stuff we want to give to memory
+        bundle.putInt("id", id); //the id of the memory
+        selectedFragment.setArguments(bundle); //set the bundle to the arguments of the memory so we can access it from there
+
         menuId = 1;
         goToFragment(selectedFragment, menuId);
     }

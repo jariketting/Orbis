@@ -62,7 +62,6 @@ public class GoogleMapsFragment extends Fragment implements
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
 
-
     View view; //stores view
     MainActivity main; //stores our main activity
     Context context; //stores context
@@ -70,11 +69,18 @@ public class GoogleMapsFragment extends Fragment implements
 
     API api;
 
+    /**
+     * This method creates the view for the map
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //assign all variables
-        api = new API(main.getApplicationContext());
         view = inflater.inflate(R.layout.activity_google_maps, container, false);
         main = ((MainActivity) getActivity());
         SupportMapFragment mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -87,6 +93,10 @@ public class GoogleMapsFragment extends Fragment implements
         ImageButton searchAddressButton = view.findViewById(R.id.search_address);
         searchAddressButton.setOnClickListener(this);
 
+        // Get the data of the current user
+        api = new API(main.getApplicationContext());
+        this.getUserData();
+
         // Gets the MapView from the XML layout and creates it
         mapFrag.onCreate(savedInstanceState);
         mapFrag.getMapAsync(this);
@@ -95,6 +105,11 @@ public class GoogleMapsFragment extends Fragment implements
         return view;
     }
 
+    /**
+     * This OnClick method is used to search for places in the search bar
+     *
+     * @param v
+     */
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -139,22 +154,17 @@ public class GoogleMapsFragment extends Fragment implements
 
     }
 
-
+    /**
+     * This method handles location permissions on the startup of the map
+     *
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
         googleMap.setOnMarkerClickListener(this);
         googleMap.setOnInfoWindowClickListener(this);
-
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(51.924419, 4.477733))
-                .title("Herinnering 2"));
-//
-//        mMap.addMarker(new MarkerOptions()
-//                .position(new LatLng(51.99000, 4.49900))
-//                .title("Herinnering 1"));
-
 
         if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
@@ -166,6 +176,12 @@ public class GoogleMapsFragment extends Fragment implements
 
 
     }
+
+    /**
+     * This method checks if the user has given permission to use the device's location
+     *
+     * @return
+     */
 
     public boolean checkUserLocationPermission() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -179,6 +195,14 @@ public class GoogleMapsFragment extends Fragment implements
             return true;
         }
     }
+
+    /**
+     * This method creates the pop up that lets the user give or deny permission
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -198,6 +222,10 @@ public class GoogleMapsFragment extends Fragment implements
         }
     }
 
+    /**
+     * This method makes the connection with the google api
+     */
+
     protected synchronized void buildGoogleApiClient() {
         googleApiClient = new GoogleApiClient.Builder(this.getContext())
                 .addConnectionCallbacks(this)
@@ -208,7 +236,11 @@ public class GoogleMapsFragment extends Fragment implements
         googleApiClient.connect();
     }
 
-
+    /**
+     * This method updates the current location of the user and  moves the camera in the direction which you are heading, it also creates a marker on the current location
+     *
+     * @param location
+     */
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;
@@ -225,7 +257,6 @@ public class GoogleMapsFragment extends Fragment implements
 
         currentLocationMarker = new MarkerOptions();
         currentLocationMarker.position(latLng);
-        currentLocationMarker.title("You are here");
         currentLocationMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
         currentUserLocationMarker = mMap.addMarker(currentLocationMarker);
@@ -238,6 +269,12 @@ public class GoogleMapsFragment extends Fragment implements
 
         }
     }
+
+    /**
+     * This method gets the current location and sets an interval for how long it waits to get it.
+     *
+     * @param bundle
+     */
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -254,10 +291,11 @@ public class GoogleMapsFragment extends Fragment implements
     }
 
     /**
-     * @param view
+     * This method connects our api so that we get the "map" data from our current user, which is the information needed to create markers on the map
+     *
      * @throws org.json.JSONException
      */
-    public void getUserClicked(View view) {
+    public void getUserData() {
         String url = "map/";
 
         JSONObject jsonBody = new JSONObject();
@@ -274,18 +312,18 @@ public class GoogleMapsFragment extends Fragment implements
             }
         });
     }
+
     /**
+     * This method actually creates the markers with the data we collected in the method above
      *
      * @param object
      * @throws JSONException
      */
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void outputData(JSONObject object) throws JSONException {
         JSONObject error = object.getJSONObject("error");
         JSONObject data = object.getJSONObject("data");
 
-        resultTextView.setText("");
 
         if(!error.getBoolean("error")){
 
@@ -296,10 +334,12 @@ public class GoogleMapsFragment extends Fragment implements
 
                 LatLng cords = new LatLng(memory.getDouble("latitude"), memory.getDouble("longitude"));
 
-                resultTextView.append(memory.getString("id") + "\n");
-                resultTextView.append(memory.getString("title") + "\n");
-                resultTextView.append(cords.toString() + "\n");
-            }}
+                mMap.addMarker(new MarkerOptions()
+                        .position(cords)
+                        .title(memory.getString("title"))).setTag(memory.getInt("id"));
+
+            }
+        }
     }
 
     @Override
@@ -312,6 +352,12 @@ public class GoogleMapsFragment extends Fragment implements
 
     }
 
+    /**
+     * This method makes sure that when we click on a marker, the information window shows up
+     *
+     * @param marker
+     * @return
+     */
     @Override
     public boolean onMarkerClick(final Marker marker)
     {
@@ -321,12 +367,18 @@ public class GoogleMapsFragment extends Fragment implements
         return true;
     }
 
+    /**
+     * THis method makes sure that when the information window is clicked, it leads you to the memory
+     *
+     * @param marker
+     */
+
     @Override
     public void onInfoWindowClick(final Marker marker) {
         Log.i("MAP", "Info window clicked");
 
         if (!marker.equals(currentUserLocationMarker))
-            main.switchToMemory(0);
+            main.switchToMemory((Integer)marker.getTag());
     }
 }
 
