@@ -59,6 +59,8 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static final int PERMISSIONS_REQUEST_ACCESS_CAMERA = 2;
+    private static final int PERMISSIONS_REQUEST_ACCESS_WRITE_EXTERNAL_STORAGE = 3;
     private boolean mLocationPermissionGranted;
 
     // The geographical location where the device is currently located. That is, the last-known
@@ -490,7 +492,6 @@ public class NewFragment extends Fragment implements OnMapReadyCallback {
                 //create new marker with position that's clicked
                 MarkerOptions marker = new MarkerOptions();
                 marker.position(latLng);
-                //TODO add title?
 
                 mMap.addMarker(marker).showInfoWindow(); //show info window
             }
