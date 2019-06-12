@@ -80,8 +80,8 @@
             android:id="@+id/fullnameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="28dp"
             android:textColor="#47525E"
             android:textStyle="bold"
@@ -105,13 +105,13 @@
             android:id="@+id/editprofButton"
             android:layout_width="96dp"
             android:layout_height="22dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="2dp"
             android:background="#003D60"
             android:text="@string/editbtn_profile"
             android:textColor="#FFFFFF"
-            app:layout_constraintStart_toStartOf="@+id/fullnameText"
+            app:layout_constraintStart_toEndOf="@+id/profilepicView"
             app:layout_constraintTop_toBottomOf="@+id/fullnameText" />
 
         <ImageButton
