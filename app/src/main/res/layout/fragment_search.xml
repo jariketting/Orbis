@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".SearchFragment">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:background="#00AAB7"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="#FFFFFF" />
+
 
     <ListView
         android:id="@+id/search_bar"

@@ -52,7 +52,7 @@
     <string name="lastmem_profile">Latest Memory:</string>
     <string name="editbtn_profile">Edit Profile</string>
     <string name="username_main">*********</string>
-    <string name="changepassword_text1">Just fill in your old password for security reasons and then think of a new one and type it in.&#xA;&#xA;Tap on the check-mark when you are done.</string>
+    <string name="changepassword_text1">Just think of a new password and type it in. After that fill it in again so you know you typed it right.\n\nTap on the button when you are done.</string>
     <string name="changepassword_old">Old password</string>
     <string name="changepassword_new">New password</string>
     <string name="changepassword_newagain">New password (again)</string>
@@ -60,15 +60,15 @@
     <string name="settings_sendbutton">Send</string>
     <string name="settings_how">How?</string>
     <string name="about_about">About</string>
-    <string name="about_text1">With this application we want to give you the opportunity to keep track of all the places you have been in your life and be able to share them without the clumsiness of a physical diary. With the ease of a button you are able to save your memories with your own written story, video\'s and photo\'s if you want!&#xA;&#xA;When you get back from that special holiday or trip be sure to look back and recollect all those happy memories.</string>
+    <string name="about_text1">With this application we want to give you the opportunity to keep track of all the places you have been in your life and be able to share them without the clumsiness of a physical diary. With the ease of a button you are able to save your memories with your own written story, video\'s and photo\'s if you want!\n\nWhen you get back from that special holiday or trip be sure to look back and recollect all those happy memories.</string>
     <string name="about_ourteam">Our team</string>
-    <string name="about_text2">With our team of highly enthusiastic programmers we want to give you the best experience of the app to make sure to give us feedback if you have any.&#xA;&#xA;As a team we are making this project for a school assignment and are trying our best. We hope you enjoy our efforts and that the app makes you able to enjoy your own trips even more.&#xA;&#xA;Sincerely,&#xA;Team Orbis&#xA;</string>
+    <string name="about_text2">With our team of highly enthusiastic programmers we want to give you the best experience of the app to make sure to give us feedback if you have any.\n\nAs a team we are making this project for a school assignment and are trying our best. We hope you enjoy our efforts and that the app makes you able to enjoy your own trips even more.\n\nSincerely,\nTeam Orbis\n</string>
     <string name="help_report">Report a problem</string>
     <string name="help_text">Write us a detailed story about the problem or tell us what happened and we will see what we can do. Thank you in advance!</string>
     <string name="help_texthere">Type your problem here</string>
     <string name="sendbutton">Send</string>
     <string name="inviteafriend_how">How?</string>
-    <string name="inviteafriend_text">Just fill in the email address of the person you want to invite and we will take care of the rest.&#xA;&#xA;You can even write a little about why you want the person to use our app so they can read your experience with us!</string>
+    <string name="inviteafriend_text">Just fill in the email address of the person you want to invite and we will take care of the rest.\n\nYou can even write a little about why you want the person to use our app so they can read your experience with us!</string>
     <string name="inviteafriend_email">Email address</string>
     <string name="inviteafriend_tellthem">Tell them something about the app</string>
     <string name="changepassword_changepasswordbutton">Change password</string>
@@ -91,6 +91,7 @@
     <string name="login_screen_toolbar_title">Login to Orbis</string>
     <string name="opensettingsbutton">opensettingsbutton</string>
     <string name="diary_screen_toolbar_title">Diary</string>
+    <string name="search_screen_toolbar_title">Search</string>
     <string name="diary_screen_search">Search for a memory</string>
     <string name="toolbarSettings">Settings</string>
     <string name="API_base_url">"https://api.jariketting.nl/"</string>
@@ -111,4 +112,5 @@
         <item>noodles</item>
         <item>cola</item>
     </string-array>
+    <string name="change_password_error">Please make sure your password is longer than 1 character and is the same both times</string>
 </resources>
