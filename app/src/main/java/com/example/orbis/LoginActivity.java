@@ -178,7 +178,14 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ForgotPasswordActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed(){
+    }
 }
+
+
+
 
 //    First attempt Button to go from login screen to the home screen
 //    program cleans up code by turning == into .equals()
