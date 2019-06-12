@@ -6,11 +6,13 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,6 +84,47 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private void login() {
+        String url = "login/";
+
+        EditText editTextEmail = email.getEditText();
+        EditText editTextPassword = password.getEditText();
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("email", editTextEmail.getText().toString());
+            jsonBody.put("password", editTextPassword.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        api.request(url, jsonBody, new APICallback() {
+            @Override
+            public void onSuccessResponse(JSONObject response) {
+                try {
+                    onLoginResponse(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void onLoginResponse(JSONObject object) throws JSONException {
+        JSONObject error = object.getJSONObject("error");
+        JSONObject data = object.getJSONObject("data");
+
+        if(error.getBoolean("error")) {
+            Toast.makeText(this, "Wrong password or email.", Toast.LENGTH_SHORT).show();
+        } else {
+            api.setSession(data.getString("session_id"));
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
     // validation for email to make sure it contains @ and . and error messages when field empty or no @ and/or .
     // done with regular expression that already existed
     private boolean validateEmail() {
@@ -120,8 +163,8 @@ public class LoginActivity extends AppCompatActivity {
         if (!validateEmail()| !validatePassword()) {
             return;
         }
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+
+        login();
     }
 
     //Button to go from login screen to the register screen
