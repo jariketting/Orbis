@@ -91,6 +91,7 @@
     <string name="login_screen_toolbar_title">Login to Orbis</string>
     <string name="opensettingsbutton">opensettingsbutton</string>
     <string name="diary_screen_toolbar_title">Diary</string>
+    <string name="search_screen_toolbar_title">Search</string>
     <string name="diary_screen_search">Search for a memory</string>
     <string name="toolbarSettings">Settings</string>
     <string name="API_base_url">"https://api.jariketting.nl/"</string>
