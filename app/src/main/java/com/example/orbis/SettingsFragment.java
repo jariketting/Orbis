@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -79,6 +80,34 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        privateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                String url = "user/update/";
+
+                JSONObject jsonBody = new JSONObject();
+                try {
+                    if(isChecked)
+                        jsonBody.put("private", 1);
+                    else
+                        jsonBody.put("private", 0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                api.request(url, jsonBody, new APICallback() {
+                    @Override
+                    public void onSuccessResponse(JSONObject response) {
+                        try {
+                            onUsernameResult(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+
         getUser();
 
         return view;
@@ -109,7 +138,7 @@ public class SettingsFragment extends Fragment {
 
         if(!error.getBoolean("error")) {
             if(data.getBoolean("private")) {
-                privateSwitch.toggle();
+                privateSwitch.setChecked(true);
             }
         }
     }
