@@ -8,17 +8,26 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class SettingsFragment extends Fragment {
     MainActivity main; //store main activity
+    View view;
+    API api;
+    Switch privateSwitch;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        view = inflater.inflate(R.layout.fragment_settings, container, false);
         main = ((MainActivity) getActivity());
+        api = new API(main);
 
         //toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbarSettings);
@@ -31,6 +40,8 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+
+        privateSwitch = view.findViewById(R.id.Privateaccountslide);
 
         //invite a friend button
         TextView TextInvitefriends = (TextView) view.findViewById(R.id.TextInvitefriends);
@@ -68,8 +79,38 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        getUser();
 
         return view;
 
+    }
+
+    private void getUser(){
+        String url = "user/get/";
+
+        JSONObject jsonBody = new JSONObject();
+
+        api.request(url, jsonBody, new APICallback() {
+            @Override
+            public void onSuccessResponse(JSONObject response) {
+                try {
+                    onUsernameResult(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private void onUsernameResult(JSONObject object) throws JSONException {
+        JSONObject error = object.getJSONObject("error");
+        JSONObject data = object.getJSONObject("data");
+
+        if(!error.getBoolean("error")) {
+            if(data.getBoolean("private")) {
+                privateSwitch.toggle();
+            }
+        }
     }
 }
