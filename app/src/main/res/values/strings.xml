@@ -52,7 +52,7 @@
     <string name="lastmem_profile">Latest Memory:</string>
     <string name="editbtn_profile">Edit Profile</string>
     <string name="username_main">*********</string>
-    <string name="changepassword_text1">Just fill in your old password for security reasons and then think of a new one and type it in.\n\nTap on the check-mark when you are done.</string>
+    <string name="changepassword_text1">Just think of a new password and type it in. After that fill it in again so you know you typed it right.\n\nTap on the button when you are done.</string>
     <string name="changepassword_old">Old password</string>
     <string name="changepassword_new">New password</string>
     <string name="changepassword_newagain">New password (again)</string>
@@ -111,4 +111,5 @@
         <item>noodles</item>
         <item>cola</item>
     </string-array>
+    <string name="change_password_error">Please make sure your password is longer than 1 character and is the same both times</string>
 </resources>
