@@ -23,6 +23,7 @@ public class SettingsFragment extends Fragment {
     View view;
     API api;
     Switch privateSwitch;
+    TextView textSignout;
 
     @Nullable
     @Override
@@ -31,7 +32,7 @@ public class SettingsFragment extends Fragment {
         main = ((MainActivity) getActivity());
         api = new API(main);
 
-        TextView TextSignout = view.findViewById(R.id. TextSignout);
+        textSignout = view.findViewById(R.id. TextSignout);
 
         //toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbarSettings);
@@ -84,11 +85,22 @@ public class SettingsFragment extends Fragment {
         });
 
         //create listener
-        TextSignout.setOnClickListener(new View.OnClickListener() {
+        textSignout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getApplication(), LoginActivity.class);
-                startActivity(intent);
+                String url = "logout/";
+
+                JSONObject jsonBody = new JSONObject();
+                api.request(url, jsonBody, new APICallback() {
+                    @Override
+                    public void onSuccessResponse(JSONObject response) {
+                        try {
+                            onLogoutResult(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
 
         });
@@ -153,6 +165,17 @@ public class SettingsFragment extends Fragment {
             if(data.getBoolean("private")) {
                 privateSwitch.setChecked(true);
             }
+        }
+    }
+
+    private void onLogoutResult(JSONObject object) throws JSONException {
+        JSONObject error = object.getJSONObject("error");
+        JSONObject data = object.getJSONObject("data");
+
+        if(!error.getBoolean("error")) {
+            api.setSession("");
+            Intent intent = new Intent(getActivity().getApplication(), LoginActivity.class);
+            startActivity(intent);
         }
     }
 }
