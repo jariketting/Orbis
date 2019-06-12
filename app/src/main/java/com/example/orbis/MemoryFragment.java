@@ -180,6 +180,17 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
      * Everything for the image gallery
      */
     public void setupImageGallery() {
+        //create left and right gallery button listeners
+        ImageButton leftButton = view.findViewById(R.id.imageButtonLeft);
+        ImageButton rightButton = view.findViewById(R.id.imageButtonRight);
+
+        if(imageGallery.size() < 1) {
+            leftButton.setVisibility(View.INVISIBLE);
+            rightButton.setVisibility(View.INVISIBLE);
+
+            return;
+        }
+
         imageView = view.findViewById(R.id.imageViewGallery); //get cancel button by view ID
         imageViewLayoutParams = imageView.getLayoutParams();
 
@@ -191,10 +202,6 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
         Picasso.get()
                 .load(path)
                 .into(imageView);
-
-        //create left and right gallery button listeners
-        ImageButton leftButton = view.findViewById(R.id.imageButtonLeft);
-        ImageButton rightButton = view.findViewById(R.id.imageButtonRight);
 
         //right button pressed
         if(imageGallery.size() > 1) {

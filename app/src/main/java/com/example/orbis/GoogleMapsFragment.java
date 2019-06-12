@@ -1,6 +1,7 @@
 package com.example.orbis;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -10,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -37,6 +39,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -56,12 +62,21 @@ public class GoogleMapsFragment extends Fragment implements
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code = 99;
 
-
     View view; //stores view
     MainActivity main; //stores our main activity
     Context context; //stores context
     MarkerOptions currentLocationMarker; // stores the marker of current location
 
+    API api;
+
+    /**
+     * This method creates the view for the map
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,13 +86,16 @@ public class GoogleMapsFragment extends Fragment implements
         SupportMapFragment mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         context = getContext();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkUserLocationPermission();
         }
 
         ImageButton searchAddressButton = view.findViewById(R.id.search_address);
         searchAddressButton.setOnClickListener(this);
+
+        // Get the data of the current user
+        api = new API(main.getApplicationContext());
+        this.getUserData();
 
         // Gets the MapView from the XML layout and creates it
         mapFrag.onCreate(savedInstanceState);
@@ -87,6 +105,11 @@ public class GoogleMapsFragment extends Fragment implements
         return view;
     }
 
+    /**
+     * This OnClick method is used to search for places in the search bar
+     *
+     * @param v
+     */
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -108,10 +131,10 @@ public class GoogleMapsFragment extends Fragment implements
                                 Address userAddress = addressList.get(i);
                                 LatLng latLng = new LatLng(userAddress.getLatitude(), userAddress.getLongitude());
 
-                                userMarkerOptions.position(latLng);
-                                userMarkerOptions.title(address);
-                                userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                                mMap.addMarker(userMarkerOptions);
+//                                userMarkerOptions.position(latLng);
+//                                userMarkerOptions.title(address);
+//                                userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+//                                mMap.addMarker(userMarkerOptions);
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                                 mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
                             }
@@ -131,7 +154,11 @@ public class GoogleMapsFragment extends Fragment implements
 
     }
 
-
+    /**
+     * This method handles location permissions on the startup of the map
+     *
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -139,17 +166,7 @@ public class GoogleMapsFragment extends Fragment implements
         googleMap.setOnMarkerClickListener(this);
         googleMap.setOnInfoWindowClickListener(this);
 
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(51.924419, 4.477733))
-                .title("Herinnering 2"));
-
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(51.99000, 4.49900))
-                .title("Herinnering 1"));
-
-
-        if (ContextCompat.checkSelfPermission(this.getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-        {
+        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             buildGoogleApiClient();
 
@@ -160,53 +177,56 @@ public class GoogleMapsFragment extends Fragment implements
 
     }
 
-    public boolean checkUserLocationPermission()
-    {
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION))
-            {
+    /**
+     * This method checks if the user has given permission to use the device's location
+     *
+     * @return
+     */
+
+    public boolean checkUserLocationPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Request_User_Location_Code);
-            }
-            else
-            {
+            } else {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Request_User_Location_Code);
             }
             return false;
-        }
-        else
-        {
+        } else {
             return true;
         }
     }
 
+    /**
+     * This method creates the pop up that lets the user give or deny permission
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        switch (requestCode)
-        {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
             case Request_User_Location_Code:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-                    {
-                        if (googleApiClient == null)
-                        {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        if (googleApiClient == null) {
                             buildGoogleApiClient();
                         }
                         mMap.setMyLocationEnabled(true);
                     }
-                }
-                else
-                {
+                } else {
                     Toast.makeText(this.getContext(), "Permission Denied...", Toast.LENGTH_SHORT).show();
                 }
                 return;
         }
     }
 
-    protected synchronized void buildGoogleApiClient()
-    {
+    /**
+     * This method makes the connection with the google api
+     */
+
+    protected synchronized void buildGoogleApiClient() {
         googleApiClient = new GoogleApiClient.Builder(this.getContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -216,26 +236,27 @@ public class GoogleMapsFragment extends Fragment implements
         googleApiClient.connect();
     }
 
-
+    /**
+     * This method updates the current location of the user and  moves the camera in the direction which you are heading, it also creates a marker on the current location
+     *
+     * @param location
+     */
     @Override
-    public void onLocationChanged(Location location)
-    {
+    public void onLocationChanged(Location location) {
         lastLocation = location;
 
 
-        if (currentUserLocationMarker != null)
-        {
+        if (currentUserLocationMarker != null) {
             currentUserLocationMarker.remove();
         }
 
-        LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng,3);
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 3);
         mMap.moveCamera(cameraUpdate);
 
 
         currentLocationMarker = new MarkerOptions();
         currentLocationMarker.position(latLng);
-        currentLocationMarker.title("You are here");
         currentLocationMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
         currentUserLocationMarker = mMap.addMarker(currentLocationMarker);
@@ -243,28 +264,82 @@ public class GoogleMapsFragment extends Fragment implements
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(11));
 
-        if (googleApiClient != null)
-        {
+        if (googleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
 
         }
     }
 
+    /**
+     * This method gets the current location and sets an interval for how long it waits to get it.
+     *
+     * @param bundle
+     */
+
     @Override
-    public void onConnected(@Nullable Bundle bundle)
-    {
+    public void onConnected(@Nullable Bundle bundle) {
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(1100);
-        locationRequest.setFastestInterval(1100);
+        locationRequest.setInterval(200);
+        locationRequest.setFastestInterval(200);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-        if (ContextCompat.checkSelfPermission(this.getContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-        {
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,locationRequest, this);
+        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
         }
 
 
+    }
 
+    /**
+     * This method connects our api so that we get the "map" data from our current user, which is the information needed to create markers on the map
+     *
+     * @throws org.json.JSONException
+     */
+    public void getUserData() {
+        String url = "map/";
+
+        JSONObject jsonBody = new JSONObject();
+
+        api.request(url, jsonBody, new APICallback() {
+            @SuppressLint("NewApi")
+            @Override
+            public void onSuccessResponse (JSONObject response){
+                try {
+                    outputData(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * This method actually creates the markers with the data we collected in the method above
+     *
+     * @param object
+     * @throws JSONException
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void outputData(JSONObject object) throws JSONException {
+        JSONObject error = object.getJSONObject("error");
+        JSONObject data = object.getJSONObject("data");
+
+
+        if(!error.getBoolean("error")){
+
+            JSONArray key = data.names();
+            for (int i = 0; i < key.length(); ++i) {
+                String keys = key.getString(i);
+                JSONObject memory = data.getJSONObject(keys);
+
+                LatLng cords = new LatLng(memory.getDouble("latitude"), memory.getDouble("longitude"));
+
+                mMap.addMarker(new MarkerOptions()
+                        .position(cords)
+                        .title(memory.getString("title"))).setTag(memory.getInt("id"));
+
+            }
+        }
     }
 
     @Override
@@ -277,6 +352,12 @@ public class GoogleMapsFragment extends Fragment implements
 
     }
 
+    /**
+     * This method makes sure that when we click on a marker, the information window shows up
+     *
+     * @param marker
+     * @return
+     */
     @Override
     public boolean onMarkerClick(final Marker marker)
     {
@@ -286,16 +367,20 @@ public class GoogleMapsFragment extends Fragment implements
         return true;
     }
 
+    /**
+     * THis method makes sure that when the information window is clicked, it leads you to the memory
+     *
+     * @param marker
+     */
+
     @Override
     public void onInfoWindowClick(final Marker marker) {
         Log.i("MAP", "Info window clicked");
 
         if (!marker.equals(currentUserLocationMarker))
-            main.switchToMemory(0);
+            main.switchToMemory((Integer)marker.getTag());
     }
 }
-
-
 
 
 
