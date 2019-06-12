@@ -10,20 +10,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 public class AccountFragment extends Fragment {
     View view;
     MainActivity main; //stores our main activity
+    API api;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_account, container, false);
         main = ((MainActivity) getActivity());
+        api = new API(main);
+        getUser();
+
 
         Button followersButton = view.findViewById(R.id.followersButton); //get cancel button by view ID
         Button followingButton = view.findViewById(R.id.followingButton); //get cancel button by view ID
+        Button allmemoryButton = view.findViewById(R.id.allmemButton);
         Button diaryButton = view.findViewById(R.id.allmemButton); //get cancel button by view ID
+
 
         //create listener
         followersButton.setOnClickListener(new View.OnClickListener() {
@@ -35,6 +48,7 @@ public class AccountFragment extends Fragment {
 
         });
 
+
         //create listener
         followingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +59,12 @@ public class AccountFragment extends Fragment {
 
         });
 
+        allmemoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().replace(R.id.container, new DiaryFragment()).addToBackStack(null).commit();
+            }
+        });
         //create listener
         diaryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,9 +76,6 @@ public class AccountFragment extends Fragment {
         });
 
 
-
-
-
         ImageButton opensettingsbutton = (ImageButton)view.findViewById(R.id.opensettingsbutton);
         opensettingsbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,5 +84,43 @@ public class AccountFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void getUser(){
+        String url = "user/get/";
+
+        JSONObject jsonBody = new JSONObject();
+
+        api.request(url, jsonBody, new APICallback() {
+            @Override
+            public void onSuccessResponse(JSONObject response) {
+                try {
+                    onUsernameResult(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private void onUsernameResult(JSONObject object) throws JSONException {
+        JSONObject error = object.getJSONObject("error");
+        JSONObject data = object.getJSONObject("data");
+
+        if(!error.getBoolean("error")) {
+
+            TextView username = view.findViewById(R.id.usernameText);
+            username.setText(data.getString("username"));
+
+            TextView name = view.findViewById(R.id.fullnameText);
+            name.setText(data.getString("name"));
+
+            TextView bio = view.findViewById(R.id.bioText);
+            bio.setText(data.getString("bio"));
+
+            ImageView profilepic = view.findViewById(R.id.profilepicView);
+        }
+
     }
 }

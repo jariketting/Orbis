@@ -16,6 +16,8 @@ import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class SearchFragment extends Fragment {
 
