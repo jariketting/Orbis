@@ -51,15 +51,15 @@
             app:layout_constraintStart_toStartOf="@+id/textAccountheadline"
             app:layout_constraintTop_toBottomOf="@+id/textAccountheadline" />
 
-        <TextView
-            android:id="@+id/TextHelp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/settings_help"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/TextInvitefriends"
-            app:layout_constraintTop_toBottomOf="@+id/TextInvitefriends" />
+        <!--<TextView-->
+            <!--android:id="@+id/TextHelp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:text="@string/settings_help"-->
+            <!--android:textSize="20sp"-->
+            <!--app:layout_constraintStart_toStartOf="@+id/TextInvitefriends"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/TextInvitefriends" />-->
 
         <TextView
             android:id="@+id/TextAccountheadline"
@@ -96,8 +96,8 @@
             android:layout_marginTop="20dp"
             android:text="@string/settings_about"
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/TextHelp"
-            app:layout_constraintTop_toBottomOf="@+id/TextHelp" />
+            app:layout_constraintStart_toStartOf="@+id/TextPrivateaccount"
+            app:layout_constraintTop_toBottomOf="@+id/TextPrivateaccount" />
 
         <TextView
             android:id="@+id/TextSignout"
@@ -121,15 +121,15 @@
             app:layout_constraintStart_toStartOf="@+id/TextAccountheadline"
             app:layout_constraintTop_toBottomOf="@+id/TextAccountheadline" />
 
-        <TextView
-            android:id="@+id/TextInvitefriends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/settings_invite"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/TextPrivateaccount"
-            app:layout_constraintTop_toBottomOf="@+id/TextPrivateaccount" />
+        <!--<TextView-->
+            <!--android:id="@+id/TextInvitefriends"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:text="@string/settings_invite"-->
+            <!--android:textSize="20sp"-->
+            <!--app:layout_constraintStart_toStartOf="@+id/TextPrivateaccount"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/TextPrivateaccount" />-->
 
         <!--<TextView-->
             <!--android:id="@+id/TextNotifications"-->
@@ -165,35 +165,35 @@
             app:layout_constraintEnd_toStartOf="@+id/TextPrivateaccount"
             app:layout_constraintTop_toBottomOf="@+id/textAccountheadline" />
 
-        <ImageView
-            android:id="@+id/iconinvite"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="17dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/iconinvite"
-            app:layout_constraintEnd_toEndOf="@+id/iconprivate"
-            app:layout_constraintStart_toStartOf="@+id/iconprivate"
-            app:layout_constraintTop_toBottomOf="@+id/iconprivate" />
+        <!--<ImageView-->
+            <!--android:id="@+id/iconinvite"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_marginTop="17dp"-->
+            <!--android:layout_marginEnd="8dp"-->
+            <!--android:layout_marginRight="8dp"-->
+            <!--android:src="@drawable/iconinvite"-->
+            <!--app:layout_constraintEnd_toStartOf="@+id/TextInvitefriends"-->
+            <!--app:layout_constraintStart_toStartOf="@+id/iconprivate"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/iconprivate" />-->
 
-        <ImageView
-            android:id="@+id/iconhelp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="17dp"
-            android:src="@drawable/iconhelp"
-            app:layout_constraintStart_toStartOf="@+id/iconprivate"
-            app:layout_constraintTop_toBottomOf="@+id/iconinvite" />
+        <!--<ImageView-->
+            <!--android:id="@+id/iconhelp"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_marginTop="17dp"-->
+            <!--android:src="@drawable/iconhelp"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/iconinvite"-->
+            <!--tools:layout_editor_absoluteX="35dp" />-->
 
         <ImageView
             android:id="@+id/iconinfo"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="17dp"
-            app:layout_constraintStart_toStartOf="@+id/iconhelp"
-            app:layout_constraintTop_toBottomOf="@+id/iconhelp"
-            android:src="@drawable/iconinfo"/>
+            android:src="@drawable/iconinfo"
+            app:layout_constraintStart_toStartOf="@+id/iconprivate"
+            app:layout_constraintTop_toBottomOf="@+id/iconprivate" />
 
 
     </android.support.constraint.ConstraintLayout>
