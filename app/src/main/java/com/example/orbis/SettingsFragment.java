@@ -1,6 +1,7 @@
 package com.example.orbis;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +31,8 @@ public class SettingsFragment extends Fragment {
         main = ((MainActivity) getActivity());
         api = new API(main);
 
+        TextView TextSignout = view.findViewById(R.id. TextSignout);
+
         //toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbarSettings);
         toolbar.setTitle(R.string.toolbarSettings);
@@ -44,23 +47,23 @@ public class SettingsFragment extends Fragment {
 
         privateSwitch = view.findViewById(R.id.Privateaccountslide);
 
-        //invite a friend button
-        TextView TextInvitefriends = (TextView) view.findViewById(R.id.TextInvitefriends);
-        TextInvitefriends.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new Invite_a_friendFragment()).addToBackStack(null).commit();
-            }
-        });
+//        //invite a friend button
+//        TextView TextInvitefriends = (TextView) view.findViewById(R.id.TextInvitefriends);
+//        TextInvitefriends.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getFragmentManager().beginTransaction().replace(R.id.container, new Invite_a_friendFragment()).addToBackStack(null).commit();
+//            }
+//        });
 
-        //help button
-        TextView TextHelp = (TextView) view.findViewById(R.id.TextHelp);
-        TextHelp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new HelpFragment()).addToBackStack(null).commit();
-            }
-        });
+//        //help button
+//        TextView TextHelp = (TextView) view.findViewById(R.id.TextHelp);
+//        TextHelp.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getFragmentManager().beginTransaction().replace(R.id.container, new HelpFragment()).addToBackStack(null).commit();
+//            }
+//        });
 
         //about button
         TextView TextAbout = (TextView) view.findViewById(R.id.TextAbout);
@@ -78,6 +81,16 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 getFragmentManager().beginTransaction().replace(R.id.container, new Change_passwordFragment()).addToBackStack(null).commit();
             }
+        });
+
+        //create listener
+        TextSignout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity().getApplication(), LoginActivity.class);
+                startActivity(intent);
+            }
+
         });
 
         privateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
