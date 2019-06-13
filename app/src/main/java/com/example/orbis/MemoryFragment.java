@@ -3,7 +3,9 @@ package com.example.orbis;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -293,17 +295,10 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
                 //check what item was clicked
                 switch (item.getItemId()) {
                     case R.id.share:
-                        //TODO implement share feature
+                        share();
                         break;
                     case R.id.edit:
-                        Fragment newFragment = new NewFragment();
-
-                        //Pass the ID to the memory
-                        Bundle bundle = new Bundle(); //bundle stores stuff we want to give to memory
-                        bundle.putInt("id", id); //the id of the memory
-                        newFragment.setArguments(bundle); //set the bundle to the arguments of the memory so we can access it from there
-
-                        main.goToFragment(newFragment, 2);
+                        edit();
                         break;
                     case R.id.delete:
                         delete();
@@ -321,6 +316,41 @@ MemoryFragment extends Fragment implements OnMapReadyCallback {
                 main.goToLastFragment();
             }
         });
+    }
+
+    /**
+     * Share this memory
+     */
+    public void share() {
+        String text = textViewTitle.getText().toString();
+
+        ArrayList<Uri> imageUris = new ArrayList<>();
+        for (int i = 0; i < imageGallery.size(); i++) {
+            Uri uri = Uri.parse(imageGallery.get(i));
+            imageUris.add(uri);
+        }
+
+        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+        shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
+        shareIntent.setType("image/*");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        startActivity(Intent.createChooser(shareIntent, "Share this memory using"));
+    }
+
+    /**
+     * Go to new memory fragment with id in bundle to edit this memory
+     */
+    public void edit() {
+        Fragment newFragment = new NewFragment();
+
+        //Pass the ID to the memory
+        Bundle bundle = new Bundle(); //bundle stores stuff we want to give to memory
+        bundle.putInt("id", id); //the id of the memory
+        newFragment.setArguments(bundle); //set the bundle to the arguments of the memory so we can access it from there
+
+        main.goToFragment(newFragment, 2);
     }
 
     /**
