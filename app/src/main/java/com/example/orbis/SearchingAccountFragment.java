@@ -70,18 +70,18 @@ public class SearchingAccountFragment extends Fragment {
 
         if(!error.getBoolean("error")) {
 
-            TextView username = view.findViewById(R.id.usernameText);
+            TextView username = view.findViewById(R.id.usernameSearch);
             username.setText(data.getString("username"));
 
-            TextView name = view.findViewById(R.id.fullnameText);
+            TextView name = view.findViewById(R.id.fullnameSearch);
             name.setText(data.getString("name"));
 
-            TextView bio = view.findViewById(R.id.bioText);
+            TextView bio = view.findViewById(R.id.bioSearch);
             bio.setText(data.getString("bio"));
 
             JSONObject image = data.getJSONObject("image");
 
-            ImageView profilepic = view.findViewById(R.id.profilepicView);
+            ImageView profilepic = view.findViewById(R.id.profilepicSearch);
 
             Picasso.get()
                     .load(image.getString("uri"))
