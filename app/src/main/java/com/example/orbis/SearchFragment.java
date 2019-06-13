@@ -31,6 +31,8 @@ import java.util.ArrayList;
 public class SearchFragment extends Fragment {
     public ArrayList<SearchItems> exampleList;
 
+    private String lastSearch;
+
     private RecyclerView mRecyclerView;
     private SearchAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -50,6 +52,9 @@ public class SearchFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolSearch);
         toolbar.inflateMenu(R.menu.search_menu); //setup menu
         toolbar.setTitle(R.string.search_screen_toolbar_title);
+        main.setSupportActionBar(toolbar);
+
+        setHasOptionsMenu(true);
 
         search("");
         return view;
@@ -69,6 +74,8 @@ public class SearchFragment extends Fragment {
         MenuItem searchItem = menu.findItem(R.id.searchSearch);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
+        Log.i("test", "huts");
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -79,16 +86,18 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                Log.i("Search", s);
-                search(s);
+                search("");
                 return false;
             }
         });
-
-
     }
 
     private void search(String search){
+        if(lastSearch != null && lastSearch.equals(search))
+            return;
+
+        lastSearch = search;
+
         String url = "search_user";
 
         JSONObject jsonBody = new JSONObject();

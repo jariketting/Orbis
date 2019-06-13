@@ -40,7 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bioText4" />
+        app:layout_constraintTop_toBottomOf="@+id/bioSearch" />
 
     <Button
         android:id="@+id/followingButton_other"
@@ -56,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/followersButton_other" />
 
     <TextView
-        android:id="@+id/fullnameText4"
+        android:id="@+id/fullnameSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -65,11 +65,11 @@
         android:text="*********"
         android:textColor="#47525E"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/placeholder_profilepic_other"
+        app:layout_constraintStart_toEndOf="@+id/profilepicSearch"
         app:layout_constraintTop_toBottomOf="@+id/toolbarSearchAccount" />
 
     <TextView
-        android:id="@+id/bioText4"
+        android:id="@+id/bioSearch"
         android:layout_width="365dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -83,21 +83,22 @@
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/placeholder_profilepic_other" />
+        app:layout_constraintTop_toBottomOf="@+id/profilepicSearch" />
 
 
-    <android.support.constraint.Placeholder
-        android:id="@+id/placeholder_profilepic_other"
+    <ImageView
+        android:id="@+id/profilepicSearch"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarSearchAccount" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarSearchAccount"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/searchnameText"
+        android:id="@+id/usernameSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -122,8 +123,8 @@
         android:background="#003D60"
         android:text="Follow"
         android:textColor="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/placeholder_profilepic_other"
-        app:layout_constraintTop_toBottomOf="@+id/fullnameText4" />
+        app:layout_constraintStart_toEndOf="@+id/profilepicSearch"
+        app:layout_constraintTop_toBottomOf="@+id/fullnameSearch" />
 
     <android.support.constraint.Placeholder
         android:layout_width="match_parent"
@@ -132,11 +133,11 @@
         android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastmemText4"/>
+        app:layout_constraintTop_toBottomOf="@+id/lastmemTextSearch"/>
 
 
     <TextView
-        android:id="@+id/lastmemText4"
+        android:id="@+id/lastmemTextSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
