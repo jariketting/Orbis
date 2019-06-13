@@ -40,11 +40,14 @@ public class SearchFragment extends Fragment {
 
         search_people = (ListView) view.findViewById(R.id.search_bar);
 
-        List<String> arrayPeople = (Arrays.asList(getResources().getStringArray(R.array.all_people)));
+        List<String> arrayPeople = new ArrayList<>();
+        arrayPeople = (Arrays.asList(getResources().getStringArray(R.array.all_people)));
 
-        adapter = new ArrayAdapter<String >(getActivity(), R.layout.support_simple_spinner_dropdown_item, arrayPeople);
-
-        search_people.setAdapter(adapter);
+        adapter = new ArrayAdapter<String>(
+                main,
+                R.layout.support_simple_spinner_dropdown_item,
+                arrayPeople
+        );
 
         setHasOptionsMenu(true);
 
