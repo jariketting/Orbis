@@ -98,7 +98,7 @@ public class SearchingAccountFragment extends Fragment {
     }
 
     public void getLatestMemSearch() {
-        String url = "memory/get/"+id;
+        String url = "dairy/"+id;
 
         JSONObject jsonBody = new JSONObject();
 
@@ -106,7 +106,8 @@ public class SearchingAccountFragment extends Fragment {
             @Override
             public void onSuccessResponse(JSONObject response) {
                 try {
-                    onDiaryResponse(response);
+                    onSearchAccountResponse(response);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -114,9 +115,10 @@ public class SearchingAccountFragment extends Fragment {
         });
     }
 
-    private void onDiaryResponse(JSONObject object) throws JSONException {
+    private void onSearchAccountResponse(JSONObject object) throws JSONException {
         JSONObject error = object.getJSONObject("error");
         JSONObject data = object.getJSONObject("data");
+
 
         if(!error.getBoolean("error")) {
 

@@ -33,6 +33,7 @@ public class AccountFragment extends Fragment {
         main = ((MainActivity) getActivity());
         api = new API(main);
         getUser();
+        getLatestMem();
 
 
         Button followersButton = view.findViewById(R.id.followersButton); //get cancel button by view ID
@@ -116,7 +117,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void getLatestMem(){
-        String url = "user/get/";
+        String url = "memory/";
 
         JSONObject jsonBody = new JSONObject();
 
@@ -148,12 +149,29 @@ public class AccountFragment extends Fragment {
             TextView bio = view.findViewById(R.id.bioText);
             bio.setText(data.getString("bio"));
 
-            JSONObject image = data.getJSONObject("image");
+            TextView title = view.findViewById(R.id.titleAccount);
+            title.setText(data.getString("title"));
+
+            TextView description = view.findViewById(R.id.descriptionAccount);
+            description.setText(data.getString("description"));
+
+            TextView date = view.findViewById(R.id.dateAccount);
+            date.setText(data.getString("date"));
+
+            JSONObject image1 = data.getJSONObject("images");
+
+            ImageView latestmemImage = view.findViewById(R.id.latestmemImage);
+
+            Picasso.get()
+                    .load(image1.getString("uri"))
+                    .into(latestmemImage);
+
+            JSONObject image2 = data.getJSONObject("image");
 
             ImageView profilepic = view.findViewById(R.id.profilepicView);
 
             Picasso.get()
-                    .load(image.getString("uri"))
+                    .load(image2.getString("uri"))
                     .into(profilepic);
 
         }
