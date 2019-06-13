@@ -13,11 +13,14 @@ import android.view.ViewGroup;
 public class SearchingAccountFragment extends Fragment {
     View view;
     MainActivity main;
+    int id;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_searching_account, container, false);
+
+        id = getArguments().getInt("id");
 
         //toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbarSearchAccount);
