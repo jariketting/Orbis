@@ -13,8 +13,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class SearchingAccountFragment extends Fragment {
@@ -22,6 +25,8 @@ public class SearchingAccountFragment extends Fragment {
     MainActivity main;
     int id;
     API api;
+
+    public ArrayList<DiaryItems> exampleList;
 
 
 
@@ -32,6 +37,7 @@ public class SearchingAccountFragment extends Fragment {
         main = (MainActivity)getActivity();
         api = new API(main);
         getSearchUser();
+        getLatestMem();
 
         //toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbarSearchAccount);
@@ -90,4 +96,69 @@ public class SearchingAccountFragment extends Fragment {
         }
 
     }
-}
+
+    public void getLatestMem() {
+        String url = "memory/get/"+id;
+
+        JSONObject jsonBody = new JSONObject();
+
+        api.request(url, jsonBody, new APICallback() {
+            @Override
+            public void onSuccessResponse(JSONObject response) {
+                try {
+                    onDiaryResponse(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void onDiaryResponse(JSONObject object) throws JSONException {
+        JSONObject error = object.getJSONObject("error");
+        JSONObject data = object.getJSONObject("data");
+
+        if(!error.getBoolean("error")) {
+
+            TextView title = view.findViewById(R.id.titleSearch);
+            title.setText(data.getString("title"));
+
+            TextView description = view.findViewById(R.id.descriptionSearch);
+            description.setText(data.getString("description"));
+
+            TextView date = view.findViewById(R.id.dateSearch);
+            date.setText(data.getString("date"));
+
+            JSONObject image = data.getJSONObject("images");
+
+            ImageView imageViewSearch = view.findViewById(R.id.imageViewSearch);
+
+            Picasso.get()
+                    .load(image.getString("uri"))
+                    .into(imageViewSearch);
+
+//            exampleList = new ArrayList<>();
+//
+//            JSONArray key = data.names();
+//            if(key != null) {
+//                for (int i = 0; i < key.length (); ++i) {
+//                    String keys = key.getString(i);
+//                    JSONObject memory = data.getJSONObject(keys);
+//
+//                    JSONObject image = new JSONObject();
+//                    if(!memory.isNull("image")) {
+//                        image = memory.getJSONObject("image");
+//                    } else {
+//                        image.put("uri", "");
+//                    }
+//
+//                    exampleList.add(new DiaryItems(
+//                            memory.getInt("id"),
+//                            image.getString("uri"),
+//                            memory.getString("title"),
+//                            memory.getString("description"),
+//                            memory.getString("datetime")));
+//                }
+            }
+        }
+    }
