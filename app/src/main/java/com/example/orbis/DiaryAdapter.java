@@ -86,7 +86,6 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ExampleViewH
         } else {
             return mExampleList.size();
         }
-
     }
 
     @Override

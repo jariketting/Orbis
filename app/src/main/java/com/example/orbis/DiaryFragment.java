@@ -1,5 +1,6 @@
 package com.example.orbis;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,10 +17,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.common.api.Api;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class DiaryFragment extends Fragment {
+    Api api;
+
     public ArrayList<DiaryItems> exampleList;
 
     private RecyclerView mRecyclerView;
@@ -92,7 +102,10 @@ public class DiaryFragment extends Fragment {
         MenuItem searchItem = menu.findItem(R.id.searchDiary);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
-        //SearchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+    }
+}
+
+    //SearchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
 //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 //            @Override
@@ -104,8 +117,7 @@ public class DiaryFragment extends Fragment {
 //            public boolean onQueryTextChange(String s) {
 //                mAdapter.getFilter().filter(s);
 //                return false;
-    }
-}
+
 
 
 

@@ -6,18 +6,14 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
     private TextInputLayout email;
@@ -42,8 +38,8 @@ public class LoginActivity extends AppCompatActivity {
 
         email = findViewById(R.id.emailLogin);
         password = findViewById(R.id.passwordLogin);
-//       Login = findViewById(R.id.loginButton);
     }
+
     // code below checks if somebody has already logged in before
     // if so it goes straight to our home otherwise the person needs to login
     private void checkSession() {
@@ -183,26 +179,3 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed(){
     }
 }
-
-
-
-
-//    First attempt Button to go from login screen to the home screen
-//    program cleans up code by turning == into .equals()
-//    && means and
-//    public void loginButton(View view) {
-//        if (email.getText().toString().equals("1") && password.getText().toString().equals("1")) {
-//            //if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()){
-//            Intent intent = new Intent(this, MainActivity.class);
-//            startActivity(intent);
-//        }
-//    }
-//        }else{
-//            add the counter for login attempts
-//            add a indication for the user of how many tries they have left
-//            counter = counter - 1;
-//            info.setText("Attempts left: " + counter);
-//            if (counter == 0) {
-//                Login.setEnabled(false);
-//           }
-//        }
