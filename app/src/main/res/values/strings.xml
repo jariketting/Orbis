@@ -93,6 +93,7 @@
     <string name="diary_screen_toolbar_title">Diary</string>
     <string name="search_screen_toolbar_title">Search</string>
     <string name="diary_screen_search">Search for a memory</string>
+    <string name="search_screen_search">Search for a person</string>
     <string name="toolbarSettings">Settings</string>
     <string name="API_base_url">"https://api.jariketting.nl/"</string>
     <string name="memory_not_found">Memory not found</string>
@@ -113,4 +114,7 @@
         <item>cola</item>
     </string-array>
     <string name="change_password_error">Please make sure your password is longer than 1 character and is the same both times</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

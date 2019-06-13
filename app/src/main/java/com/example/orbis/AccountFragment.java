@@ -1,6 +1,7 @@
 package com.example.orbis;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -119,7 +122,14 @@ public class AccountFragment extends Fragment {
             TextView bio = view.findViewById(R.id.bioText);
             bio.setText(data.getString("bio"));
 
+            JSONObject image = data.getJSONObject("image");
+
             ImageView profilepic = view.findViewById(R.id.profilepicView);
+
+            Picasso.get()
+                    .load(image.getString("uri"))
+                    .into(profilepic);
+
         }
 
     }
