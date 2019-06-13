@@ -12,16 +12,17 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="2dp" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="2dp"
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="9dp"
             android:layout_marginTop="0dp"
             android:layout_toEndOf="@+id/imageView"
             android:text="Title"
@@ -34,8 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="9dp"
             android:layout_toEndOf="@+id/imageView"
             android:text="Description"
             android:textSize="18sp" />

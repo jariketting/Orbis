@@ -10,6 +10,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +73,14 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ExampleViewH
     public void onBindViewHolder(@NonNull ExampleViewHolder exampleViewHolder, int position) {
         DiaryItems currentItem = mExampleList.get(position);
 
-        exampleViewHolder.mImageView.setImageResource(currentItem.getImageResource());
+        /*exampleViewHolder.mImageView.setImageResource(currentItem.getImageResource());*/
+
+        if(!currentItem.getImageResource().equals("")) {
+            Picasso.get()
+                    .load(currentItem.getImageResource())
+                    .into(exampleViewHolder.mImageView);
+        }
+
         exampleViewHolder.mTextView1.setText(currentItem.getText1());
         exampleViewHolder.mTextView2.setText(currentItem.getText2());
         exampleViewHolder.mTextView3.setText(currentItem.getText3());
