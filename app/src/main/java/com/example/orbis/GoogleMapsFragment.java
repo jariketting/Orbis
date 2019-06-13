@@ -17,11 +17,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -101,6 +104,18 @@ public class GoogleMapsFragment extends Fragment implements
         mapFrag.onCreate(savedInstanceState);
         mapFrag.getMapAsync(this);
 
+        EditText addressField = (EditText) view.findViewById(R.id.location_search);
+        addressField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    performSearch();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         // Inflate the layout for this fragment
         return view;
     }
@@ -114,44 +129,46 @@ public class GoogleMapsFragment extends Fragment implements
 
         switch (v.getId()) {
             case R.id.search_address:
-                EditText addressField = (EditText) this.getActivity().findViewById(R.id.location_search);
-                String address = addressField.getText().toString();
+                performSearch();
 
-                List<Address> addressList = null;
-                MarkerOptions userMarkerOptions = new MarkerOptions();
-
-                if (!TextUtils.isEmpty(address)) {
-                    Geocoder geocoder = new Geocoder(this.getContext());
-
-                    try {
-                        addressList = geocoder.getFromLocationName(address, 6);
-
-                        if (addressList != null) {
-                            for (int i = 0; i < addressList.size(); i++) {
-                                Address userAddress = addressList.get(i);
-                                LatLng latLng = new LatLng(userAddress.getLatitude(), userAddress.getLongitude());
-
-//                                userMarkerOptions.position(latLng);
-//                                userMarkerOptions.title(address);
-//                                userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-//                                mMap.addMarker(userMarkerOptions);
-                                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                                mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
-                            }
-                        } else {
-                            Toast.makeText(this.getContext(), "Location not found...", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Toast.makeText(this.getContext(), "Search for any location...", Toast.LENGTH_SHORT).show();
-                }
                 break;
 
 
         }
 
+    }
+
+    public void performSearch() {
+        EditText addressField = (EditText) this.getActivity().findViewById(R.id.location_search);
+        String address = addressField.getText().toString();
+
+        List<Address> addressList = null;
+//                MarkerOptions userMarkerOptions = new MarkerOptions();
+
+        if (!TextUtils.isEmpty(address)) {
+            Geocoder geocoder = new Geocoder(this.getContext());
+
+            try {
+                addressList = geocoder.getFromLocationName(address, 6);
+
+                if (addressList != null) {
+                    for (int i = 0; i < addressList.size(); i++) {
+                        Address userAddress = addressList.get(i);
+                        LatLng latLng = new LatLng(userAddress.getLatitude(), userAddress.getLongitude());
+
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+                    }
+                }
+                else {
+                    Toast.makeText(this.getContext(), "Location not found...", Toast.LENGTH_SHORT).show();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(this.getContext(), "Search for any location...", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

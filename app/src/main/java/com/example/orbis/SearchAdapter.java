@@ -10,15 +10,13 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ExampleViewHolder> implements Filterable {
-    private ArrayList<DiaryItems> mExampleList;
-    public ArrayList<DiaryItems> mExampleListFull;
-    private OnItemClickListener mListener;
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ExampleViewHolder> implements Filterable {
+    private List<SearchItems> exampleList;
+    private List<SearchItems> exampleListFull;
+    private OnItemClickListener mlistener;
 
 
     public interface OnItemClickListener{
@@ -26,21 +24,19 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ExampleViewH
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
-        mListener = listener;
+        mlistener = listener;
     }
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
         public TextView mTextView1;
         public TextView mTextView2;
-        public TextView mTextView3;
 
         public ExampleViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
-            mImageView = itemView.findViewById(R.id.imageView);
-            mTextView1 = itemView.findViewById(R.id.textView);
-            mTextView2 = itemView.findViewById(R.id.textView2);
-            mTextView3 = itemView.findViewById(R.id.date);
+            mImageView = itemView.findViewById(R.id.profilepicViewSearch);
+            mTextView1 = itemView.findViewById(R.id.textViewSearch);
+            mTextView2 = itemView.findViewById(R.id.textViewSearch2);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -56,31 +52,24 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ExampleViewH
         }
     }
 
-    public DiaryAdapter(ArrayList<DiaryItems> exampleList) {
-        this.mExampleList = exampleList;
-        mExampleListFull = new ArrayList<>(exampleList);
+    public SearchAdapter(ArrayList<SearchItems> exampleList) {
+        this.exampleList = exampleList;
+        exampleListFull = new ArrayList<>(exampleList);
     }
 
     @NonNull
     @Override
     public ExampleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_diary_items, parent, false);
-        ExampleViewHolder evh = new ExampleViewHolder(v, mListener);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_search_items, parent, false);
+        ExampleViewHolder evh = new ExampleViewHolder(v, mlistener);
         return evh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ExampleViewHolder exampleViewHolder, int position) {
-        DiaryItems currentItem = mExampleList.get(position);
+        SearchItems currentItem = exampleList.get(position);
 
-        /*exampleViewHolder.mImageView.setImageResource(currentItem.getImageResource());*/
-
-        if(!currentItem.getImageResource().equals("")) {
-            Picasso.get()
-                    .load(currentItem.getImageResource())
-                    .into(exampleViewHolder.mImageView);
-        }
-
+        exampleViewHolder.mImageView.setImageResource(currentItem.getImageResource());
         exampleViewHolder.mTextView1.setText(currentItem.getText1());
         exampleViewHolder.mTextView2.setText(currentItem.getText2());
     }
@@ -90,11 +79,12 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ExampleViewH
 
     @Override
     public int getItemCount() {
-        if (mExampleList.size() > limit) {
+        if (exampleList.size() > limit) {
             return limit;
         } else {
-            return mExampleList.size();
+            return exampleList.size();
         }
+
     }
 
     @Override
@@ -104,14 +94,14 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ExampleViewH
     private Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<DiaryItems> filteredList = new ArrayList<>();
+            ArrayList<SearchItems> filteredList = new ArrayList<>();
 
             if(constraint == null || constraint.length() == 0){
-                filteredList.addAll(mExampleListFull);
+                filteredList.addAll(exampleListFull);
 
             }else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                for (DiaryItems item : mExampleListFull){
+                for (SearchItems item : exampleListFull){
                     if (item.getText1().toLowerCase().contains(filterPattern)){
                         filteredList.add(item);}
                 }
@@ -124,8 +114,8 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.ExampleViewH
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            mExampleList.clear();
-            mExampleList.addAll((List) results.values);
+            exampleList.clear();
+            exampleList.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
