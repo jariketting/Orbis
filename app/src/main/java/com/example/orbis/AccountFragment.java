@@ -115,6 +115,24 @@ public class AccountFragment extends Fragment {
 
     }
 
+    private void getLatestMem(){
+        String url = "user/get/";
+
+        JSONObject jsonBody = new JSONObject();
+
+        api.request(url, jsonBody, new APICallback() {
+            @Override
+            public void onSuccessResponse(JSONObject response) {
+                try {
+                    onUsernameResult(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
     private void onUsernameResult(JSONObject object) throws JSONException {
         JSONObject error = object.getJSONObject("error");
         JSONObject data = object.getJSONObject("data");

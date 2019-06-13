@@ -37,7 +37,7 @@ public class SearchingAccountFragment extends Fragment {
         main = (MainActivity)getActivity();
         api = new API(main);
         getSearchUser();
-        getLatestMem();
+        getLatestMemSearch();
 
         //toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbarSearchAccount);
@@ -97,7 +97,7 @@ public class SearchingAccountFragment extends Fragment {
 
     }
 
-    public void getLatestMem() {
+    public void getLatestMemSearch() {
         String url = "memory/get/"+id;
 
         JSONObject jsonBody = new JSONObject();
