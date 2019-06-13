@@ -5,6 +5,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
+        api = new API(this);
+
         email = findViewById(R.id.emailForgotPw);
 
         // toolbar
@@ -39,6 +42,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         }
     }
+
     private void newPassword() {
         String url = "reset_password/";
 
@@ -70,9 +74,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         if(error.getBoolean("error")) {
             Toast.makeText(this, "This email is not connected to Orbis", Toast.LENGTH_SHORT).show();
         } else {
-            api.setSession(data.getString("session_id"));
-
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
     }
