@@ -29,6 +29,7 @@ public class SearchingAccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_searching_account, container, false);
         id = getArguments().getInt("id");
+        api = new API(main);
         getSearchUser();
 
         //toolbar
