@@ -8,10 +8,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    API api;
 
     // regular expression for password validation
     private static final Pattern PASSWORD_PATTERN =
@@ -35,6 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        api = new API(this);
+
         //toolbar title
         Toolbar toolbar = findViewById(R.id.toolbarRegister);
         toolbar.setTitle(R.string.register_screen_toolbar_title);
@@ -46,6 +54,54 @@ public class RegisterActivity extends AppCompatActivity {
         textConfirmPassword = findViewById(R.id.confirmPasswordRegister);
 
     }
+    private void register() {
+        String url = "user/add/";
+
+        EditText inputEmail = textInputEmail.getEditText();
+        EditText inputUsername = textInputUsername.getEditText();
+        EditText inputPassword = textInputPassword.getEditText();
+        EditText inputName = textInputName.getEditText();
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("email", inputEmail.getText().toString());
+            jsonBody.put("password", inputPassword.getText().toString());
+            jsonBody.put("notifications", 1);
+            jsonBody.put("private", 1);
+            jsonBody.put("bio", "Welcome to Orbis, who are you?");
+            jsonBody.put("image_id", 1);
+            jsonBody.put("name", inputName.getText().toString());
+            jsonBody.put("username", inputUsername.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        api.request(url, jsonBody, new APICallback() {
+            @Override
+            public void onSuccessResponse(JSONObject response) {
+                try {
+                    onRegisterResponse(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void onRegisterResponse(JSONObject object) throws JSONException {
+        JSONObject error = object.getJSONObject("error");
+        JSONObject data = object.getJSONObject("data");
+
+        if(error.getBoolean("error")) {
+            Toast.makeText(this, "Fill in all fields correctly", Toast.LENGTH_SHORT).show();
+        } else {
+            api.setSession(data.getString("session_id"));
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
 // validation for the name that the field is not empty
     private boolean validateName() {
         String nameInput = textInputName.getEditText().getText().toString().trim();
@@ -53,7 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (nameInput.isEmpty()) {
             textInputName.setError("Field can't be empty");
             return false;
-        } else {
+        }else {
             textInputName.setError(null);
             return true;
         }
@@ -108,9 +164,8 @@ public class RegisterActivity extends AppCompatActivity {
         if (passwordInput.isEmpty()) {
             textConfirmPassword.setError("Field can't be empty");
             return false;
-        } else if (!textConfirmPassword.getEditText().toString().equals(textInputPassword.getEditText().toString())){
-        //(!textConfirmPassword .equals(textInputPassword)){
-            textConfirmPassword.setError("The password doesn't match"); // find a way for it to explain why
+        } else if (!textConfirmPassword.getEditText().getText().toString().equals(textInputPassword.getEditText().getText().toString())){
+            textConfirmPassword.setError("The password doesn't match");
             return false;
         } else {
             textConfirmPassword.setError(null);
@@ -123,8 +178,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (!validateName() | !validateEmail() | !validateUsername() | !validatePassword() | !validateConfirmPassword()) {
             return;
         }
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        register();
     }
 
 // Button back to the login screen
