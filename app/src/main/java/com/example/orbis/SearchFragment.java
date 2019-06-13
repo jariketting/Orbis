@@ -16,6 +16,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -27,11 +34,14 @@ public class SearchFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
     private MainActivity main;
+    API api;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         main = ((MainActivity) getActivity());
+        api = new API(main);
 
         //toolbar
         Toolbar toolbar = view.findViewById(R.id.toolSearch);
@@ -74,6 +84,7 @@ public class SearchFragment extends Fragment {
                 main.goToFragment(mFragment, 1);
             }
         });
+        search();
         return view;
     }
 
@@ -104,6 +115,39 @@ public class SearchFragment extends Fragment {
             }
         });
 
+
+    }
+
+    private void search(){
+        String url = "search_user";
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("search", "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        api.request(url, jsonBody, new APICallback() {
+            @Override
+            public void onSuccessResponse(JSONObject response) {
+                try {
+                    onSearchResult(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private void onSearchResult(JSONObject object) throws JSONException {
+        JSONObject error = object.getJSONObject("error");
+        JSONObject data = object.getJSONObject("data");
+
+        if(!error.getBoolean("error")) {
+
+        }
 
     }
 }
