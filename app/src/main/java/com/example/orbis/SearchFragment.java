@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,12 +36,13 @@ public class SearchFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
     private MainActivity main;
+    View view;
     API api;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        view = inflater.inflate(R.layout.fragment_search, container, false);
         main = ((MainActivity) getActivity());
         api = new API(main);
 
@@ -48,43 +51,7 @@ public class SearchFragment extends Fragment {
         toolbar.inflateMenu(R.menu.search_menu); //setup menu
         toolbar.setTitle(R.string.search_screen_toolbar_title);
 
-        exampleList = new ArrayList<>();
-        exampleList.add(new SearchItems(R.drawable.ic_person_search, "username 1","fullname 1"));
-        exampleList.add(new SearchItems(R.drawable.ic_person_search, "username 2","fullname 2"));
-        exampleList.add(new SearchItems(R.drawable.ic_person_search, "username 3","fullname 3"));
-        exampleList.add(new SearchItems(R.drawable.ic_person_search, "username 4","fullname 4"));
-        exampleList.add(new SearchItems(R.drawable.ic_person_search, "username 5","fullname 5"));
-        exampleList.add(new SearchItems(R.drawable.ic_person_search, "username 6","fullname 6"));
-        exampleList.add(new SearchItems(R.drawable.ic_person_search, "username 7","fullname 7"));
-        exampleList.add(new SearchItems(R.drawable.ic_person_search, "username 8","fullname 8"));
-        exampleList.add(new SearchItems(R.drawable.ic_person_search, "username 9","fullname 9"));
-        exampleList.add(new SearchItems(R.drawable.ic_person_search, "username 10","fullname 10"));
-
-
-        mRecyclerView = view.findViewById(R.id.recyclerViewSearch);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mAdapter = new SearchAdapter(exampleList);
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-
-
-        mAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                exampleList.get(position);
-                Fragment mFragment = new SearchingAccountFragment();
-
-                //Pass the ID to the memory
-                Bundle bundle = new Bundle(); //bundle stores stuff we want to give to memory
-                bundle.putInt("id", 1); //the id of the memory
-                mFragment.setArguments(bundle); //set the bundle to the arguments of the memory so we can access it from there
-
-                main.goToFragment(mFragment, 1);
-            }
-        });
-        search();
+        search("");
         return view;
     }
 
@@ -105,12 +72,15 @@ public class SearchFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                Log.i("Search", s);
+                search(s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                mAdapter.getFilter().filter(s);
+                Log.i("Search", s);
+                search(s);
                 return false;
             }
         });
@@ -118,12 +88,12 @@ public class SearchFragment extends Fragment {
 
     }
 
-    private void search(){
+    private void search(String search){
         String url = "search_user";
 
         JSONObject jsonBody = new JSONObject();
         try {
-            jsonBody.put("search", "");
+            jsonBody.put("search", search);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -146,7 +116,47 @@ public class SearchFragment extends Fragment {
         JSONObject data = object.getJSONObject("data");
 
         if(!error.getBoolean("error")) {
+            exampleList = new ArrayList<>();
 
+            JSONArray key = data.names();
+            if(key != null) {
+                for (int i = 0; i < key.length(); ++i) {
+                    String keys = key.getString(i);
+                    JSONObject user = data.getJSONObject(keys);
+                    JSONObject image = user.getJSONObject("image");
+
+                    exampleList.add(new SearchItems(
+                            user.getInt("id"),
+                            image.getString("uri"),
+                            user.getString("username"),
+                            user.getString("name")
+                    ));
+                }
+            }
+
+            mRecyclerView = view.findViewById(R.id.recyclerViewSearch);
+            mRecyclerView.setHasFixedSize(true);
+            mLayoutManager = new LinearLayoutManager(getActivity());
+            mAdapter = new SearchAdapter(exampleList);
+
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mRecyclerView.setAdapter(mAdapter);
+
+
+            mAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    SearchItems searchItems = exampleList.get(position);
+                    Fragment mFragment = new SearchingAccountFragment();
+
+                    //Pass the ID to the memory
+                    Bundle bundle = new Bundle(); //bundle stores stuff we want to give to memory
+                    bundle.putInt("id", searchItems.getId()); //the id of the memory
+                    mFragment.setArguments(bundle); //set the bundle to the arguments of the memory so we can access it from there
+
+                    main.goToFragment(mFragment, 4);
+                }
+            });
         }
 
     }

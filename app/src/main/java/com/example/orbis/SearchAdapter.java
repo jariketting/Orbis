@@ -10,6 +10,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +71,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ExampleVie
     public void onBindViewHolder(@NonNull ExampleViewHolder exampleViewHolder, int position) {
         SearchItems currentItem = exampleList.get(position);
 
-        exampleViewHolder.mImageView.setImageResource(currentItem.getImageResource());
+        Picasso.get()
+                .load(currentItem.getImageResource())
+                .into(exampleViewHolder.mImageView);
+
         exampleViewHolder.mTextView1.setText(currentItem.getText1());
         exampleViewHolder.mTextView2.setText(currentItem.getText2());
     }
