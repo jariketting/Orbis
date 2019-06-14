@@ -114,6 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
             return true;
         }
     }
+
 // validation for email to make sure it contains @ and . and error messages when field empty or no @ and/or .
 // done with regular expression that already existed
     private boolean validateEmail() {
@@ -130,6 +131,7 @@ public class RegisterActivity extends AppCompatActivity {
             return true;
         }
     }
+
 // validation for username that the field can't be empty
     private boolean validateUsername() {
         String usernameInput = textInputUsername.getEditText().getText().toString().trim();
@@ -142,6 +144,7 @@ public class RegisterActivity extends AppCompatActivity {
             return true;
         }
     }
+
 // validation for the password, with errors for being empty or not a strong enough password otherwise no error
 // done with self made regular expression at the top
     private boolean validatePassword() {
@@ -158,6 +161,7 @@ public class RegisterActivity extends AppCompatActivity {
             return true;
         }
     }
+
     private boolean validateConfirmPassword() {
         String passwordInput = textConfirmPassword.getEditText().getText().toString().trim();
 

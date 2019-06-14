@@ -4,19 +4,18 @@ package com.example.orbis;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.regex.Pattern;
 
 
 public class Change_passwordFragment extends Fragment {
@@ -25,8 +24,19 @@ public class Change_passwordFragment extends Fragment {
     API api;
 
     Button buttonChange;
-    EditText editTextPassword;
-    EditText editTextPasswordAgain;
+    private TextInputLayout Password;
+    private TextInputLayout PasswordAgain;
+
+    private static final Pattern PASSWORD_PATTERN =
+            Pattern.compile("^" +
+                    "(?=.*[0-9])" +         //at least 1 digit
+                    "(?=.*[a-z])" +         //at least 1 lower case letter
+                    "(?=.*[A-Z])" +         //at least 1 upper case letter
+                    //"(?=.*[a-zA-Z])" +    //any letter
+                    "(?=.*[!@#$%^&+=])" +   //at least 1 special character
+                    "(?=\\S+$)" +           //no white spaces
+                    ".{4,}" +               //at least 4 characters
+                    "$");                   //end of the string
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,8 +45,8 @@ public class Change_passwordFragment extends Fragment {
         api = new API(main);
 
         buttonChange = view.findViewById(R.id.buttonChange);
-        editTextPassword = view.findViewById(R.id.editTextPassword);
-        editTextPasswordAgain = view.findViewById(R.id.editTextPasswordAgain);
+        Password = view.findViewById(R.id.Password);
+        PasswordAgain = view.findViewById(R.id.PasswordAgain);
 
         //toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbarChange);
@@ -52,10 +62,8 @@ public class Change_passwordFragment extends Fragment {
         buttonChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(editTextPassword.getText().toString().equals(editTextPasswordAgain.getText().toString()) && editTextPassword.getText().toString().length() > 0) {
-                    updatePassword(editTextPassword.getText().toString());
-                } else {
-                    Toast.makeText(main, R.string.change_password_error, Toast.LENGTH_SHORT).show();
+                if (!validatePassword() | !validateConfirmPassword()) {
+                    return;
                 }
             }
         });
@@ -63,6 +71,46 @@ public class Change_passwordFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
+
+
+
+
+
+
+
+    // validation for the password, with errors for being empty or not a strong enough password otherwise no error
+// done with self made regular expression at the top
+    private boolean validatePassword() {
+        String passwordInput = Password.getEditText().getText().toString().trim();
+
+        if (passwordInput.isEmpty()) {
+            Password.setError("Field can't be empty");
+            return false;
+        } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
+            Password.setError("You need at least 4 characters, 1 upper and lower case letter, 1 digit and 1 special character "); // find a way for it to explain why
+            return false;
+        } else {
+            Password.setError(null);
+            return true;
+        }
+    }
+    
+
+    private boolean validateConfirmPassword() {
+        String passwordInput = PasswordAgain.getEditText().getText().toString().trim();
+
+        if (passwordInput.isEmpty()) {
+            PasswordAgain.setError("Field can't be empty");
+            return false;
+        } else if (!PasswordAgain.getEditText().getText().toString().equals(PasswordAgain.getEditText().getText().toString())){
+            PasswordAgain.setError("The password doesn't match");
+            return false;
+        } else {
+            PasswordAgain.setError(null);
+            return true;
+        }
+    }
+
 
 
 
