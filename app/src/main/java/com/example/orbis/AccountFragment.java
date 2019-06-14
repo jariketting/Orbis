@@ -1,7 +1,6 @@
 package com.example.orbis;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -40,6 +39,7 @@ public class AccountFragment extends Fragment {
         Button followingButton = view.findViewById(R.id.followingButton); //get cancel button by view ID
         Button allmemoryButton = view.findViewById(R.id.allmemButton); //get cancel button by view ID
         Button diaryButton = view.findViewById(R.id.allmemButton); //get cancel button by view ID
+        Button editprofButton = view.findViewById(R.id.editprofButton); //get cancel button by view ID
 
 
         //create listener
@@ -53,7 +53,6 @@ public class AccountFragment extends Fragment {
         });
 
         //edit profile button
-        Button editprofButton = (Button)view.findViewById(R.id.editprofButton);
         editprofButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
