@@ -57,6 +57,7 @@ public class DiaryFragment extends Fragment {
         toolbar.inflateMenu(R.menu.diary_menu); //setup menu
         toolbar.setTitle(R.string.diary_screen_toolbar_title);
 
+        //get diary first page, no searchstring and oprder by new
         getDiary(1, "", ORDER.NEW);
 
 /*
@@ -78,6 +79,12 @@ public class DiaryFragment extends Fragment {
         return view;
     }
 
+    /**
+     *
+     * @param page this is the page (page 1 = first ten, page 2 next ten etc...)
+     * @param searchString searchstring, can be left empty to show all results
+     * @param order order of search from old to new or new to old
+     */
     public void getDiary(int page, String searchString, ORDER order) {
         String url = "diary/";
 
