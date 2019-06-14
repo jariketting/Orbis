@@ -32,6 +32,11 @@ public class DiaryFragment extends Fragment {
     API api;
     View view;
 
+    enum ORDER
+    {
+        OLD, NEW;
+    }
+
     public ArrayList<DiaryItems> exampleList;
 
     private RecyclerView mRecyclerView;
@@ -52,7 +57,7 @@ public class DiaryFragment extends Fragment {
         toolbar.inflateMenu(R.menu.diary_menu); //setup menu
         toolbar.setTitle(R.string.diary_screen_toolbar_title);
 
-        getDiary();
+        getDiary(1, "", ORDER.NEW);
 
 /*
         exampleList = new ArrayList<>();
@@ -73,10 +78,17 @@ public class DiaryFragment extends Fragment {
         return view;
     }
 
-    public void getDiary() {
+    public void getDiary(int page, String searchString, ORDER order) {
         String url = "diary/";
 
         JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("page", page);
+            jsonBody.put("search", searchString);
+            jsonBody.put("order", ((order == ORDER.OLD) ? "old" : "new"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         api.request(url, jsonBody, new APICallback() {
             @Override
