@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -172,6 +173,11 @@ public class DiaryFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    /**
+     *
+     * @param menu
+     * @param inflater
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //MenuInflater inflater = getMenuInflater();
@@ -180,6 +186,20 @@ public class DiaryFragment extends Fragment {
         MenuItem searchItem = menu.findItem(R.id.searchDiary);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Log.i("Search", s);
+                getDiary(1, s, ORDER.NEW);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                getDiary(1, "", ORDER.NEW);
+                return false;
+            }
+        });
     }
 }
 
