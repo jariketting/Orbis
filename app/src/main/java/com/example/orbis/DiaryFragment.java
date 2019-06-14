@@ -56,6 +56,9 @@ public class DiaryFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolDiary);
         toolbar.inflateMenu(R.menu.diary_menu); //setup menu
         toolbar.setTitle(R.string.diary_screen_toolbar_title);
+        main.setSupportActionBar(toolbar);
+
+        setHasOptionsMenu(true);
 
         //get diary first page, no searchstring and oprder by new
         getDiary(1, "", ORDER.NEW);
