@@ -52,7 +52,7 @@
             android:id="@+id/bioText"
             android:layout_width="365dp"
             android:layout_height="0dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="20dp"
             android:textColor="#47525E"
             android:textSize="18sp"
             android:textStyle="italic"

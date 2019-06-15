@@ -94,7 +94,7 @@ public class Change_passwordFragment extends Fragment {
             return true;
         }
     }
-    
+
 
     private boolean validateConfirmPassword() {
         String passwordInput = PasswordAgain.getEditText().getText().toString().trim();

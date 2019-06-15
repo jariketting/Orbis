@@ -1,7 +1,5 @@
 package com.example.orbis;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -68,13 +66,6 @@ public class EditFragment extends Fragment {
         JSONObject data = object.getJSONObject("data");
 
         if(!error.getBoolean("error")) {
-
-            TextView username = view.findViewById(R.id.usernameText);
-            username.setText(data.getString("username"));
-
-            TextView name = view.findViewById(R.id.fullnameText);
-            name.setText(data.getString("name"));
-
             TextView bio = view.findViewById(R.id.bioText);
             bio.setText(data.getString("bio"));
 
