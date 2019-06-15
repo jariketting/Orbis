@@ -38,6 +38,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profilepicView" />
 
+
         <Button
             android:id="@+id/followersButton"
             android:layout_width="0dp"
@@ -48,7 +49,7 @@
             android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bioText" />
+            app:layout_constraintTop_toBottomOf="@+id/bioText"/>
 
         <Button
             android:id="@+id/followingButton"

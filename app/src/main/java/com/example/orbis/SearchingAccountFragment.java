@@ -129,9 +129,9 @@ public class SearchingAccountFragment extends Fragment {
             description.setText(data.getString("description"));
 
             TextView date = view.findViewById(R.id.dateSearch);
-            date.setText(data.getString("date"));
+            date.setText(data.getString("datetime"));
 
-            JSONObject image = data.getJSONObject("images");
+            JSONObject image = data.getJSONObject("images").getJSONObject("0");
 
             ImageView imageViewSearch = view.findViewById(R.id.imageViewSearch);
 

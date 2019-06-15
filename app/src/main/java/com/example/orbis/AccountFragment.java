@@ -27,7 +27,6 @@ public class AccountFragment extends Fragment {
     MainActivity main; //stores our main activity
     API api;
 
-    public ArrayList<DiaryItems> exampleList;
 
     @Nullable
     @Override
@@ -37,6 +36,7 @@ public class AccountFragment extends Fragment {
         api = new API(main);
         getUser();
         getLatestMem();
+        getLatestPhoto();
 
 
         Button followersButton = view.findViewById(R.id.followersButton); //get cancel button by view ID
@@ -91,7 +91,7 @@ public class AccountFragment extends Fragment {
         });
 
 
-        ImageButton opensettingsbutton = (ImageButton)view.findViewById(R.id.opensettingsbutton);
+        ImageButton opensettingsbutton = (ImageButton) view.findViewById(R.id.opensettingsbutton);
         opensettingsbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +101,7 @@ public class AccountFragment extends Fragment {
         return view;
     }
 
-    private void getUser(){
+    private void getUser() {
         String url = "user/get/";
 
         JSONObject jsonBody = new JSONObject();
@@ -147,7 +147,7 @@ public class AccountFragment extends Fragment {
         }
     }
 
-    private void getLatestMem(){
+    private void getLatestMem() {
         String url = "memory/get/";
 
         JSONObject jsonBody = new JSONObject();
@@ -169,8 +169,7 @@ public class AccountFragment extends Fragment {
         JSONObject error = object.getJSONObject("error");
         JSONObject data = object.getJSONObject("data");
 
-        if(!error.getBoolean("error")) {
-            exampleList = new ArrayList<>();
+        if (!error.getBoolean("error")) {
 
             TextView title = view.findViewById(R.id.titleAccount);
             title.setText(data.getString("title"));
@@ -181,7 +180,34 @@ public class AccountFragment extends Fragment {
             TextView date = view.findViewById(R.id.dateAccount);
             date.setText(data.getString("datetime"));
 
-            JSONObject image2 = data.getJSONObject("uri");
+        }
+    }
+
+    private void getLatestPhoto() {
+        String url = "memory/get/";
+
+        JSONObject jsonBody = new JSONObject();
+
+        api.request(url, jsonBody, new APICallback() {
+            @Override
+            public void onSuccessResponse(JSONObject response) {
+                try {
+                    onPhotoResult(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private void onPhotoResult (JSONObject object) throws JSONException {
+        JSONObject error = object.getJSONObject("error");
+        JSONObject data = object.getJSONObject("data");
+
+        if (!error.getBoolean("error")) {
+
+            JSONObject image2 = data.getJSONObject("images").getJSONObject("0");
 
             ImageView latestmemImage = view.findViewById(R.id.latestmemImage);
 
