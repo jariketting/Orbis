@@ -98,7 +98,7 @@ public class SearchingAccountFragment extends Fragment {
     }
 
     public void getLatestMemSearch() {
-        String url = "dairy/"+id;
+        String url = "memory/get/"+id;
 
         JSONObject jsonBody = new JSONObject();
 

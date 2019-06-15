@@ -15,15 +15,19 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccountFragment extends Fragment {
     View view;
     MainActivity main; //stores our main activity
     API api;
+
+    public ArrayList<DiaryItems> exampleList;
 
     @Nullable
     @Override
@@ -115,29 +119,12 @@ public class AccountFragment extends Fragment {
 
     }
 
-    private void getLatestMem(){
-        String url = "memory/";
-
-        JSONObject jsonBody = new JSONObject();
-
-        api.request(url, jsonBody, new APICallback() {
-            @Override
-            public void onSuccessResponse(JSONObject response) {
-                try {
-                    onUsernameResult(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-    }
 
     private void onUsernameResult(JSONObject object) throws JSONException {
         JSONObject error = object.getJSONObject("error");
         JSONObject data = object.getJSONObject("data");
 
-        if(!error.getBoolean("error")) {
+        if (!error.getBoolean("error")) {
 
             TextView username = view.findViewById(R.id.usernameText);
             username.setText(data.getString("username"));
@@ -148,6 +135,43 @@ public class AccountFragment extends Fragment {
             TextView bio = view.findViewById(R.id.bioText);
             bio.setText(data.getString("bio"));
 
+            JSONObject image1 = data.getJSONObject("image");
+
+            ImageView profilepic = view.findViewById(R.id.profilepicView);
+
+            Picasso.get()
+                    .load(image1.getString("uri"))
+                    .into(profilepic);
+
+
+        }
+    }
+
+    private void getLatestMem(){
+        String url = "memory/get/";
+
+        JSONObject jsonBody = new JSONObject();
+
+        api.request(url, jsonBody, new APICallback() {
+            @Override
+            public void onSuccessResponse(JSONObject response) {
+                try {
+                    onRecentResult(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private void onRecentResult(JSONObject object) throws JSONException {
+        JSONObject error = object.getJSONObject("error");
+        JSONObject data = object.getJSONObject("data");
+
+        if(!error.getBoolean("error")) {
+            exampleList = new ArrayList<>();
+
             TextView title = view.findViewById(R.id.titleAccount);
             title.setText(data.getString("title"));
 
@@ -155,25 +179,15 @@ public class AccountFragment extends Fragment {
             description.setText(data.getString("description"));
 
             TextView date = view.findViewById(R.id.dateAccount);
-            date.setText(data.getString("date"));
+            date.setText(data.getString("datetime"));
 
-            JSONObject image1 = data.getJSONObject("images");
+            JSONObject image2 = data.getJSONObject("uri");
 
             ImageView latestmemImage = view.findViewById(R.id.latestmemImage);
 
             Picasso.get()
-                    .load(image1.getString("uri"))
-                    .into(latestmemImage);
-
-            JSONObject image2 = data.getJSONObject("image");
-
-            ImageView profilepic = view.findViewById(R.id.profilepicView);
-
-            Picasso.get()
                     .load(image2.getString("uri"))
-                    .into(profilepic);
-
+                    .into(latestmemImage);
         }
-
     }
 }
