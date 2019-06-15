@@ -26,13 +26,13 @@ public class EditFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_account, container, false);
+        view = inflater.inflate(R.layout.fragment_edit, container, false);
         main = ((MainActivity) getActivity());
         api = new API(main);
         getUser();
 
         //toolbar
-        Toolbar toolbar = view.findViewById(R.id.toolbarSettings);
+        Toolbar toolbar = view.findViewById(R.id.toolbar2);
         toolbar.setTitle(R.string.toolbarSettings);
         toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material); //set back arrow
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

@@ -74,8 +74,6 @@ public class SearchFragment extends Fragment {
         MenuItem searchItem = menu.findItem(R.id.searchSearch);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
-        Log.i("test", "huts");
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {

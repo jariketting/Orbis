@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +33,11 @@ public class DiaryFragment extends Fragment {
     API api;
     View view;
 
+    enum ORDER
+    {
+        OLD, NEW;
+    }
+
     public ArrayList<DiaryItems> exampleList;
 
     private RecyclerView mRecyclerView;
@@ -51,8 +57,12 @@ public class DiaryFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolDiary);
         toolbar.inflateMenu(R.menu.diary_menu); //setup menu
         toolbar.setTitle(R.string.diary_screen_toolbar_title);
+        main.setSupportActionBar(toolbar);
 
-        getDiary();
+        setHasOptionsMenu(true);
+
+        //get diary first page, no searchstring and oprder by new
+        getDiary(1, "", ORDER.NEW);
 
 /*
         exampleList = new ArrayList<>();
@@ -73,10 +83,23 @@ public class DiaryFragment extends Fragment {
         return view;
     }
 
-    public void getDiary() {
+    /**
+     *
+     * @param page this is the page (page 1 = first ten, page 2 next ten etc...)
+     * @param searchString searchstring, can be left empty to show all results
+     * @param order order of search from old to new or new to old
+     */
+    public void getDiary(int page, String searchString, ORDER order) {
         String url = "diary/";
 
         JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("page", page);
+            jsonBody.put("search", searchString);
+            jsonBody.put("order", ((order == ORDER.OLD) ? "old" : "new"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         api.request(url, jsonBody, new APICallback() {
             @Override
@@ -150,6 +173,11 @@ public class DiaryFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    /**
+     *
+     * @param menu
+     * @param inflater
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //MenuInflater inflater = getMenuInflater();
@@ -158,6 +186,20 @@ public class DiaryFragment extends Fragment {
         MenuItem searchItem = menu.findItem(R.id.searchDiary);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Log.i("Search", s);
+                getDiary(1, s, ORDER.NEW);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                getDiary(1, "", ORDER.NEW);
+                return false;
+            }
+        });
     }
 }
 
