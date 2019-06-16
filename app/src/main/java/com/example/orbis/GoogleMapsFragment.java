@@ -350,7 +350,6 @@ public class GoogleMapsFragment extends Fragment implements
                 JSONObject memory = data.getJSONObject(keys);
 
                 LatLng cords = new LatLng(memory.getDouble("latitude"), memory.getDouble("longitude"));
-
                 mMap.addMarker(new MarkerOptions()
                         .position(cords)
                         .title(memory.getString("title"))).setTag(memory.getInt("id"));
