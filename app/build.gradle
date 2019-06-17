@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
+    /*signingConfigs {
         debug {
             storeFile file('C:\\Users\\naomi\\KeystoreOrbis.jks')
             storePassword 'nu4mrp'
             keyAlias = 'keyOrbis'
             keyPassword 'nu4mrp'
         }
-    }
+    }*/
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.orbis"
