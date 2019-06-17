@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,8 +25,8 @@ public class Change_passwordFragment extends Fragment {
     API api;
 
     Button buttonChange;
-    private TextInputLayout Password;
-    private TextInputLayout PasswordAgain;
+    private TextView Password;
+    private TextView PasswordAgain;
 
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
@@ -81,7 +82,7 @@ public class Change_passwordFragment extends Fragment {
     // validation for the password, with errors for being empty or not a strong enough password otherwise no error
 // done with self made regular expression at the top
     private boolean validatePassword() {
-        String passwordInput = Password.getEditText().getText().toString().trim();
+        String passwordInput = Password.getText().toString().trim();
 
         if (passwordInput.isEmpty()) {
             Password.setError("Field can't be empty");
@@ -97,12 +98,12 @@ public class Change_passwordFragment extends Fragment {
 
 
     private boolean validateConfirmPassword() {
-        String passwordInput = PasswordAgain.getEditText().getText().toString().trim();
+        String passwordInput = PasswordAgain.getText().toString().trim();
 
         if (passwordInput.isEmpty()) {
             PasswordAgain.setError("Field can't be empty");
             return false;
-        } else if (!PasswordAgain.getEditText().getText().toString().equals(PasswordAgain.getEditText().getText().toString())){
+        } else if (!PasswordAgain.getText().toString().equals(PasswordAgain.getText().toString())){
             PasswordAgain.setError("The password doesn't match");
             return false;
         } else {
