@@ -65,6 +65,8 @@ public class Change_passwordFragment extends Fragment {
             public void onClick(View v) {
                 if (!validatePassword() | !validateConfirmPassword()) {
                     return;
+                } else {
+                    updatePassword(Password.getText().toString());
                 }
             }
         });
